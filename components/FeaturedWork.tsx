@@ -25,9 +25,14 @@ export default function FeaturedWork() {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
+        const cleanupCallbacks: Array<() => void> = [];
+
         panels.forEach((panel) => {
           const background = panel.querySelector<HTMLElement>("[data-featured-bg]");
           const media = panel.querySelector<HTMLElement>("[data-featured-media]");
+          const hoverArea = panel.querySelector<HTMLElement>("[data-featured-hover]");
+          const imageLayer = panel.querySelector<HTMLElement>("[data-featured-image-layer]");
+          const previewLayer = panel.querySelector<HTMLElement>("[data-featured-preview]");
           const textGroup = panel.querySelector<HTMLElement>("[data-featured-text]");
           const tags = panel.querySelector<HTMLElement>("[data-featured-tags]");
           const link = panel.querySelector<HTMLElement>("[data-featured-link]");
@@ -66,6 +71,43 @@ export default function FeaturedWork() {
             );
           }
 
+          if (hoverArea && imageLayer && previewLayer) {
+            const hoverTimeline = gsap.timeline({ paused: true });
+
+            gsap.set(imageLayer, {
+              yPercent: 0,
+            });
+
+            gsap.set(previewLayer, {
+              autoAlpha: 1,
+              scale: 1,
+              y: 0,
+            });
+
+            hoverTimeline.to(imageLayer, {
+              yPercent: -104,
+              duration: 0.56,
+              ease: "power4.inOut",
+            });
+
+            const handleEnter = () => {
+              hoverTimeline.play();
+            };
+
+            const handleLeave = () => {
+              hoverTimeline.reverse();
+            };
+
+            hoverArea.addEventListener("mouseenter", handleEnter);
+            hoverArea.addEventListener("mouseleave", handleLeave);
+
+            cleanupCallbacks.push(() => {
+              hoverArea.removeEventListener("mouseenter", handleEnter);
+              hoverArea.removeEventListener("mouseleave", handleLeave);
+              hoverTimeline.kill();
+            });
+          }
+
           gsap.fromTo(
             [textGroup, tags, link],
             {
@@ -87,6 +129,10 @@ export default function FeaturedWork() {
             },
           );
         });
+
+        return () => {
+          cleanupCallbacks.forEach((cleanup) => cleanup());
+        };
       });
 
       mm.add("(max-width: 767px)", () => {
@@ -164,26 +210,49 @@ export default function FeaturedWork() {
                   data-featured-media
                   className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-white/20 bg-white/10"
                 >
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
                   <div
-                    className="absolute inset-0 opacity-90"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
-                    }}
+                    className="absolute inset-0"
+                    style={{ backgroundColor: project.accentColor || project.backgroundColor }}
                     aria-hidden="true"
                   />
-                  <div className="absolute inset-0 bg-black/10" aria-hidden="true" />
-                  <div className="relative flex h-full items-end justify-between p-5 sm:p-8">
-                    <div className="type-meta max-w-[12rem] text-white/65">Project image</div>
-                    <div className="type-meta text-right text-white/65">
-                      {project.category} / {project.year}
+                  <div
+                    data-featured-preview
+                    className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center px-8"
+                    aria-hidden="true"
+                  >
+                    <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-white/20 bg-black/10">
+                      <Image
+                        src={project.preview || project.thumbnail || project.image}
+                        alt=""
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div data-featured-hover className="absolute inset-0 z-20" />
+                  <div data-featured-image-layer className="absolute inset-0 z-10">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                    <div
+                      className="absolute inset-0 opacity-90"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
+                      }}
+                      aria-hidden="true"
+                    />
+                    <div className="absolute inset-0 bg-black/10" aria-hidden="true" />
+                    <div className="relative flex h-full items-end justify-between p-5 sm:p-8">
+                      <div className="type-meta max-w-[12rem] text-white/65">Project image</div>
+                      <div className="type-meta text-right text-white/65">
+                        {project.category} / {project.year}
+                      </div>
                     </div>
                   </div>
                 </div>
