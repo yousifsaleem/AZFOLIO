@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { featuredProjects } from "../data/projects";
@@ -35,12 +36,18 @@ export default function FeaturedWork() {
             <div className="flex items-center">
               <div className="w-full max-w-[760px]">
                 <div className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-white/20 bg-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
                   <div
                     className="absolute inset-0 opacity-90"
                     style={{
-                      backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)), url("${project.image}")`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
                     }}
                     aria-hidden="true"
                   />
