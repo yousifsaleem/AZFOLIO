@@ -10,6 +10,42 @@ import { featuredProjects } from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function RollingTitle({ title }: { title: string }) {
+  const words = title.split(" ");
+  let globalIndex = 0;
+
+  return (
+    <span className="group/title inline-flex max-w-full flex-wrap leading-[0.95]">
+      {words.map((word, wordIndex) => (
+        <span
+          key={`${word}-${wordIndex}`}
+          className="mb-[0.04em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
+        >
+          {Array.from(word).map((character, characterIndex) => {
+            const letterIndex = globalIndex;
+            globalIndex += 1;
+
+            return (
+              <span
+                key={`${character}-${wordIndex}-${characterIndex}`}
+                className="inline-block h-[0.98em] overflow-hidden align-top"
+              >
+                <span
+                  className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover/title:-translate-y-1/2"
+                  style={{ transitionDelay: `${letterIndex * 32}ms` }}
+                >
+                  <span>{character}</span>
+                  <span aria-hidden="true">{character}</span>
+                </span>
+              </span>
+            );
+          })}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export default function FeaturedWork() {
   const rootRef = useRef<HTMLElement>(null);
 
@@ -264,7 +300,7 @@ export default function FeaturedWork() {
                 <div data-featured-text className="max-w-[30rem] lg:ml-4 xl:ml-10">
                   <p className="type-meta text-white/65">[{String(project.number).padStart(2, "0")}]</p>
                   <h2 className="type-display-lg mt-4 text-white max-sm:text-[clamp(2.4rem,11vw,4rem)]">
-                    {project.title}
+                    <RollingTitle title={project.title} />
                   </h2>
                   <p className="type-body mt-5 max-w-md text-white/72">{project.shortDescription}</p>
                 </div>
