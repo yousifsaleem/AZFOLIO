@@ -1,4 +1,5 @@
 import Loader from "../components/Loader";
+import SmoothScroll from "../components/SmoothScroll";
 import SiteHeader from "../components/SiteHeader";
 import Hero from "../components/Hero";
 import SloganTransition from "../components/SloganTransition";
@@ -9,15 +10,17 @@ import Contact from "../components/Contact";
 
 export default function Home() {
   return (
-    <main>
-      <SiteHeader />
-      <Loader />
-      <Hero />
-      <SloganTransition />
-      <FeaturedWork />
-      <Archive />
-      <About />
-      <Contact />
-    </main>
+    <SmoothScroll>
+      <main>
+        <SiteHeader />
+        <Loader />
+        <Hero />
+        <SloganTransition />
+        <FeaturedWork />
+        <Archive />
+        <About />
+        <Contact />
+      </main>
+    </SmoothScroll>
   );
 }
