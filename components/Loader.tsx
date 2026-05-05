@@ -3,64 +3,100 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
+const greetings = ["হ্যালো", "Hello", "Hola", "Bonjour", "مرحبا", "こんにちは"];
+const LOAD_DURATION = 6;
+const GREETING_INTERVAL = 1;
+const GREETING_SWITCH = 0.35;
+const EXIT_PAUSE = 0.3;
+const EXIT_DURATION = 0.9;
+
 export default function Loader() {
   const [isComplete, setIsComplete] = useState(false);
+  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [isGreetingVisible, setIsGreetingVisible] = useState(true);
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const snakeRef = useRef<SVGPathElement>(null);
   const counterRef = useRef<HTMLParagraphElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    if (greetingIndex >= greetings.length - 1) {
+      return;
+    }
+
+    const holdTimer = window.setTimeout(() => {
+      setIsGreetingVisible(false);
+
+      const switchTimer = window.setTimeout(() => {
+        setGreetingIndex((current) => Math.min(current + 1, greetings.length - 1));
+        setIsGreetingVisible(true);
+      }, GREETING_SWITCH * 1000);
+
+      return () => window.clearTimeout(switchTimer);
+    }, GREETING_INTERVAL * 1000);
+
+    return () => {
+      window.clearTimeout(holdTimer);
+    };
+  }, [greetingIndex]);
 
   useEffect(() => {
     const root = rootRef.current;
+    const snake = snakeRef.current;
     const counter = counterRef.current;
-    const path = pathRef.current;
 
-    if (!root || !counter || !path) {
+    if (!root || !snake || !counter) {
       setIsComplete(true);
       return;
     }
 
     const ctx = gsap.context(() => {
-      const totalLength = path.getTotalLength();
       const progress = { value: 0 };
+      const pathLength = snake.getTotalLength();
 
-      gsap.set(path, {
-        strokeDasharray: `${totalLength * 0.18} ${totalLength * 0.82}`,
-        strokeDashoffset: totalLength,
+      gsap.set(root, { yPercent: 0, autoAlpha: 1 });
+      gsap.set(snake, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength,
       });
+      counter.textContent = "0%";
 
-      const snakeTween = gsap.to(path, {
-        strokeDashoffset: 0,
-        duration: 1,
-        ease: "none",
-        repeat: -1,
-      });
-
-      const tl = gsap.timeline({
-        defaults: { ease: "power2.out" },
+      const master = gsap.timeline({
         onComplete: () => {
-          snakeTween.kill();
           setIsComplete(true);
         },
       });
 
-      tl.to(progress, {
-        value: 100,
-        duration: 2.2,
-        ease: "none",
-        onUpdate: () => {
-          counter.textContent = `${Math.round(progress.value)}%`;
-        },
-      })
-        .to(
-          root,
-          {
-            yPercent: -100,
-            duration: 0.8,
-            ease: "power4.inOut",
+      master.to(
+        progress,
+        {
+          value: 100,
+          duration: LOAD_DURATION,
+          ease: "none",
+          onUpdate: () => {
+            counter.textContent = `${Math.round(progress.value)}%`;
           },
-          "-=0.05",
-        )
+        },
+        0,
+      );
+
+      master.to(
+        snake,
+        {
+          strokeDashoffset: 0,
+          duration: LOAD_DURATION,
+          ease: "none",
+        },
+        0,
+      );
+
+      master
+        .to({}, { duration: EXIT_PAUSE })
+        .to(root, {
+          yPercent: -100,
+          duration: EXIT_DURATION,
+          ease: "power4.inOut",
+        })
         .set(root, { autoAlpha: 0 });
     }, root);
 
@@ -75,41 +111,52 @@ export default function Loader() {
       className={`fixed inset-0 z-[60] bg-[#f5ede1] text-zinc-950 ${isComplete ? "pointer-events-none" : ""}`}
       aria-hidden={isComplete}
     >
-      <div className="relative flex h-full flex-col justify-between px-6 py-6 sm:px-8 sm:py-8 lg:px-12 lg:py-10">
-        <div className="space-y-2 pt-2">
-          <p className="type-meta text-zinc-600">Coded by Afia Zaman</p>
-          <p className="type-meta text-zinc-600">Designed by Afia Zaman</p>
-          <p className="type-meta text-zinc-600">Direction by Afia Zaman</p>
+      <div className="relative flex h-full items-center justify-center px-6 sm:px-8 lg:px-12">
+        <div className="flex w-full flex-col items-center text-center">
+          <div className="h-16 sm:h-20 lg:h-24">
+            <p
+              className={`flex h-16 items-center justify-center text-[clamp(2rem,5vw,5rem)] leading-none tracking-[-0.05em] text-zinc-700 transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
+                isGreetingVisible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
+              }`}
+            >
+              {greetings[greetingIndex]}
+            </p>
+          </div>
+
+          <div className="mt-8 w-[72vw] max-w-[520px] sm:w-[68vw] lg:w-[40vw]">
+            <svg
+              viewBox="0 0 1200 140"
+              className="h-16 w-full text-zinc-700 sm:h-18 lg:h-20"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12 82 C138 46, 256 102, 390 74 S652 40, 790 64 S1018 96, 1188 56"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="opacity-12"
+                strokeLinecap="round"
+              />
+              <path
+                ref={snakeRef}
+                d="M12 82 C138 46, 256 102, 390 74 S652 40, 790 64 S1018 96, 1188 56"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="8"
+                className="opacity-90"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-6 bottom-24 sm:inset-x-8 lg:inset-x-12 lg:bottom-28">
-          <svg
-            viewBox="0 0 1200 120"
-            className="h-20 w-full"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path
-              ref={pathRef}
-              d="M10 84 C130 28, 260 108, 390 64 S650 22, 790 58 S1030 108, 1190 42"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="text-zinc-500/70"
-              strokeLinecap="round"
-            />
-          </svg>
-        </div>
-
-        <div className="flex items-end justify-between gap-6">
-          <p className="type-meta text-zinc-600">Portfolio 2026</p>
-          <p
-            ref={counterRef}
-            className="type-display-md text-right text-zinc-950 max-sm:text-[clamp(2rem,12vw,3.5rem)]"
-          >
-            0%
-          </p>
-        </div>
+        <p
+          ref={counterRef}
+          className="absolute bottom-6 right-6 text-[clamp(1rem,2vw,2rem)] leading-none tracking-[-0.04em] text-zinc-950 sm:bottom-8 sm:right-8 lg:bottom-10 lg:right-12"
+        >
+          0%
+        </p>
       </div>
     </div>
   );
