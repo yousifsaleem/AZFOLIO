@@ -47,6 +47,7 @@ export default function SloganTransition() {
     <section
       ref={rootRef}
       id="slogan-transition"
+      data-header-theme="light"
       className="flex min-h-screen items-center justify-center bg-[#f5ede1] px-6 py-12 text-zinc-950 sm:px-8 lg:px-12"
     >
       <div className="max-w-5xl text-center">

@@ -1,39 +1,169 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { featuredProjects } from "../data/projects";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function FeaturedWork() {
+  const rootRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+
+    if (!root) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const panels = gsap.utils.toArray<HTMLElement>("[data-featured-panel]");
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        panels.forEach((panel) => {
+          const background = panel.querySelector<HTMLElement>("[data-featured-bg]");
+          const media = panel.querySelector<HTMLElement>("[data-featured-media]");
+          const textGroup = panel.querySelector<HTMLElement>("[data-featured-text]");
+          const tags = panel.querySelector<HTMLElement>("[data-featured-tags]");
+          const link = panel.querySelector<HTMLElement>("[data-featured-link]");
+
+          if (background) {
+            gsap.fromTo(
+              background,
+              { y: -4 },
+              {
+                y: 4,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: panel,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              },
+            );
+          }
+
+          if (media) {
+            gsap.fromTo(
+              media,
+              { y: -3 },
+              {
+                y: 5,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: panel,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: true,
+                },
+              },
+            );
+          }
+
+          gsap.fromTo(
+            [textGroup, tags, link],
+            {
+              autoAlpha: 0,
+              y: 22,
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              stagger: 0.1,
+              scrollTrigger: {
+                trigger: panel,
+                start: "top 72%",
+                toggleActions: "play reverse play reverse",
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        });
+      });
+
+      mm.add("(max-width: 767px)", () => {
+        panels.forEach((panel) => {
+          const textGroup = panel.querySelector<HTMLElement>("[data-featured-text]");
+          const tags = panel.querySelector<HTMLElement>("[data-featured-tags]");
+          const link = panel.querySelector<HTMLElement>("[data-featured-link]");
+
+          gsap.fromTo(
+            [textGroup, tags, link],
+            {
+              autoAlpha: 0,
+              y: 18,
+            },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.75,
+              ease: "power2.out",
+              stagger: 0.08,
+              scrollTrigger: {
+                trigger: panel,
+                start: "top 80%",
+                toggleActions: "play reverse play reverse",
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        });
+      });
+    }, root);
+
+    ScrollTrigger.refresh();
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
   return (
-    <section id="work" className="bg-[#f7f3ed] text-white">
+    <section ref={rootRef} id="work" data-header-theme="dark" className="bg-[#f7f3ed] text-white">
       {featuredProjects.map((project) => (
         <article
           key={project.slug}
-          className="relative isolate flex min-h-screen overflow-hidden border-b border-white/10"
+          data-featured-panel
+          className="relative isolate min-h-screen overflow-hidden border-b border-white/10"
           style={{ backgroundColor: project.backgroundColor }}
         >
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div
+            data-featured-bg
+            className="pointer-events-none absolute inset-0 overflow-hidden"
+            aria-hidden="true"
+          >
             <Image
               src={project.image}
               alt=""
               fill
               unoptimized
-              className="scale-110 object-cover opacity-60 blur-2xl"
+              className="object-cover opacity-28 blur-lg"
             />
           </div>
           <div
             className="pointer-events-none absolute inset-0"
             style={{
-              background: "linear-gradient(180deg, rgba(245,237,225,0.14), rgba(12,12,12,0.22))",
+              background: "linear-gradient(180deg, rgba(245,237,225,0.08), rgba(12,12,12,0.18))",
             }}
             aria-hidden="true"
           />
-          <div className="pointer-events-none absolute inset-0 bg-white/5" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-0 bg-black/5" aria-hidden="true" />
 
           <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:px-14 lg:py-14 xl:px-20">
             <div className="order-1 flex items-center">
               <div className="w-full max-w-[760px]">
-                <div className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-white/20 bg-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
+                <div
+                  data-featured-media
+                  className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-white/20 bg-white/10"
+                >
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -62,7 +192,7 @@ export default function FeaturedWork() {
 
             <div className="order-2 grid gap-8 pb-2 lg:min-h-[24rem] lg:grid-rows-[1fr_auto_auto] lg:gap-0">
               <div className="flex items-start lg:items-center lg:justify-center">
-                <div className="max-w-[30rem] lg:ml-4 xl:ml-10">
+                <div data-featured-text className="max-w-[30rem] lg:ml-4 xl:ml-10">
                   <p className="type-meta text-white/65">[{String(project.number).padStart(2, "0")}]</p>
                   <h2 className="type-display-lg mt-4 text-white max-sm:text-[clamp(2.4rem,11vw,4rem)]">
                     {project.title}
@@ -72,7 +202,10 @@ export default function FeaturedWork() {
               </div>
 
               <div className="flex justify-start lg:mt-10 lg:justify-end">
-                <div className="w-full max-w-[16rem] space-y-3 lg:mr-8 xl:mr-12">
+                <div
+                  data-featured-tags
+                  className="w-full max-w-[16rem] space-y-3 lg:mr-8 xl:mr-12"
+                >
                   {project.tags.map((tag) => (
                     <p key={tag} className="type-meta border-b border-white/15 pb-3 text-white/72">
                       {tag}
@@ -83,6 +216,7 @@ export default function FeaturedWork() {
 
               <div className="flex items-end justify-start lg:mt-10 lg:justify-end">
                 <Link
+                  data-featured-link
                   href={`/work/${project.slug}`}
                   className="type-link text-white transition-colors duration-300 ease-out hover:text-white/70"
                 >

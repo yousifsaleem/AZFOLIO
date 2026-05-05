@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <section id="about" className="bg-[#f5ede1] px-6 py-10 sm:px-8 lg:px-12">
+    <section id="about" data-header-theme="light" className="bg-[#f5ede1] px-6 py-10 sm:px-8 lg:px-12">
       <div className="mx-auto grid max-w-6xl items-center lg:min-h-screen">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           <div className="aspect-[4/5] border border-zinc-300 bg-stone-100 p-4">

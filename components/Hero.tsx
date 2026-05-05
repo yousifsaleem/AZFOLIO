@@ -65,6 +65,7 @@ export default function Hero() {
     <section
       ref={rootRef}
       id="hero"
+      data-header-theme="light"
       className="relative min-h-screen overflow-hidden bg-[#f5ede1] pt-28 text-zinc-950 sm:pt-32 lg:pt-0"
     >
       <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-6 py-8 sm:px-8 lg:absolute lg:inset-0 lg:px-0">

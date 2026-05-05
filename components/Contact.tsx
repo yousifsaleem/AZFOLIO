@@ -7,7 +7,7 @@ const contactLinks = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="bg-[#f5ede1] px-6 py-10 text-zinc-950 sm:px-8 lg:px-12">
+    <section id="contact" data-header-theme="light" className="bg-[#f5ede1] px-6 py-10 text-zinc-950 sm:px-8 lg:px-12">
       <div className="mx-auto grid max-w-6xl items-center gap-12 sm:gap-16 lg:min-h-screen lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-24">
         <div className="flex flex-col gap-8 lg:gap-10">
           <p className="type-heading text-zinc-500">Contact</p>
