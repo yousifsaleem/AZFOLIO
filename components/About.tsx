@@ -1,26 +1,27 @@
 export default function About() {
   return (
-    <section id="about" className="bg-stone-100 px-6 py-20 text-zinc-900 sm:px-8 lg:px-12">
-      <div className="mx-auto max-w-6xl">
-        <div className="border-b border-zinc-300 pb-6">
-          <h2 className="text-4xl tracking-[-0.03em]">About</h2>
-        </div>
+    <section id="about" className="bg-[#f5ede1] px-6 py-10 sm:px-8 lg:px-12">
+      <div className="mx-auto grid min-h-screen max-w-6xl items-center">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          <div className="aspect-[4/5] border border-zinc-300 bg-stone-100 p-4">
+            <div className="flex h-full items-end justify-between">
+              <span className="type-meta text-zinc-500">Supporting image 1</span>
+              <span className="type-meta text-zinc-400">01</span>
+            </div>
+          </div>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <p className="max-w-2xl text-lg leading-8 text-zinc-700">
-            Afia Zaman is a graphic designer shaping calm, characterful visual systems across
-            editorial, identity and digital work. This section is a simple placeholder for a fuller
-            studio story.
-          </p>
+          <div className="aspect-[4/5] border border-zinc-300 bg-[#e6ddd0] p-4">
+            <div className="flex h-full items-end justify-between">
+              <span className="type-meta text-zinc-500">Main portrait</span>
+              <span className="type-meta text-zinc-400">02</span>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className="aspect-[4/5] border border-zinc-300 bg-stone-200"
-                aria-label={`About image placeholder ${item}`}
-              />
-            ))}
+          <div className="aspect-[4/5] border border-zinc-300 bg-[#f1ebe2] p-4">
+            <div className="flex h-full items-end justify-between">
+              <span className="type-meta text-zinc-500">Supporting image 2</span>
+              <span className="type-meta text-zinc-400">03</span>
+            </div>
           </div>
         </div>
       </div>
