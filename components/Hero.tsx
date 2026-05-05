@@ -1,13 +1,77 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+
 import { featuredProjects } from "../data/projects";
 
 export default function Hero() {
+  const rootRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const previewsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = rootRef.current;
+
+    if (!root) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const previewItems = previewsRef.current?.querySelectorAll("button");
+
+      gsap.set(logoRef.current, { autoAlpha: 0, scale: 0.96 });
+      gsap.set(infoRef.current, { autoAlpha: 0, y: 24 });
+      gsap.set(previewItems ?? [], { autoAlpha: 0, y: 24 });
+
+      const tl = gsap.timeline({
+        delay: 6.2,
+        defaults: { ease: "power2.out" },
+      });
+
+      tl.to(logoRef.current, {
+        autoAlpha: 1,
+        scale: 1,
+        duration: 0.9,
+      })
+        .to(
+          infoRef.current,
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+          },
+          "-=0.45",
+        )
+        .to(
+          previewItems ?? [],
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.08,
+          },
+          "-=0.35",
+        );
+    }, root);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden bg-[#f5ede1] pt-28 text-zinc-950 sm:pt-32 lg:pt-0">
+    <section
+      ref={rootRef}
+      id="hero"
+      className="relative min-h-screen overflow-hidden bg-[#f5ede1] pt-28 text-zinc-950 sm:pt-32 lg:pt-0"
+    >
       <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-6 py-8 sm:px-8 lg:absolute lg:inset-0 lg:px-0">
         <div className="flex-1" />
 
         <div className="pointer-events-none flex items-center justify-center lg:absolute lg:inset-0">
-          <div className="relative w-full max-w-[380px] text-center">
+          <div ref={logoRef} className="relative w-full max-w-[380px] text-center">
             <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 py-10 sm:gap-8 sm:py-12 lg:py-14">
               <div className="flex w-full items-center justify-center gap-3 sm:gap-4">
                 <div className="h-px flex-1 bg-zinc-300" />
@@ -25,7 +89,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-10 flex flex-col gap-8 lg:absolute lg:left-[-4rem] lg:right-[-4rem] lg:bottom-8 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xs text-zinc-900">
+          <div ref={infoRef} className="max-w-xs text-zinc-900">
             <div className="type-meta text-zinc-500">What I do</div>
             <div className="mt-4 space-y-1">
               <div className="h-px w-16 bg-zinc-300" />
@@ -35,7 +99,7 @@ export default function Hero() {
             <div className="type-meta mt-4 text-zinc-500">scroll to see</div>
           </div>
 
-          <div className="flex flex-wrap gap-3 lg:justify-end">
+          <div ref={previewsRef} className="flex flex-wrap gap-3 lg:justify-end">
             {featuredProjects.slice(0, 4).map((project) => (
               <button
                 key={project.slug}
