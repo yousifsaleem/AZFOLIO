@@ -1,4 +1,5 @@
 import Loader from "../components/Loader";
+import SiteHeader from "../components/SiteHeader";
 import Hero from "../components/Hero";
 import SloganTransition from "../components/SloganTransition";
 import FeaturedWork from "../components/FeaturedWork";
@@ -9,6 +10,7 @@ import Contact from "../components/Contact";
 export default function Home() {
   return (
     <main>
+      <SiteHeader />
       <Loader />
       <Hero />
       <SloganTransition />

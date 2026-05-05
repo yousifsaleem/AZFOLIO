@@ -5,7 +5,7 @@ import { featuredProjects } from "../data/projects";
 
 export default function FeaturedWork() {
   return (
-    <section id="featured-work" className="bg-[#f7f3ed] text-white">
+    <section id="work" className="bg-[#f7f3ed] text-white">
       {featuredProjects.map((project) => (
         <article
           key={project.slug}
