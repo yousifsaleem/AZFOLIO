@@ -12,25 +12,24 @@ export default function FeaturedWork() {
           className="relative isolate flex min-h-screen overflow-hidden border-b border-white/10"
           style={{ backgroundColor: project.backgroundColor }}
         >
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+            <Image
+              src={project.image}
+              alt=""
+              fill
+              unoptimized
+              className="scale-110 object-cover opacity-70 blur-2xl"
+            />
+          </div>
           <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(135deg, ${project.backgroundColor} 0%, ${project.accentColor} 100%), url("${project.image}")`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-            }}
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-0 opacity-70"
+            className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(circle at 18% 42%, rgba(255,255,255,0.22), transparent 34%), linear-gradient(90deg, rgba(12,12,12,0.2) 0%, rgba(12,12,12,0.48) 52%, rgba(12,12,12,0.78) 100%)",
-              backdropFilter: "blur(36px)",
+                "linear-gradient(180deg, rgba(245,237,225,0.14), rgba(12,12,12,0.22))",
             }}
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-black/15" aria-hidden="true" />
+          <div className="pointer-events-none absolute inset-0 bg-white/5" aria-hidden="true" />
 
           <div className="relative z-10 grid min-h-screen w-full gap-10 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:px-14 lg:py-14 xl:px-20">
             <div className="flex items-center">
