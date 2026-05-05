@@ -8,6 +8,7 @@ export type Project = {
   shortDescription: string;
   image: string;
   thumbnail: string;
+  preview: string;
   accentColor: string;
   backgroundColor: string;
 };
@@ -21,8 +22,9 @@ export const featuredProjects: Project[] = [
     category: "Editorial",
     tags: ["Photography", "Layout", "Brand"],
     shortDescription: "A seasonal narrative built around quiet landscape imagery and restrained typography.",
-    image: "/images/test.jpg",
-    thumbnail: "/images/test.jpg",
+    image: "/images/winter/hero.jpg",
+    thumbnail: "/images/winter/thumb.jpg",
+    preview: "/images/winter/preview.jpg",
     accentColor: "#d8cfc1",
     backgroundColor: "#0f172a",
   },
@@ -34,8 +36,9 @@ export const featuredProjects: Project[] = [
     category: "Campaign",
     tags: ["Art Direction", "Motion", "Identity"],
     shortDescription: "An atmospheric campaign exploring the stillness between day and night.",
-    image: "https://via.placeholder.com/1200x800?text=The+Quiet+Hours",
-    thumbnail: "https://via.placeholder.com/600x400?text=Quiet+Hours+Thumbnail",
+    image: "/images/quiet-hours/hero.jpg",
+    thumbnail: "/images/quiet-hours/thumb.jpg",
+    preview: "/images/quiet-hours/preview.jpg",
     accentColor: "#9ca3af",
     backgroundColor: "#111827",
   },
@@ -47,8 +50,9 @@ export const featuredProjects: Project[] = [
     category: "Digital",
     tags: ["Strategy", "UX", "Brand"],
     shortDescription: "Visual systems for a technology experience that balances authority with humanity.",
-    image: "https://via.placeholder.com/1200x800?text=Enterprise+Challenge",
-    thumbnail: "https://via.placeholder.com/600x400?text=Enterprise+Thumbnail",
+    image: "/images/enterprise/hero.jpg",
+    thumbnail: "/images/enterprise/thumb.jpg",
+    preview: "/images/enterprise/preview.jpg",
     accentColor: "#f7f3ed",
     backgroundColor: "#111827",
   },
@@ -60,8 +64,9 @@ export const featuredProjects: Project[] = [
     category: "Branding",
     tags: ["Identity", "Packaging", "Editorial"],
     shortDescription: "A brand project focused on luxurious restraint and cinematic typographic structure.",
-    image: "https://via.placeholder.com/1200x800?text=Barons+Offer",
-    thumbnail: "https://via.placeholder.com/600x400?text=Barons+Thumbnail",
+    image: "/images/barons/hero.jpg",
+    thumbnail: "/images/barons/thumb.jpg",
+    preview: "/images/barons/preview.jpg",
     accentColor: "#c4b59b",
     backgroundColor: "#0f172a",
   },
