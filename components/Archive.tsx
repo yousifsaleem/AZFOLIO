@@ -67,8 +67,8 @@ export default function Archive() {
               data-preview-image={project.previewImage}
               className="group cursor-pointer border-b border-zinc-300 transition-colors duration-300 ease-out hover:border-zinc-700"
             >
-              <div className="grid gap-6 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 lg:grid-cols-[minmax(0,1fr)_320px_90px] lg:items-end lg:gap-10">
-                <h3 className="type-display-xl text-zinc-800 transition-colors duration-300 ease-out group-hover:text-zinc-950">
+              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 lg:grid-cols-[minmax(0,1fr)_320px_90px] lg:items-end lg:gap-10">
+                <h3 className="type-display-xl text-zinc-800 transition-colors duration-300 ease-out group-hover:text-zinc-950 max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
                   {project.title}
                 </h3>
 

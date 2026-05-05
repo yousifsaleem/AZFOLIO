@@ -8,7 +8,7 @@ const contactLinks = [
 export default function Contact() {
   return (
     <section id="contact" className="bg-[#f5ede1] px-6 py-10 text-zinc-950 sm:px-8 lg:px-12">
-      <div className="mx-auto grid min-h-screen max-w-6xl items-center gap-16 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 sm:gap-16 lg:min-h-screen lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-24">
         <div className="flex flex-col gap-8 lg:gap-10">
           <p className="type-heading text-zinc-500">Contact</p>
 
@@ -26,10 +26,12 @@ export default function Contact() {
         </div>
 
         <div className="max-w-3xl">
-          <h2 className="type-display-lg text-zinc-950">Let&apos;s collab</h2>
+          <h2 className="type-display-lg text-zinc-950 max-sm:text-[clamp(2.4rem,11vw,4.2rem)]">
+            Let&apos;s collab
+          </h2>
           <a
             href="mailto:hello@afiazaman.com"
-            className="type-link mt-8 inline-block text-zinc-900 underline underline-offset-4"
+            className="type-link mt-6 inline-block break-all text-zinc-900 underline underline-offset-4 sm:mt-8 sm:break-normal"
           >
             hello@afiazaman.com
           </a>

@@ -2,49 +2,49 @@ import { featuredProjects } from "../data/projects";
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden bg-[#f5ede1] text-zinc-950">
-      <div className="absolute inset-0 mx-auto max-w-[1600px] px-0 py-8">
-        <div className="absolute left-[-4rem] bottom-8 max-w-xs text-zinc-900">
-          <div className="type-meta text-zinc-500">What I do</div>
-          <div className="mt-4 space-y-1">
-            <div className="h-px w-16 bg-zinc-300" />
-            <div className="h-px w-12 bg-zinc-300" />
-            <div className="h-px w-8 bg-zinc-300" />
+    <section id="hero" className="relative min-h-screen overflow-hidden bg-[#f5ede1] pt-28 text-zinc-950 sm:pt-32 lg:pt-0">
+      <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-6 py-8 sm:px-8 lg:absolute lg:inset-0 lg:px-0">
+        <div className="flex-1" />
+
+        <div className="pointer-events-none flex items-center justify-center lg:absolute lg:inset-0">
+          <div className="relative w-full max-w-[380px] text-center">
+            <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 py-10 sm:gap-8 sm:py-12 lg:py-14">
+              <div className="flex w-full items-center justify-center gap-3 sm:gap-4">
+                <div className="h-px flex-1 bg-zinc-300" />
+                <button
+                  type="button"
+                  className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-3 text-[4.2rem] font-black uppercase leading-none tracking-[0.12em] text-zinc-950 transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-zinc-300 hover:bg-white/30 sm:px-4 sm:text-[5.2rem] lg:text-[6rem] xl:text-[7rem]"
+                >
+                  AZ
+                </button>
+                <div className="h-px flex-1 bg-zinc-300" />
+              </div>
+              <div className="type-meta text-zinc-500">graphic mark</div>
+            </div>
           </div>
-          <div className="type-meta mt-4 text-zinc-500">scroll to see</div>
         </div>
 
-        <div className="absolute right-[-4rem] bottom-8 flex items-end gap-3">
-          {featuredProjects.slice(0, 4).map((project) => (
-            <button
-              key={project.slug}
-              type="button"
-              className="group flex h-[160px] w-[160px] cursor-pointer flex-col justify-between rounded-[2rem] border border-zinc-300 bg-white p-4 text-left text-sm text-zinc-950 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-neutral-900 hover:bg-neutral-100"
-            >
-              <span className="type-meta text-zinc-500">
-                {project.number}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
+        <div className="mt-10 flex flex-col gap-8 lg:absolute lg:left-[-4rem] lg:right-[-4rem] lg:bottom-8 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-xs text-zinc-900">
+            <div className="type-meta text-zinc-500">What I do</div>
+            <div className="mt-4 space-y-1">
+              <div className="h-px w-16 bg-zinc-300" />
+              <div className="h-px w-12 bg-zinc-300" />
+              <div className="h-px w-8 bg-zinc-300" />
+            </div>
+            <div className="type-meta mt-4 text-zinc-500">scroll to see</div>
+          </div>
 
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full max-w-[380px] px-6 text-center">
-          <div className="mx-auto flex w-full flex-col items-center justify-center gap-8 py-12 sm:py-14">
-            <div className="flex w-full items-center justify-center gap-4">
-              <div className="h-px flex-1 bg-zinc-300" />
+          <div className="flex flex-wrap gap-3 lg:justify-end">
+            {featuredProjects.slice(0, 4).map((project) => (
               <button
+                key={project.slug}
                 type="button"
-                className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-4 text-[6rem] font-black uppercase leading-none tracking-[0.12em] text-zinc-950 transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-zinc-300 hover:bg-white/30 sm:text-[7rem]"
+                className="group flex h-[92px] w-[92px] cursor-pointer flex-col justify-between rounded-[1.5rem] border border-zinc-300 bg-white p-3 text-left text-sm text-zinc-950 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-neutral-900 hover:bg-neutral-100 sm:h-[120px] sm:w-[120px] sm:p-4 lg:h-[160px] lg:w-[160px]"
               >
-                AZ
+                <span className="type-meta text-zinc-500">{project.number}</span>
               </button>
-              <div className="h-px flex-1 bg-zinc-300" />
-            </div>
-            <div className="type-meta text-zinc-500">
-              graphic mark
-            </div>
+            ))}
           </div>
         </div>
       </div>
