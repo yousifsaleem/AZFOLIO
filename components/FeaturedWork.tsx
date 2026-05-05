@@ -10,16 +10,28 @@ import { featuredProjects } from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function RollingTitle({ title }: { title: string }) {
-  const words = title.split(" ");
+function RollingText({
+  text,
+  groupClassName,
+  wordClassName,
+  letterDurationClassName,
+  staggerMs,
+}: {
+  text: string;
+  groupClassName?: string;
+  wordClassName?: string;
+  letterDurationClassName?: string;
+  staggerMs: number;
+}) {
+  const words = text.split(" ");
   let globalIndex = 0;
 
   return (
-    <span className="group/title inline-flex max-w-full flex-wrap leading-[0.95]">
+    <span className={groupClassName ?? "inline-flex max-w-full flex-wrap leading-[0.95]"}>
       {words.map((word, wordIndex) => (
         <span
           key={`${word}-${wordIndex}`}
-          className="mb-[0.04em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
+          className={wordClassName ?? "mb-[0.04em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"}
         >
           {Array.from(word).map((character, characterIndex) => {
             const letterIndex = globalIndex;
@@ -31,8 +43,10 @@ function RollingTitle({ title }: { title: string }) {
                 className="inline-block h-[0.98em] overflow-hidden align-top"
               >
                 <span
-                  className="flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover/title:-translate-y-1/2"
-                  style={{ transitionDelay: `${letterIndex * 32}ms` }}
+                  className={`flex flex-col transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover/roll:-translate-y-1/2 ${
+                    letterDurationClassName ?? "duration-500"
+                  }`}
+                  style={{ transitionDelay: `${letterIndex * staggerMs}ms` }}
                 >
                   <span>{character}</span>
                   <span aria-hidden="true">{character}</span>
@@ -43,6 +57,18 @@ function RollingTitle({ title }: { title: string }) {
         </span>
       ))}
     </span>
+  );
+}
+
+function RollingTitle({ title }: { title: string }) {
+  return (
+    <RollingText
+      text={title}
+      groupClassName="group/roll inline-flex max-w-full flex-wrap leading-[0.95]"
+      wordClassName="mb-[0.04em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
+      letterDurationClassName="duration-500"
+      staggerMs={32}
+    />
   );
 }
 
@@ -323,9 +349,21 @@ export default function FeaturedWork() {
                 <Link
                   data-featured-link
                   href={`/work/${project.slug}`}
-                  className="type-link text-white transition-colors duration-300 ease-out hover:text-white/70"
+                  className="group/roll type-link inline-flex items-center gap-1 text-white transition-colors duration-300 ease-out hover:text-white/70"
                 >
-                  View project ↗
+                  <RollingText
+                    text="View project"
+                    groupClassName="inline-flex flex-wrap leading-none"
+                    wordClassName="mr-[0.26em] inline-flex whitespace-nowrap last:mr-0"
+                    letterDurationClassName="duration-300"
+                    staggerMs={22}
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-[1px] group-hover/roll:translate-x-[2px]"
+                  >
+                    ↗
+                  </span>
                 </Link>
               </div>
             </div>
