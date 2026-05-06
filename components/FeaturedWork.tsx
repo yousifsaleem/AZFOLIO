@@ -96,16 +96,17 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)] bg-[rgba(255,249,244,0.12)]"
+      className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
+      style={{ backgroundColor: project.backgroundColor }}
     >
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 h-full w-full"
         style={{ backgroundColor: project.accentColor || project.backgroundColor }}
         aria-hidden="true"
       />
       <div
         data-featured-preview
-        className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center px-8"
+        className="pointer-events-none absolute inset-0 z-[2] flex h-full w-full items-center justify-center px-8"
         aria-hidden="true"
       >
         <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
@@ -119,16 +120,20 @@ function FeaturedMediaCard({ project }: { project: Project }) {
         </div>
       </div>
       <div data-featured-hover className="absolute inset-0 z-20" />
-      <div data-featured-image-layer className="absolute inset-0 z-10">
+      <div
+        data-featured-image-layer
+        className="absolute inset-0 z-10 h-full w-full overflow-hidden"
+        style={{ backgroundColor: project.backgroundColor }}
+      >
         <Image
           src={getFeaturedThumbnailImage(project)}
           alt={project.title}
           fill
           unoptimized
-          className="object-cover"
+          className="h-full w-full object-cover"
         />
         <div
-          className="absolute inset-0 opacity-90"
+          className="absolute inset-0"
           style={{
             background: "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))",
           }}
@@ -421,22 +426,31 @@ export default function FeaturedWork() {
       ref={rootRef}
       id="work"
       data-header-theme="dark"
-      className="bg-[var(--color-surface-alt)] text-[var(--color-card)]"
+      className="overflow-hidden bg-[var(--color-surface-alt)] text-[var(--color-card)]"
       style={{ backgroundColor: activeProject.backgroundColor }}
     >
       <div data-featured-desktop className="relative hidden md:block">
-        <div data-featured-pin className="relative min-h-screen overflow-hidden">
+        <div
+          data-featured-pin
+          className="relative min-h-screen overflow-hidden"
+          style={{ backgroundColor: activeProject.backgroundColor }}
+        >
           <div className="absolute inset-0">
             {featuredProjects.map((project, index) => (
               <div
                 key={project.slug}
                 data-featured-desktop-scene
-                className="absolute inset-0"
+                className="absolute inset-0 overflow-hidden"
                 style={{ zIndex: index + 1 }}
               >
                 <div
+                  className="absolute inset-0 h-full w-full"
+                  style={{ backgroundColor: project.backgroundColor }}
+                  aria-hidden="true"
+                />
+                <div
                   data-featured-bg
-                  className="pointer-events-none absolute inset-0 overflow-hidden"
+                  className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
                   aria-hidden="true"
                 >
                   <Image
@@ -444,17 +458,21 @@ export default function FeaturedWork() {
                     alt=""
                     fill
                     unoptimized
-                    className="object-cover opacity-24 blur-lg"
+                    className="h-full w-full object-cover blur-lg"
                   />
                 </div>
                 <div
-                  className="pointer-events-none absolute inset-0"
+                  className="pointer-events-none absolute inset-0 h-full w-full"
                   style={{
-                    background: "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
+                    background:
+                      "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
                   }}
                   aria-hidden="true"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-[rgba(25,17,14,0.06)]" aria-hidden="true" />
+                <div
+                  className="pointer-events-none absolute inset-0 h-full w-full bg-[rgba(25,17,14,0.22)]"
+                  aria-hidden="true"
+                />
 
                 <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:px-14 lg:py-14 xl:px-20">
                   <div className="order-1 flex items-center">
@@ -488,8 +506,13 @@ export default function FeaturedWork() {
             style={{ backgroundColor: project.backgroundColor }}
           >
             <div
+              className="absolute inset-0 h-full w-full"
+              style={{ backgroundColor: project.backgroundColor }}
+              aria-hidden="true"
+            />
+            <div
               data-featured-bg
-              className="pointer-events-none absolute inset-0 overflow-hidden"
+              className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
               aria-hidden="true"
             >
               <Image
@@ -497,17 +520,20 @@ export default function FeaturedWork() {
                 alt=""
                 fill
                 unoptimized
-                className="object-cover opacity-24 blur-lg"
+                className="h-full w-full object-cover blur-lg"
               />
             </div>
             <div
-              className="pointer-events-none absolute inset-0"
+              className="pointer-events-none absolute inset-0 h-full w-full"
               style={{
                 background: "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
               }}
               aria-hidden="true"
             />
-            <div className="pointer-events-none absolute inset-0 bg-[rgba(25,17,14,0.06)]" aria-hidden="true" />
+            <div
+              className="pointer-events-none absolute inset-0 h-full w-full bg-[rgba(25,17,14,0.22)]"
+              aria-hidden="true"
+            />
 
             <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10">
               <div className="order-1 flex items-center">
