@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function SiteHeader() {
   const [headerTheme, setHeaderTheme] = useState<"light" | "dark">("light");
+  const [showHeaderFade, setShowHeaderFade] = useState(false);
   const [currentTime, setCurrentTime] = useState("00:00:00");
 
   useEffect(() => {
@@ -39,6 +40,31 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
+    const archiveSection = document.querySelector<HTMLElement>("#archive");
+
+    if (!archiveSection) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowHeaderFade(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: "-8% 0px -72% 0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(archiveSection);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     const formatTime = () =>
       new Intl.DateTimeFormat("en-GB", {
         hour: "2-digit",
@@ -59,7 +85,7 @@ export default function SiteHeader() {
     };
   }, []);
 
-  const isDarkTheme = headerTheme === "dark";
+  const isDarkTheme = headerTheme === "dark" && !showHeaderFade;
   const navColor = isDarkTheme ? "text-[#f7f1ea]" : "text-[var(--color-text-muted)]";
   const linkColor = isDarkTheme ? "text-[#f7f1ea]" : "text-[var(--color-text)]";
   const metaColor = isDarkTheme ? "text-[#f7f1ea]/72" : "text-[var(--color-text-muted)]";
@@ -67,6 +93,12 @@ export default function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
+      <div
+        className={`pointer-events-none fixed inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(248,243,236,0.82)_0%,rgba(248,243,236,0.64)_28%,rgba(248,243,236,0.34)_58%,rgba(248,243,236,0.12)_80%,rgba(248,243,236,0)_100%)] transition-opacity duration-500 ease-out sm:h-44 lg:h-52 ${
+          showHeaderFade ? "opacity-100" : "opacity-0"
+        }`}
+        aria-hidden="true"
+      />
       <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-6 px-6 py-5 sm:px-8 lg:relative lg:min-h-[120px] lg:px-0 lg:py-8">
         <nav className={`type-meta transition-colors duration-300 ${navColor} lg:absolute lg:left-[-4rem] lg:top-8`}>
           <div className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-5 lg:block lg:space-y-4">
