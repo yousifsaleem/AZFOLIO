@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function SiteHeader() {
   const [headerTheme, setHeaderTheme] = useState<"light" | "dark">("light");
+  const [currentTime, setCurrentTime] = useState("00:00:00");
 
   useEffect(() => {
     const sections = document.querySelectorAll<HTMLElement>("[data-header-theme]");
@@ -34,6 +35,27 @@ export default function SiteHeader() {
 
     return () => {
       observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const formatTime = () =>
+      new Intl.DateTimeFormat("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(new Date());
+
+    const updateTime = () => {
+      setCurrentTime(formatTime());
+    };
+
+    updateTime();
+    const intervalId = window.setInterval(updateTime, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
     };
   }, []);
 
@@ -75,8 +97,11 @@ export default function SiteHeader() {
               <div className={`transition-colors duration-300 ${metaColor}`}>Graphic Designer</div>
             </div>
             <div className="space-y-1 text-right">
-              <div className={`text-[0.85rem] font-semibold tracking-[0.12em] transition-colors duration-300 sm:text-[1rem] ${strongColor}`}>
-                22:30
+              <div
+                className={`text-[0.85rem] font-semibold tracking-[0.12em] tabular-nums transition-colors duration-300 sm:text-[1rem] ${strongColor}`}
+                suppressHydrationWarning
+              >
+                {currentTime}
               </div>
               <div className={`transition-colors duration-300 ${metaColor}`}>04.05.2026</div>
             </div>
