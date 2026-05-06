@@ -55,23 +55,27 @@ const archiveProjects = [
   },
 ];
 
-const PREVIEW_DIMENSION = 300;
-const BALL_SIZE = 20;
-const BALL_LERP = 0.52;
-const PREVIEW_LERP = 0.22;
+const PREVIEW_DIMENSION = 340;
+const CURSOR_SIZE = 18;
+const CURSOR_LERP = 0.44;
+const PREVIEW_LERP = 0.18;
 
 export default function Archive() {
   const [activeProject, setActiveProject] = useState<(typeof archiveProjects)[number] | null>(null);
   const [hasImageError, setHasImageError] = useState(false);
 
-  const previewRef = useRef<HTMLDivElement>(null);
-  const ballRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorDotRef = useRef<HTMLDivElement>(null);
+  const previewContentRef = useRef<HTMLDivElement>(null);
+  const isInsideArchiveRef = useRef(false);
   const isHoveringRef = useRef(false);
+  const isBaseCursorVisibleRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const mouseXRef = useRef(0);
   const mouseYRef = useRef(0);
-  const ballXRef = useRef(0);
-  const ballYRef = useRef(0);
+  const cursorXRef = useRef(0);
+  const cursorYRef = useRef(0);
   const previewXRef = useRef(0);
   const previewYRef = useRef(0);
   const canUseHoverPreviewRef = useRef(false);
@@ -92,46 +96,55 @@ export default function Archive() {
   }, []);
 
   useEffect(() => {
-    const preview = previewRef.current;
-    const ball = ballRef.current;
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    const previewContent = previewContentRef.current;
 
-    if (!preview || !ball) {
+    if (!cursor || !cursorDot || !previewContent) {
       return;
     }
 
     const ctx = gsap.context(() => {
-      gsap.set(preview, {
+      gsap.set(cursor, {
         autoAlpha: 0,
-        scale: 0.92,
+        width: PREVIEW_DIMENSION,
+        height: PREVIEW_DIMENSION,
+        transformOrigin: "50% 50%",
         x: -9999,
         y: -9999,
         force3D: true,
       });
 
-      gsap.set(ball, {
-        autoAlpha: 0,
-        scale: 0.25,
-        x: -9999,
-        y: -9999,
+      gsap.set(cursorDot, {
+        autoAlpha: 1,
+        width: CURSOR_SIZE,
+        height: CURSOR_SIZE,
+        scale: 1,
+        transformOrigin: "50% 50%",
         force3D: true,
       });
-    }, preview);
+
+      gsap.set(previewContent, {
+        autoAlpha: 0,
+        scale: 0.1,
+        transformOrigin: "50% 50%",
+        force3D: true,
+      });
+    }, cursor);
 
     const tick = () => {
-      if (isHoveringRef.current) {
-        ballXRef.current += (mouseXRef.current - ballXRef.current) * BALL_LERP;
-        ballYRef.current += (mouseYRef.current - ballYRef.current) * BALL_LERP;
+      if (isInsideArchiveRef.current) {
+        cursorXRef.current += (mouseXRef.current - cursorXRef.current) * CURSOR_LERP;
+        cursorYRef.current += (mouseYRef.current - cursorYRef.current) * CURSOR_LERP;
         previewXRef.current += (mouseXRef.current - previewXRef.current) * PREVIEW_LERP;
         previewYRef.current += (mouseYRef.current - previewYRef.current) * PREVIEW_LERP;
 
-        gsap.set(preview, {
-          x: previewXRef.current - PREVIEW_DIMENSION / 2,
-          y: previewYRef.current - PREVIEW_DIMENSION - 28,
-        });
+        const targetX = isHoveringRef.current ? previewXRef.current : cursorXRef.current;
+        const targetY = isHoveringRef.current ? previewYRef.current : cursorYRef.current;
 
-        gsap.set(ball, {
-          x: ballXRef.current - BALL_SIZE / 2,
-          y: ballYRef.current - BALL_SIZE / 2,
+        gsap.set(cursor, {
+          x: targetX - PREVIEW_DIMENSION / 2,
+          y: targetY - PREVIEW_DIMENSION / 2,
         });
       }
 
@@ -141,7 +154,9 @@ export default function Archive() {
     animationFrameRef.current = window.requestAnimationFrame(tick);
 
     return () => {
+      isInsideArchiveRef.current = false;
       isHoveringRef.current = false;
+      isBaseCursorVisibleRef.current = false;
       if (animationFrameRef.current !== null) {
         window.cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
@@ -150,67 +165,64 @@ export default function Archive() {
     };
   }, []);
 
-  const placePreviewImmediately = (clientX: number, clientY: number) => {
-    const preview = previewRef.current;
-    const ball = ballRef.current;
+  const placeCursorImmediately = (clientX: number, clientY: number) => {
+    const cursor = cursorRef.current;
 
-    if (!preview || !ball) {
+    if (!cursor) {
       return;
     }
 
     mouseXRef.current = clientX;
     mouseYRef.current = clientY;
-    ballXRef.current = clientX;
-    ballYRef.current = clientY;
+    cursorXRef.current = clientX;
+    cursorYRef.current = clientY;
     previewXRef.current = clientX;
     previewYRef.current = clientY;
 
-    gsap.set(preview, {
+    gsap.set(cursor, {
       x: clientX - PREVIEW_DIMENSION / 2,
-      y: clientY - PREVIEW_DIMENSION - 28,
-    });
-    gsap.set(ball, {
-      x: clientX - BALL_SIZE / 2,
-      y: clientY - BALL_SIZE / 2,
+      y: clientY - PREVIEW_DIMENSION / 2,
     });
   };
 
-  const showPreview = (project: (typeof archiveProjects)[number], clientX: number, clientY: number) => {
-    const preview = previewRef.current;
-    const ball = ballRef.current;
+  const enterArchive = (clientX: number, clientY: number) => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    const previewContent = previewContentRef.current;
 
-    if (!canUseHoverPreviewRef.current || window.innerWidth < 768 || !preview || !ball) {
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !cursor || !cursorDot || !previewContent) {
       return;
     }
 
-    isHoveringRef.current = true;
-    setHasImageError(false);
-    setActiveProject(project);
-    placePreviewImmediately(clientX, clientY);
+    isInsideArchiveRef.current = true;
+    isHoveringRef.current = false;
+    isBaseCursorVisibleRef.current = true;
+    placeCursorImmediately(clientX, clientY);
 
-    gsap.killTweensOf(preview);
-    gsap.killTweensOf(ball);
+    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.set(previewContent, {
+      autoAlpha: 0,
+      scale: 0.1,
+    });
 
-    gsap.to(ball, {
+    gsap.to(cursor, {
       autoAlpha: 1,
-      scale: 1,
-      duration: 0.16,
+      duration: 0.12,
       ease: "power2.out",
       overwrite: true,
     });
 
-    gsap.to(preview, {
+    gsap.to(cursorDot, {
       autoAlpha: 1,
       scale: 1,
       duration: 0.22,
       ease: "power2.out",
       overwrite: true,
-      delay: 0.04,
     });
   };
 
-  const movePreview = (clientX: number, clientY: number) => {
-    if (!canUseHoverPreviewRef.current || window.innerWidth < 768 || !isHoveringRef.current) {
+  const moveCursor = (clientX: number, clientY: number) => {
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !isInsideArchiveRef.current) {
       return;
     }
 
@@ -218,40 +230,142 @@ export default function Archive() {
     mouseYRef.current = clientY;
   };
 
-  const hidePreview = () => {
-    const preview = previewRef.current;
-    const ball = ballRef.current;
+  const leaveArchive = () => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    const previewContent = previewContentRef.current;
 
-    if (!preview || !ball) {
+    if (!cursor || !cursorDot || !previewContent) {
       return;
     }
 
+    isInsideArchiveRef.current = false;
     isHoveringRef.current = false;
-    gsap.killTweensOf(preview);
-    gsap.killTweensOf(ball);
+    isBaseCursorVisibleRef.current = false;
+    setActiveProject(null);
 
-    gsap.to(ball, {
+    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.to(cursor, {
       autoAlpha: 0,
-      scale: 0.25,
-      duration: 0.14,
+      duration: 0.2,
+      ease: "power2.out",
+      overwrite: true,
+    });
+    gsap.to(cursorDot, {
+      autoAlpha: 0,
+      scale: 0.72,
+      duration: 0.2,
+      ease: "power2.out",
+      overwrite: true,
+    });
+    gsap.to(previewContent, {
+      autoAlpha: 0,
+      scale: 0.1,
+      duration: 0.18,
+      ease: "power2.out",
+      overwrite: true,
+    });
+  };
+
+  const showPreview = (project: (typeof archiveProjects)[number], clientX: number, clientY: number) => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    const previewContent = previewContentRef.current;
+
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !cursor || !cursorDot || !previewContent) {
+      return;
+    }
+
+    isInsideArchiveRef.current = true;
+    isHoveringRef.current = true;
+    isBaseCursorVisibleRef.current = false;
+    setHasImageError(false);
+    setActiveProject(project);
+    previewXRef.current = clientX;
+    previewYRef.current = clientY;
+    moveCursor(clientX, clientY);
+
+    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.set(cursor, {
+      x: clientX - PREVIEW_DIMENSION / 2,
+      y: clientY - PREVIEW_DIMENSION / 2,
+      transformOrigin: "50% 50%",
+    });
+    gsap.set(previewContent, {
+      autoAlpha: 0,
+      scale: 0.1,
+      transformOrigin: "50% 50%",
+    });
+
+    gsap.to(cursor, {
+      autoAlpha: 1,
+      duration: 0.62,
+      ease: "power4.out",
+      overwrite: true,
+    });
+
+    gsap.to(cursorDot, {
+      autoAlpha: 0,
+      scale: 0.45,
+      duration: 0.2,
       ease: "power2.out",
       overwrite: true,
     });
 
-    gsap.to(preview, {
+    gsap.to(previewContent, {
+      autoAlpha: 1,
+      scale: 1,
+      duration: 0.52,
+      ease: "power4.out",
+      overwrite: true,
+    });
+  };
+
+  const hidePreview = () => {
+    const cursor = cursorRef.current;
+    const cursorDot = cursorDotRef.current;
+    const previewContent = previewContentRef.current;
+
+    if (!cursor || !cursorDot || !previewContent) {
+      return;
+    }
+
+    isHoveringRef.current = false;
+    isBaseCursorVisibleRef.current = false;
+    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+
+    gsap.to(previewContent, {
       autoAlpha: 0,
-      scale: 0.92,
-      duration: 0.16,
-      ease: "power2.out",
+      scale: 0.1,
+      duration: 0.3,
+      ease: "power3.out",
       overwrite: true,
       onComplete: () => {
         setActiveProject(null);
+        if (isInsideArchiveRef.current && !isHoveringRef.current) {
+          isBaseCursorVisibleRef.current = true;
+          gsap.to(cursorDot, {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.24,
+            ease: "power3.out",
+            overwrite: true,
+          });
+        }
       },
     });
   };
 
   return (
-    <section id="archive" data-header-theme="light" className="bg-[var(--color-surface-alt)] px-6 py-24 text-[var(--color-text)] sm:px-8 lg:px-12">
+    <section
+      ref={rootRef}
+      id="archive"
+      data-header-theme="light"
+      className="bg-[var(--color-surface-alt)] px-6 py-24 text-[var(--color-text)] sm:px-8 lg:cursor-none lg:px-12"
+      onMouseEnter={(event) => enterArchive(event.clientX, event.clientY)}
+      onMouseMove={(event) => moveCursor(event.clientX, event.clientY)}
+      onMouseLeave={leaveArchive}
+    >
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-12 flex items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
           <p className="type-heading text-[var(--color-text-muted)]">Archive</p>
@@ -261,12 +375,19 @@ export default function Archive() {
         </div>
 
         <div
-          ref={previewRef}
-          className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-[300px] w-[300px] will-change-transform lg:block"
+          ref={cursorRef}
+          className="pointer-events-none fixed left-0 top-0 z-[70] hidden will-change-transform lg:block"
           aria-hidden="true"
         >
-          <div className="relative h-[300px] w-[300px] overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-card-muted)]">
-            <div className="relative h-full w-full overflow-hidden rounded-[1.5rem] bg-[var(--color-card-muted)]">
+          <div
+            ref={cursorDotRef}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(31,27,25,0.88)] shadow-[0_10px_28px_rgba(31,27,25,0.16)]"
+          />
+          <div
+            ref={previewContentRef}
+            className="relative h-full w-full overflow-hidden rounded-[28px] border border-[rgba(31,27,25,0.12)] bg-[var(--color-card-muted)] shadow-[0_22px_60px_rgba(31,27,25,0.18)]"
+          >
+            <div className="relative h-full w-full overflow-hidden">
               {activeProject && !hasImageError ? (
                 <Image
                   src={activeProject.previewImage}
@@ -283,21 +404,14 @@ export default function Archive() {
           </div>
         </div>
 
-        <div
-          ref={ballRef}
-          className="pointer-events-none fixed left-0 top-0 z-[71] hidden h-5 w-5 rounded-full bg-[var(--color-text)] will-change-transform lg:block"
-          aria-hidden="true"
-        />
-
         <div>
           {archiveProjects.map((project) => (
             <div
               key={project.title}
               className={`group border-b border-[var(--color-border)] transition-colors duration-300 ease-out hover:border-[var(--color-border-strong)] ${
-                activeProject?.title === project.title ? "cursor-none" : "cursor-pointer"
+                activeProject?.title === project.title ? "cursor-none bg-[rgba(255,255,255,0.18)]" : "cursor-none"
               }`}
               onMouseEnter={(event) => showPreview(project, event.clientX, event.clientY)}
-              onMouseMove={(event) => movePreview(event.clientX, event.clientY)}
               onMouseLeave={hidePreview}
             >
               <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 xl:grid-cols-[minmax(0,1fr)_320px_90px] xl:items-end xl:gap-10">
