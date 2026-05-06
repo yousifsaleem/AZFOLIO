@@ -6,9 +6,22 @@ import gsap from "gsap";
 
 type PageTransitionEvent = CustomEvent<{
   href: string;
+  originX?: number;
+  originY?: number;
 }>;
 
 export const PAGE_TRANSITION_EVENT = "page-transition:navigate";
+
+function getCoverDiameter(originX: number, originY: number) {
+  const distances = [
+    Math.hypot(originX, originY),
+    Math.hypot(window.innerWidth - originX, originY),
+    Math.hypot(originX, window.innerHeight - originY),
+    Math.hypot(window.innerWidth - originX, window.innerHeight - originY),
+  ];
+
+  return Math.max(...distances) * 2 + 180;
+}
 
 export default function TransitionOverlay() {
   const router = useRouter();
@@ -40,6 +53,8 @@ export default function TransitionOverlay() {
 
       gsap.set(bands, {
         autoAlpha: 1,
+        width: 0,
+        height: 0,
         scale: 0.04,
         transformOrigin: "50% 50%",
         force3D: true,
@@ -47,11 +62,17 @@ export default function TransitionOverlay() {
     }, root);
 
     const handleNavigate = (event: Event) => {
-      const { href } = (event as PageTransitionEvent).detail;
+      const {
+        href,
+        originX = window.innerWidth / 2,
+        originY = window.innerHeight / 2,
+      } = (event as PageTransitionEvent).detail;
 
       if (!href || isTransitioningRef.current) {
         return;
       }
+
+      const diameter = getCoverDiameter(originX, originY);
 
       isTransitioningRef.current = true;
       shouldRevealRef.current = true;
@@ -65,7 +86,12 @@ export default function TransitionOverlay() {
         autoAlpha: 0,
       });
       gsap.set(bands, {
+        width: diameter,
+        height: diameter,
+        x: originX - diameter / 2,
+        y: originY - diameter / 2,
         scale: 0.04,
+        transformOrigin: "50% 50%",
       });
 
       const timeline = gsap.timeline({
@@ -79,7 +105,7 @@ export default function TransitionOverlay() {
 
       timeline
         .to(bands, {
-          scale: 2.45,
+          scale: 1,
           duration: 0.72,
           stagger: {
             each: 0.045,
@@ -132,6 +158,10 @@ export default function TransitionOverlay() {
             autoAlpha: 0,
           });
           gsap.set(bands, {
+            width: 0,
+            height: 0,
+            x: 0,
+            y: 0,
             scale: 0.04,
           });
           setIsActive(false);
@@ -173,23 +203,23 @@ export default function TransitionOverlay() {
     >
       <div
         data-page-transition-band
-        className="absolute bottom-[-56vmax] left-[-52vmax] h-[132vmax] w-[132vmax] rounded-full bg-[var(--color-accent-coral)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-coral)]"
       />
       <div
         data-page-transition-band
-        className="absolute bottom-[-51vmax] left-[-47vmax] h-[122vmax] w-[122vmax] rounded-full bg-[var(--color-accent-butter)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-butter)]"
       />
       <div
         data-page-transition-band
-        className="absolute bottom-[-46vmax] left-[-42vmax] h-[112vmax] w-[112vmax] rounded-full bg-[var(--color-accent-lilac)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-lilac)]"
       />
       <div
         data-page-transition-band
-        className="absolute bottom-[-41vmax] left-[-37vmax] h-[102vmax] w-[102vmax] rounded-full bg-[var(--color-accent-blue)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-blue)]"
       />
       <div
         data-page-transition-band
-        className="absolute bottom-[-36vmax] left-[-32vmax] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-surface)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-surface)]"
       />
       <div ref={screenRef} className="absolute inset-0 bg-[var(--color-surface)]" />
     </div>

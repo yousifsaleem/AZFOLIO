@@ -64,10 +64,16 @@ export default function TransitionLink({
 
     event.preventDefault();
 
+    const rect = event.currentTarget.getBoundingClientRect();
+    const originX = event.clientX || rect.left + rect.width / 2;
+    const originY = event.clientY || rect.top + rect.height / 2;
+
     window.dispatchEvent(
       new CustomEvent(PAGE_TRANSITION_EVENT, {
         detail: {
           href,
+          originX,
+          originY,
         },
       }),
     );
