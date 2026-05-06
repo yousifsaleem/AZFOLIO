@@ -99,9 +99,9 @@ export default function SiteHeader() {
         }`}
         aria-hidden="true"
       />
-      <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-6 px-6 py-5 sm:px-8 lg:relative lg:min-h-[120px] lg:px-0 lg:py-8">
-        <nav className={`type-meta transition-colors duration-300 ${navColor} lg:absolute lg:left-[-4rem] lg:top-8`}>
-          <div className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-5 lg:block lg:space-y-4">
+      <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 md:px-8 lg:relative lg:min-h-[120px] lg:px-0 lg:py-8">
+        <nav className={`type-meta text-[0.68rem] transition-colors duration-300 sm:text-[0.75rem] ${navColor} lg:absolute lg:left-[-4rem] lg:top-8`}>
+          <div className="flex flex-wrap gap-x-3 gap-y-2 sm:gap-x-4 md:max-w-[60vw] lg:block lg:max-w-none lg:space-y-4">
             {[
               { href: "#about", label: "Info", number: "01" },
               { href: "#work", label: "Work", number: "02" },
@@ -120,17 +120,17 @@ export default function SiteHeader() {
           </div>
         </nav>
 
-        <div className="max-w-[170px] text-right sm:max-w-[220px] lg:absolute lg:right-[-4rem] lg:top-8 lg:max-w-[360px]">
-          <div className={`type-meta grid grid-cols-1 gap-y-3 transition-colors duration-300 sm:grid-cols-[auto_auto] sm:gap-x-6 lg:gap-x-8 ${navColor}`}>
-            <div className="space-y-1 text-right sm:text-left lg:text-left">
-              <div className={`text-[0.85rem] font-semibold tracking-[0.12em] normal-case transition-colors duration-300 sm:text-[1rem] ${strongColor}`}>
+        <div className="max-w-full self-end text-right sm:max-w-[220px] md:max-w-[280px] lg:absolute lg:right-[-4rem] lg:top-8 lg:max-w-[360px]">
+          <div className={`type-meta grid grid-cols-[auto_auto] gap-x-4 gap-y-2 text-[0.68rem] transition-colors duration-300 sm:gap-x-6 sm:text-[0.75rem] lg:gap-x-8 ${navColor}`}>
+            <div className="space-y-1 text-left">
+              <div className={`text-[0.8rem] font-semibold tracking-[0.12em] normal-case transition-colors duration-300 sm:text-[0.9rem] lg:text-[1rem] ${strongColor}`}>
                 Afia Zaman
               </div>
               <div className={`transition-colors duration-300 ${metaColor}`}>Graphic Designer</div>
             </div>
             <div className="space-y-1 text-right">
               <div
-                className={`text-[0.85rem] font-semibold tracking-[0.12em] tabular-nums transition-colors duration-300 sm:text-[1rem] ${strongColor}`}
+                className={`text-[0.8rem] font-semibold tracking-[0.12em] tabular-nums transition-colors duration-300 sm:text-[0.9rem] lg:text-[1rem] ${strongColor}`}
                 suppressHydrationWarning
               >
                 {currentTime}

@@ -27,10 +27,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const nextProject = featuredProjects[(projectIndex + 1) % featuredProjects.length];
 
   return (
-    <main className="bg-[var(--color-surface)] px-6 py-10 text-[var(--color-text)] sm:px-8 lg:px-12">
+    <main className="bg-[var(--color-surface)] px-4 py-28 text-[var(--color-text)] sm:px-8 sm:py-32 lg:px-12 lg:py-10">
       <div className="mx-auto max-w-6xl">
-        <div className="flex min-h-screen flex-col gap-12">
-          <div className="flex items-center justify-between gap-6">
+        <div className="flex min-h-screen flex-col gap-10 sm:gap-12">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center sm:gap-6">
             <Link
               href="/"
               className="type-link text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
@@ -71,7 +71,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
 
           <section
-            className="flex min-h-[30rem] items-end justify-between border border-[var(--color-border)] p-6 sm:p-8"
+            className="flex min-h-[24rem] flex-col justify-end gap-4 border border-[var(--color-border)] p-5 sm:min-h-[30rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
             style={{ backgroundColor: project.accentColor }}
           >
             <span className="type-meta text-[var(--color-text-muted)]">Hero image placeholder</span>
@@ -82,7 +82,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {[1, 2, 3].map((item) => (
               <div
                 key={item}
-                className="flex min-h-[28rem] items-end justify-between border border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-8"
+                className="flex min-h-[22rem] flex-col justify-end gap-4 border border-[var(--color-border)] bg-[var(--color-card)] p-5 sm:min-h-[28rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
               >
                 <span className="type-meta text-[var(--color-text-muted)]">Content placeholder {item}</span>
                 <span className="type-meta text-[rgba(117,104,95,0.6)]">0{item}</span>
@@ -90,10 +90,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             ))}
           </section>
 
-          <div className="flex justify-end pt-4">
+          <div className="flex pt-4 sm:justify-end">
             <Link
               href={`/work/${nextProject.slug}`}
-              className="type-link text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
+              className="type-link max-w-full text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
             >
               Next project: {nextProject.title}
             </Link>

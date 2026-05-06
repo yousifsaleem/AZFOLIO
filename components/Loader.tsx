@@ -111,11 +111,11 @@ export default function Loader() {
       className={`fixed inset-0 z-[60] bg-[var(--color-surface)] text-[var(--color-text)] ${isComplete ? "pointer-events-none" : ""}`}
       aria-hidden={isComplete}
     >
-      <div className="relative flex h-full items-center justify-center px-6 sm:px-8 lg:px-12">
+      <div className="relative flex h-full items-center justify-center px-4 sm:px-8 lg:px-12">
         <div className="flex w-full flex-col items-center text-center">
-          <div className="h-16 sm:h-20 lg:h-24">
+          <div className="h-14 sm:h-20 lg:h-24">
             <p
-              className={`flex h-16 items-center justify-center text-[clamp(2rem,5vw,5rem)] leading-none tracking-[-0.05em] text-[var(--color-text-muted)] transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
+              className={`flex h-14 items-center justify-center px-2 text-[clamp(1.65rem,7vw,5rem)] leading-none tracking-[-0.05em] text-[var(--color-text-muted)] transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
                 isGreetingVisible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
               }`}
             >
@@ -123,10 +123,10 @@ export default function Loader() {
             </p>
           </div>
 
-          <div className="mt-8 w-[72vw] max-w-[520px] sm:w-[68vw] lg:w-[40vw]">
+          <div className="mt-6 w-[82vw] max-w-[520px] sm:mt-8 sm:w-[68vw] lg:w-[40vw]">
             <svg
               viewBox="0 0 1200 140"
-              className="h-16 w-full text-[var(--color-text-muted)] sm:h-18 lg:h-20"
+              className="h-14 w-full text-[var(--color-text-muted)] sm:h-16 lg:h-20"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
@@ -153,7 +153,7 @@ export default function Loader() {
 
         <p
           ref={counterRef}
-          className="absolute bottom-6 right-6 text-[clamp(1rem,2vw,2rem)] leading-none tracking-[-0.04em] text-[var(--color-text)] sm:bottom-8 sm:right-8 lg:bottom-10 lg:right-12"
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[clamp(0.95rem,3.8vw,2rem)] leading-none tracking-[-0.04em] text-[var(--color-text)] sm:bottom-8 sm:left-auto sm:right-8 sm:translate-x-0 lg:bottom-10 lg:right-12"
         >
           0%
         </p>

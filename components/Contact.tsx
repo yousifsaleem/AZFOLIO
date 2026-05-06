@@ -286,7 +286,7 @@ export default function Contact() {
       className="relative overflow-hidden bg-[var(--color-surface)] px-6 text-[var(--color-text)] sm:px-8 lg:px-12"
     >
       <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between py-8 lg:py-10">
-        <div className="grid gap-12 pt-28 lg:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] lg:items-start lg:gap-12 lg:pt-36 xl:gap-[4.5rem]">
+        <div className="grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-12 xl:pt-36 2xl:gap-[4.5rem]">
           <div className="max-w-4xl">
             <h2 className="text-[clamp(4.25rem,10.6vw,8.5rem)] font-semibold uppercase leading-[0.82] tracking-[-0.09em] text-[var(--color-text)]">
               LET&apos;S
@@ -296,7 +296,7 @@ export default function Contact() {
             <p className="type-meta mt-5 text-[var(--color-text-muted)]">PORTFOLIO BY AFIA</p>
           </div>
 
-          <div className="w-full max-w-xs lg:pt-2">
+          <div className="w-full max-w-xs xl:pt-2">
             <div className="group/list mt-2 flex flex-col gap-1">
               {contactLinks.map((link) => (
                 <a
@@ -320,7 +320,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="max-w-sm lg:pt-2">
+          <div className="max-w-sm xl:pt-2">
             <div className="mt-2 space-y-4">
               <p className="type-body max-w-xs text-[var(--color-text-muted)]">
                 Available for branding, editorial and digital projects.
@@ -333,7 +333,7 @@ export default function Contact() {
         </div>
 
         <div className="relative mt-6 pt-5 sm:pt-6">
-          <div className="flex min-h-[250px] flex-wrap items-end gap-2 sm:min-h-[280px] sm:gap-2.5 lg:min-h-[330px] lg:flex-nowrap lg:gap-3">
+          <div className="flex min-h-[250px] flex-wrap items-end gap-2 overflow-hidden sm:min-h-[280px] sm:gap-2.5 lg:min-h-[330px] xl:flex-nowrap xl:gap-3">
             {contactBalls.map((ball) => (
               <div
                 key={`${ball.motif}-${ball.accent}-${ball.size}-${ball.offset}`}

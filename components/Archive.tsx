@@ -74,6 +74,22 @@ export default function Archive() {
   const ballYRef = useRef(0);
   const previewXRef = useRef(0);
   const previewYRef = useRef(0);
+  const canUseHoverPreviewRef = useRef(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+    const updateHoverCapability = () => {
+      canUseHoverPreviewRef.current = mediaQuery.matches;
+    };
+
+    updateHoverCapability();
+    mediaQuery.addEventListener("change", updateHoverCapability);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateHoverCapability);
+    };
+  }, []);
 
   useEffect(() => {
     const preview = previewRef.current;
@@ -163,7 +179,7 @@ export default function Archive() {
     const preview = previewRef.current;
     const ball = ballRef.current;
 
-    if (window.innerWidth < 768 || !preview || !ball) {
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 768 || !preview || !ball) {
       return;
     }
 
@@ -194,7 +210,7 @@ export default function Archive() {
   };
 
   const movePreview = (clientX: number, clientY: number) => {
-    if (window.innerWidth < 768 || !isHoveringRef.current) {
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 768 || !isHoveringRef.current) {
       return;
     }
 
@@ -239,14 +255,14 @@ export default function Archive() {
       <div className="mx-auto max-w-[1600px]">
         <div className="mb-12 flex items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
           <p className="type-heading text-[var(--color-text-muted)]">Archive</p>
-          <p className="type-body hidden max-w-sm text-[var(--color-text-muted)] lg:block">
+          <p className="type-body hidden max-w-sm text-[var(--color-text-muted)] xl:block">
             A wider editorial index of projects, prepared for future cursor-follow previews.
           </p>
         </div>
 
         <div
           ref={previewRef}
-          className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-[300px] w-[300px] will-change-transform md:block"
+          className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-[300px] w-[300px] will-change-transform lg:block"
           aria-hidden="true"
         >
           <div className="relative h-[300px] w-[300px] overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-card-muted)]">
@@ -269,7 +285,7 @@ export default function Archive() {
 
         <div
           ref={ballRef}
-          className="pointer-events-none fixed left-0 top-0 z-[71] hidden h-5 w-5 rounded-full bg-[var(--color-text)] will-change-transform md:block"
+          className="pointer-events-none fixed left-0 top-0 z-[71] hidden h-5 w-5 rounded-full bg-[var(--color-text)] will-change-transform lg:block"
           aria-hidden="true"
         />
 
@@ -284,14 +300,14 @@ export default function Archive() {
               onMouseMove={(event) => movePreview(event.clientX, event.clientY)}
               onMouseLeave={hidePreview}
             >
-              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 lg:grid-cols-[minmax(0,1fr)_320px_90px] lg:items-end lg:gap-10">
+              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 xl:grid-cols-[minmax(0,1fr)_320px_90px] xl:items-end xl:gap-10">
                 <h3 className="type-display-xl text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)] max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
                   {project.title}
                 </h3>
 
-                <p className="type-meta text-[var(--color-text-muted)] lg:pb-3">{project.category}</p>
+                <p className="type-meta text-[var(--color-text-muted)] xl:pb-3">{project.category}</p>
 
-                <p className="type-meta text-[rgba(117,104,95,0.78)] lg:pb-3 lg:text-right">{project.year}</p>
+                <p className="type-meta text-[rgba(117,104,95,0.78)] xl:pb-3 xl:text-right">{project.year}</p>
               </div>
             </div>
           ))}

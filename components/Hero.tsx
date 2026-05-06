@@ -77,12 +77,12 @@ export default function Hero() {
       ref={rootRef}
       id="hero"
       data-header-theme="light"
-      className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-28 text-[var(--color-text)] sm:pt-32 lg:pt-0"
+      className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-32 text-[var(--color-text)] sm:pt-36 xl:pt-0"
     >
-      <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-6 py-8 sm:px-8 lg:absolute lg:inset-0 lg:px-0">
+      <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-4 py-8 sm:px-8 xl:absolute xl:inset-0 xl:px-0">
         <div className="flex-1" />
 
-        <div className="pointer-events-none flex items-center justify-center lg:absolute lg:inset-0">
+        <div className="pointer-events-none flex items-center justify-center xl:absolute xl:inset-0">
           <div ref={logoRef} className="relative w-full max-w-[380px] text-center">
             <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 py-10 sm:gap-8 sm:py-12 lg:py-14">
               <div className="flex w-full items-center justify-center gap-3 sm:gap-4">
@@ -100,10 +100,10 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-8 lg:absolute lg:left-[-4rem] lg:right-[-4rem] lg:bottom-8 lg:mt-0 lg:flex-row lg:items-end lg:justify-between">
-          <div ref={infoRef} className="max-w-xs text-[var(--color-text)]">
+        <div className="mt-10 flex flex-col gap-8 xl:absolute xl:left-[-4rem] xl:right-[-4rem] xl:bottom-8 xl:mt-0 xl:flex-row xl:items-end xl:justify-between">
+          <div ref={infoRef} className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left">
             <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
-            <div className="mt-4 space-y-1">
+            <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
               <div className="h-px w-16 bg-[var(--color-border)]" />
               <div className="h-px w-12 bg-[var(--color-border)]" />
               <div className="h-px w-8 bg-[var(--color-border)]" />
@@ -111,7 +111,7 @@ export default function Hero() {
             <div className="type-meta mt-4 text-[var(--color-text-muted)]">scroll to see</div>
           </div>
 
-          <div ref={previewsRef} className="flex flex-wrap gap-3 lg:justify-end">
+          <div ref={previewsRef} className="flex flex-wrap justify-center gap-3 xl:justify-end">
             {heroProjects.map((project) => {
               const previewImage = getHeroPreviewImage(project);
 
@@ -119,7 +119,7 @@ export default function Hero() {
                 <Link
                   key={project.slug}
                   href={`/work/${project.slug}`}
-                  className="group relative flex h-[92px] w-[92px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[120px] sm:w-[120px] sm:p-4 lg:h-[160px] lg:w-[160px]"
+                  className="group relative flex h-[84px] w-[84px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[108px] sm:w-[108px] sm:rounded-[1.45rem] sm:p-4 lg:h-[132px] lg:w-[132px] xl:h-[160px] xl:w-[160px]"
                   aria-label={`View ${project.title}`}
                 >
                   {previewImage ? (

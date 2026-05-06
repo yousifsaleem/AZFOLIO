@@ -250,7 +250,7 @@ export default function FeaturedWork() {
         });
       };
 
-      matchMedia.add("(min-width: 768px)", () => {
+      matchMedia.add("(min-width: 1280px)", () => {
         const cleanupCallbacks: Array<() => void> = [];
         const pin = root.querySelector<HTMLElement>("[data-featured-pin]");
         const desktopScenes = gsap.utils.toArray<HTMLElement>("[data-featured-desktop-scene]", root);
@@ -337,7 +337,7 @@ export default function FeaturedWork() {
         };
       });
 
-      matchMedia.add("(max-width: 767px)", () => {
+      matchMedia.add("(max-width: 1279px)", () => {
         const cleanupCallbacks: Array<() => void> = [];
         const panels = gsap.utils.toArray<HTMLElement>("[data-featured-mobile-panel]", root);
 
@@ -429,7 +429,7 @@ export default function FeaturedWork() {
       className="overflow-hidden bg-[var(--color-surface-alt)] text-[var(--color-card)]"
       style={{ backgroundColor: activeProject.backgroundColor }}
     >
-      <div data-featured-desktop className="relative hidden md:block">
+      <div data-featured-desktop className="relative hidden xl:block">
         <div
           data-featured-pin
           className="relative min-h-screen overflow-hidden"
@@ -497,12 +497,12 @@ export default function FeaturedWork() {
         </div>
       </div>
 
-      <div className="md:hidden">
+      <div className="xl:hidden">
         {featuredProjects.map((project) => (
           <article
             key={project.slug}
             data-featured-mobile-panel
-            className="relative isolate min-h-screen overflow-hidden border-b border-[rgba(255,248,242,0.16)]"
+            className="relative isolate overflow-hidden border-b border-[rgba(255,248,242,0.16)] min-[768px]:min-h-[auto] xl:min-h-screen"
             style={{ backgroundColor: project.backgroundColor }}
           >
             <div
@@ -535,7 +535,7 @@ export default function FeaturedWork() {
               aria-hidden="true"
             />
 
-            <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10">
+            <div className="relative z-10 grid min-h-[100svh] w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
               <div className="order-1 flex items-center">
                 <div className="w-full max-w-[760px]">
                   <FeaturedMediaCard project={project} />
