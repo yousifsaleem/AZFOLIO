@@ -235,11 +235,11 @@ export default function Archive() {
   };
 
   return (
-    <section id="archive" data-header-theme="light" className="bg-[#f7f3ed] px-6 py-24 text-zinc-900 sm:px-8 lg:px-12">
+    <section id="archive" data-header-theme="light" className="bg-[var(--color-surface-alt)] px-6 py-24 text-[var(--color-text)] sm:px-8 lg:px-12">
       <div className="mx-auto max-w-[1600px]">
-        <div className="mb-12 flex items-end justify-between gap-6 border-b border-zinc-300 pb-6">
-          <p className="type-heading text-zinc-500">Archive</p>
-          <p className="type-body hidden max-w-sm text-zinc-500 lg:block">
+        <div className="mb-12 flex items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
+          <p className="type-heading text-[var(--color-text-muted)]">Archive</p>
+          <p className="type-body hidden max-w-sm text-[var(--color-text-muted)] lg:block">
             A wider editorial index of projects, prepared for future cursor-follow previews.
           </p>
         </div>
@@ -249,8 +249,8 @@ export default function Archive() {
           className="pointer-events-none fixed left-0 top-0 z-[70] hidden h-[300px] w-[300px] will-change-transform md:block"
           aria-hidden="true"
         >
-          <div className="relative h-[300px] w-[300px] overflow-hidden rounded-[1.75rem] border border-zinc-300 bg-[#ece5da]">
-            <div className="relative h-full w-full overflow-hidden rounded-[1.5rem] bg-[#ece5da]">
+          <div className="relative h-[300px] w-[300px] overflow-hidden rounded-[1.75rem] border border-[var(--color-border)] bg-[var(--color-card-muted)]">
+            <div className="relative h-full w-full overflow-hidden rounded-[1.5rem] bg-[var(--color-card-muted)]">
               {activeProject && !hasImageError ? (
                 <Image
                   src={activeProject.previewImage}
@@ -261,7 +261,7 @@ export default function Archive() {
                   onError={() => setHasImageError(true)}
                 />
               ) : (
-                <div className="h-full w-full bg-[linear-gradient(135deg,#ede6da_0%,#ddd3c2_100%)]" />
+                <div className="h-full w-full bg-[linear-gradient(135deg,var(--color-accent-lilac)_0%,var(--color-accent-blue)_100%)]" />
               )}
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function Archive() {
 
         <div
           ref={ballRef}
-          className="pointer-events-none fixed left-0 top-0 z-[71] hidden h-5 w-5 rounded-full bg-black will-change-transform md:block"
+          className="pointer-events-none fixed left-0 top-0 z-[71] hidden h-5 w-5 rounded-full bg-[var(--color-text)] will-change-transform md:block"
           aria-hidden="true"
         />
 
@@ -277,7 +277,7 @@ export default function Archive() {
           {archiveProjects.map((project) => (
             <div
               key={project.title}
-              className={`group border-b border-zinc-300 transition-colors duration-300 ease-out hover:border-zinc-700 ${
+              className={`group border-b border-[var(--color-border)] transition-colors duration-300 ease-out hover:border-[var(--color-border-strong)] ${
                 activeProject?.title === project.title ? "cursor-none" : "cursor-pointer"
               }`}
               onMouseEnter={(event) => showPreview(project, event.clientX, event.clientY)}
@@ -285,13 +285,13 @@ export default function Archive() {
               onMouseLeave={hidePreview}
             >
               <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 lg:grid-cols-[minmax(0,1fr)_320px_90px] lg:items-end lg:gap-10">
-                <h3 className="type-display-xl text-zinc-800 transition-colors duration-300 ease-out group-hover:text-zinc-950 max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
+                <h3 className="type-display-xl text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)] max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
                   {project.title}
                 </h3>
 
-                <p className="type-meta text-zinc-600 lg:pb-3">{project.category}</p>
+                <p className="type-meta text-[var(--color-text-muted)] lg:pb-3">{project.category}</p>
 
-                <p className="type-meta text-zinc-500 lg:pb-3 lg:text-right">{project.year}</p>
+                <p className="type-meta text-[rgba(117,104,95,0.78)] lg:pb-3 lg:text-right">{project.year}</p>
               </div>
             </div>
           ))}

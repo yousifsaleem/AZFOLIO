@@ -38,10 +38,10 @@ export default function SiteHeader() {
   }, []);
 
   const isDarkTheme = headerTheme === "dark";
-  const navColor = isDarkTheme ? "text-[#f5ede1]" : "text-zinc-600";
-  const linkColor = isDarkTheme ? "text-[#f5ede1]" : "text-zinc-700";
-  const metaColor = isDarkTheme ? "text-[#f5ede1]/70" : "text-zinc-500";
-  const strongColor = isDarkTheme ? "text-[#f5ede1]" : "text-zinc-950";
+  const navColor = isDarkTheme ? "text-[#f7f1ea]" : "text-[var(--color-text-muted)]";
+  const linkColor = isDarkTheme ? "text-[#f7f1ea]" : "text-[var(--color-text)]";
+  const metaColor = isDarkTheme ? "text-[#f7f1ea]/72" : "text-[var(--color-text-muted)]";
+  const strongColor = isDarkTheme ? "text-[#fdfaf6]" : "text-[var(--color-text)]";
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
@@ -57,7 +57,7 @@ export default function SiteHeader() {
               <a
                 key={item.href}
                 href={item.href}
-                className={`group flex cursor-pointer items-center gap-2 transition-all duration-300 ease-out hover:translate-x-1 hover:text-amber-600 sm:gap-3 ${linkColor}`}
+                className={`group flex cursor-pointer items-center gap-2 transition-all duration-300 ease-out hover:translate-x-1 hover:text-[var(--color-text-muted)] sm:gap-3 ${linkColor}`}
               >
                 <span className="font-semibold">{item.number}</span>
                 <span>{item.label}</span>

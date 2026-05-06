@@ -27,41 +27,41 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const nextProject = featuredProjects[(projectIndex + 1) % featuredProjects.length];
 
   return (
-    <main className="bg-[#f5ede1] px-6 py-10 text-zinc-950 sm:px-8 lg:px-12">
+    <main className="bg-[var(--color-surface)] px-6 py-10 text-[var(--color-text)] sm:px-8 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <div className="flex min-h-screen flex-col gap-12">
           <div className="flex items-center justify-between gap-6">
             <Link
               href="/"
-              className="type-link text-zinc-700 transition-colors duration-300 ease-out hover:text-zinc-950"
+              className="type-link text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
             >
               Back to home
             </Link>
-            <p className="type-meta text-zinc-500">
+            <p className="type-meta text-[var(--color-text-muted)]">
               [{String(project.number).padStart(2, "0")}]
             </p>
           </div>
 
           <section className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-end">
             <div>
-              <h1 className="type-display-lg max-w-4xl text-zinc-950">{project.title}</h1>
-              <p className="type-body mt-6 max-w-2xl text-zinc-700">{project.shortDescription}</p>
+              <h1 className="type-display-lg max-w-4xl text-[var(--color-text)]">{project.title}</h1>
+              <p className="type-body mt-6 max-w-2xl text-[var(--color-text-muted)]">{project.shortDescription}</p>
             </div>
 
             <div className="grid gap-4">
               <div>
-                <p className="type-meta text-zinc-500">Year</p>
-                <p className="type-body mt-2 text-zinc-800">{project.year}</p>
+                <p className="type-meta text-[var(--color-text-muted)]">Year</p>
+                <p className="type-body mt-2 text-[rgba(31,27,25,0.88)]">{project.year}</p>
               </div>
               <div>
-                <p className="type-meta text-zinc-500">Category</p>
-                <p className="type-body mt-2 text-zinc-800">{project.category}</p>
+                <p className="type-meta text-[var(--color-text-muted)]">Category</p>
+                <p className="type-body mt-2 text-[rgba(31,27,25,0.88)]">{project.category}</p>
               </div>
               <div>
-                <p className="type-meta text-zinc-500">Tags</p>
+                <p className="type-meta text-[var(--color-text-muted)]">Tags</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="type-meta text-zinc-700">
+                    <span key={tag} className="type-meta text-[var(--color-text-muted)]">
                       {tag}
                     </span>
                   ))}
@@ -71,21 +71,21 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
 
           <section
-            className="flex min-h-[30rem] items-end justify-between border border-zinc-300 p-6 sm:p-8"
+            className="flex min-h-[30rem] items-end justify-between border border-[var(--color-border)] p-6 sm:p-8"
             style={{ backgroundColor: project.accentColor }}
           >
-            <span className="type-meta text-zinc-700">Hero image placeholder</span>
-            <span className="type-meta text-zinc-500">{project.title}</span>
+            <span className="type-meta text-[var(--color-text-muted)]">Hero image placeholder</span>
+            <span className="type-meta text-[rgba(117,104,95,0.78)]">{project.title}</span>
           </section>
 
           <section className="grid gap-8">
             {[1, 2, 3].map((item) => (
               <div
                 key={item}
-                className="flex min-h-[28rem] items-end justify-between border border-zinc-300 bg-[#fbf7f1] p-6 sm:p-8"
+                className="flex min-h-[28rem] items-end justify-between border border-[var(--color-border)] bg-[var(--color-card)] p-6 sm:p-8"
               >
-                <span className="type-meta text-zinc-600">Content placeholder {item}</span>
-                <span className="type-meta text-zinc-400">0{item}</span>
+                <span className="type-meta text-[var(--color-text-muted)]">Content placeholder {item}</span>
+                <span className="type-meta text-[rgba(117,104,95,0.6)]">0{item}</span>
               </div>
             ))}
           </section>
@@ -93,7 +93,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <div className="flex justify-end pt-4">
             <Link
               href={`/work/${nextProject.slug}`}
-              className="type-link text-zinc-700 transition-colors duration-300 ease-out hover:text-zinc-950"
+              className="type-link text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
             >
               Next project: {nextProject.title}
             </Link>

@@ -88,7 +88,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-white/20 bg-white/10"
+      className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)] bg-[rgba(255,249,244,0.12)]"
     >
       <div
         className="absolute inset-0"
@@ -100,7 +100,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
         className="pointer-events-none absolute inset-0 z-[2] flex items-center justify-center px-8"
         aria-hidden="true"
       >
-        <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-white/20 bg-black/10">
+        <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
           <Image
             src={project.preview || project.thumbnail || project.image}
             alt=""
@@ -126,10 +126,10 @@ function FeaturedMediaCard({ project }: { project: Project }) {
           }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-black/10" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[rgba(37,28,23,0.12)]" aria-hidden="true" />
         <div className="relative flex h-full items-end justify-between p-5 sm:p-8">
-          <div className="type-meta max-w-[12rem] text-white/65">Project image</div>
-          <div className="type-meta text-right text-white/65">
+          <div className="type-meta max-w-[12rem] text-[rgba(255,248,242,0.72)]">Project image</div>
+          <div className="type-meta text-right text-[rgba(255,248,242,0.72)]">
             {project.category} / {project.year}
           </div>
         </div>
@@ -143,18 +143,18 @@ function FeaturedTextContent({ project }: { project: Project }) {
     <>
       <div className="flex items-start lg:items-center lg:justify-center">
         <div data-featured-text className="max-w-[30rem] lg:ml-4 xl:ml-10">
-          <p className="type-meta text-white/65">No {project.number}</p>
-          <h2 className="type-display-lg mt-4 text-white max-sm:text-[clamp(2.4rem,11vw,4rem)]">
+          <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
+          <h2 className="type-display-lg mt-4 text-[var(--color-card)] max-sm:text-[clamp(2.4rem,11vw,4rem)]">
             <RollingTitle title={project.title} />
           </h2>
-          <p className="type-body mt-5 max-w-md text-white/72">{project.shortDescription}</p>
+          <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">{project.shortDescription}</p>
         </div>
       </div>
 
       <div className="flex justify-start lg:mt-10 lg:justify-end">
         <div data-featured-tags className="w-full max-w-[16rem] space-y-3 lg:mr-8 xl:mr-12">
           {project.tags.map((tag) => (
-            <p key={tag} className="type-meta border-b border-white/15 pb-3 text-white/72">
+            <p key={tag} className="type-meta border-b border-[rgba(255,248,242,0.16)] pb-3 text-[rgba(255,248,242,0.78)]">
               {tag}
             </p>
           ))}
@@ -165,7 +165,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
         <Link
           data-featured-link
           href={`/work/${project.slug}`}
-          className="group/roll type-link inline-flex items-center gap-1 text-white transition-colors duration-300 ease-out hover:text-white/70"
+          className="group/roll type-link inline-flex items-center gap-1 text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)]"
         >
           <RollingLinkText />
           <span
@@ -413,7 +413,7 @@ export default function FeaturedWork() {
       ref={rootRef}
       id="work"
       data-header-theme="dark"
-      className="bg-[#f7f3ed] text-white"
+      className="bg-[var(--color-surface-alt)] text-[var(--color-card)]"
       style={{ backgroundColor: activeProject.backgroundColor }}
     >
       <div data-featured-desktop className="relative hidden md:block">
@@ -436,17 +436,17 @@ export default function FeaturedWork() {
                     alt=""
                     fill
                     unoptimized
-                    className="object-cover opacity-28 blur-lg"
+                    className="object-cover opacity-24 blur-lg"
                   />
                 </div>
                 <div
                   className="pointer-events-none absolute inset-0"
                   style={{
-                    background: "linear-gradient(180deg, rgba(245,237,225,0.08), rgba(12,12,12,0.18))",
+                    background: "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
                   }}
                   aria-hidden="true"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-black/5" aria-hidden="true" />
+                <div className="pointer-events-none absolute inset-0 bg-[rgba(25,17,14,0.06)]" aria-hidden="true" />
 
                 <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:px-14 lg:py-14 xl:px-20">
                   <div className="order-1 flex items-center">
@@ -476,7 +476,7 @@ export default function FeaturedWork() {
           <article
             key={project.slug}
             data-featured-mobile-panel
-            className="relative isolate min-h-screen overflow-hidden border-b border-white/10"
+            className="relative isolate min-h-screen overflow-hidden border-b border-[rgba(255,248,242,0.16)]"
             style={{ backgroundColor: project.backgroundColor }}
           >
             <div
@@ -489,17 +489,17 @@ export default function FeaturedWork() {
                 alt=""
                 fill
                 unoptimized
-                className="object-cover opacity-28 blur-lg"
+                className="object-cover opacity-24 blur-lg"
               />
             </div>
             <div
               className="pointer-events-none absolute inset-0"
               style={{
-                background: "linear-gradient(180deg, rgba(245,237,225,0.08), rgba(12,12,12,0.18))",
+                background: "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
               }}
               aria-hidden="true"
             />
-            <div className="pointer-events-none absolute inset-0 bg-black/5" aria-hidden="true" />
+            <div className="pointer-events-none absolute inset-0 bg-[rgba(25,17,14,0.06)]" aria-hidden="true" />
 
             <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10">
               <div className="order-1 flex items-center">

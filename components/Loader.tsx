@@ -108,14 +108,14 @@ export default function Loader() {
   return (
     <div
       ref={rootRef}
-      className={`fixed inset-0 z-[60] bg-[#f5ede1] text-zinc-950 ${isComplete ? "pointer-events-none" : ""}`}
+      className={`fixed inset-0 z-[60] bg-[var(--color-surface)] text-[var(--color-text)] ${isComplete ? "pointer-events-none" : ""}`}
       aria-hidden={isComplete}
     >
       <div className="relative flex h-full items-center justify-center px-6 sm:px-8 lg:px-12">
         <div className="flex w-full flex-col items-center text-center">
           <div className="h-16 sm:h-20 lg:h-24">
             <p
-              className={`flex h-16 items-center justify-center text-[clamp(2rem,5vw,5rem)] leading-none tracking-[-0.05em] text-zinc-700 transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
+              className={`flex h-16 items-center justify-center text-[clamp(2rem,5vw,5rem)] leading-none tracking-[-0.05em] text-[var(--color-text-muted)] transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
                 isGreetingVisible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
               }`}
             >
@@ -126,7 +126,7 @@ export default function Loader() {
           <div className="mt-8 w-[72vw] max-w-[520px] sm:w-[68vw] lg:w-[40vw]">
             <svg
               viewBox="0 0 1200 140"
-              className="h-16 w-full text-zinc-700 sm:h-18 lg:h-20"
+              className="h-16 w-full text-[var(--color-text-muted)] sm:h-18 lg:h-20"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
@@ -153,7 +153,7 @@ export default function Loader() {
 
         <p
           ref={counterRef}
-          className="absolute bottom-6 right-6 text-[clamp(1rem,2vw,2rem)] leading-none tracking-[-0.04em] text-zinc-950 sm:bottom-8 sm:right-8 lg:bottom-10 lg:right-12"
+          className="absolute bottom-6 right-6 text-[clamp(1rem,2vw,2rem)] leading-none tracking-[-0.04em] text-[var(--color-text)] sm:bottom-8 sm:right-8 lg:bottom-10 lg:right-12"
         >
           0%
         </p>

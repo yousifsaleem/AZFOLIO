@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function About() {
   const aboutImages = [
     {
@@ -17,15 +19,15 @@ export default function About() {
   return (
     <section
       id="about"
-      className="bg-stone-100 px-6 py-20 text-zinc-900 sm:px-8 lg:px-12"
+      className="bg-[var(--color-surface)] px-6 py-20 text-[var(--color-text)] sm:px-8 lg:px-12"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="border-b border-zinc-300 pb-6">
+        <div className="border-b border-[var(--color-border)] pb-6">
           <h2 className="text-4xl tracking-[-0.03em]">About</h2>
         </div>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <p className="max-w-2xl text-lg leading-8 text-zinc-700">
+          <p className="max-w-2xl text-lg leading-8 text-[var(--color-text-muted)]">
             Afia Zaman is a graphic designer shaping calm, characterful visual
             systems across editorial, identity and digital work. This section is
             a simple placeholder for a fuller studio story.
@@ -35,12 +37,14 @@ export default function About() {
             {aboutImages.map((image) => (
               <div
                 key={image.src}
-                className="aspect-[4/5] overflow-hidden border border-zinc-300 bg-stone-200"
+                className="relative aspect-[4/5] overflow-hidden border border-[var(--color-border)] bg-[var(--color-card-muted)]"
               >
-                <img
+                <Image
                   src={image.src}
                   alt={image.alt}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
               </div>
             ))}
