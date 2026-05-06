@@ -1,15 +1,26 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 
 import { featuredProjects } from "../data/projects";
+
+function getHeroPreviewImage({
+  thumbnail,
+}: {
+  thumbnail?: string;
+}) {
+  return thumbnail || null;
+}
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const previewsRef = useRef<HTMLDivElement>(null);
+  const heroProjects = featuredProjects.slice(0, 4);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -19,7 +30,7 @@ export default function Hero() {
     }
 
     const ctx = gsap.context(() => {
-      const previewItems = previewsRef.current?.querySelectorAll("button");
+      const previewItems = previewsRef.current?.querySelectorAll("a");
 
       gsap.set(logoRef.current, { autoAlpha: 0, scale: 0.96 });
       gsap.set(infoRef.current, { autoAlpha: 0, y: 24 });
@@ -101,15 +112,41 @@ export default function Hero() {
           </div>
 
           <div ref={previewsRef} className="flex flex-wrap gap-3 lg:justify-end">
-            {featuredProjects.slice(0, 4).map((project) => (
-              <button
-                key={project.slug}
-                type="button"
-                className="group flex h-[92px] w-[92px] cursor-pointer flex-col justify-between rounded-[1.5rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[120px] sm:w-[120px] sm:p-4 lg:h-[160px] lg:w-[160px]"
-              >
-                <span className="type-meta text-[var(--color-text-muted)]">{project.number}</span>
-              </button>
-            ))}
+            {heroProjects.map((project) => {
+              const previewImage = getHeroPreviewImage(project);
+
+              return (
+                <Link
+                  key={project.slug}
+                  href={`/work/${project.slug}`}
+                  className="group relative flex h-[92px] w-[92px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.5rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[120px] sm:w-[120px] sm:p-4 lg:h-[160px] lg:w-[160px]"
+                  aria-label={`View ${project.title}`}
+                >
+                  {previewImage ? (
+                    <Image
+                      src={previewImage}
+                      alt=""
+                      fill
+                      unoptimized
+                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0 bg-[linear-gradient(145deg,var(--color-card)_0%,var(--color-accent-blue)_100%)]"
+                      aria-hidden="true"
+                    />
+                  )}
+
+                  <div
+                    className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,27,25,0.14)_0%,rgba(31,27,25,0.03)_45%,rgba(31,27,25,0.18)_100%)]"
+                    aria-hidden="true"
+                  />
+                  <span className="relative z-10 type-meta text-[var(--color-card)] [text-shadow:0_1px_8px_rgba(31,27,25,0.28)]">
+                    {project.number}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -10,6 +10,14 @@ import { featuredProjects, type Project } from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function getFeaturedPreviewImage(project: Project) {
+  return project.preview || project.thumbnail;
+}
+
+function getFeaturedThumbnailImage(project: Project) {
+  return project.thumbnail;
+}
+
 function RollingText({
   text,
   groupClassName,
@@ -102,7 +110,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
       >
         <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
           <Image
-            src={project.preview || project.thumbnail || project.image}
+            src={getFeaturedPreviewImage(project)}
             alt=""
             fill
             unoptimized
@@ -113,7 +121,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
       <div data-featured-hover className="absolute inset-0 z-20" />
       <div data-featured-image-layer className="absolute inset-0 z-10">
         <Image
-          src={project.image}
+          src={getFeaturedThumbnailImage(project)}
           alt={project.title}
           fill
           unoptimized
@@ -432,7 +440,7 @@ export default function FeaturedWork() {
                   aria-hidden="true"
                 >
                   <Image
-                    src={project.image}
+                    src={getFeaturedThumbnailImage(project)}
                     alt=""
                     fill
                     unoptimized
@@ -485,7 +493,7 @@ export default function FeaturedWork() {
               aria-hidden="true"
             >
               <Image
-                src={project.image}
+                src={getFeaturedThumbnailImage(project)}
                 alt=""
                 fill
                 unoptimized
