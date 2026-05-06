@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
 
+import TransitionLink from "./TransitionLink";
 import { featuredProjects } from "../data/projects";
 
 function getHeroPreviewImage({
@@ -116,7 +116,7 @@ export default function Hero() {
               const previewImage = getHeroPreviewImage(project);
 
               return (
-                <Link
+                <TransitionLink
                   key={project.slug}
                   href={`/work/${project.slug}`}
                   className="group relative flex h-[84px] w-[84px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[108px] sm:w-[108px] sm:rounded-[1.45rem] sm:p-4 lg:h-[132px] lg:w-[132px] xl:h-[160px] xl:w-[160px]"
@@ -144,7 +144,7 @@ export default function Hero() {
                   <span className="relative z-10 type-meta text-[var(--color-card)] [text-shadow:0_1px_8px_rgba(31,27,25,0.28)]">
                     {project.number}
                   </span>
-                </Link>
+                </TransitionLink>
               );
             })}
           </div>

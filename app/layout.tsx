@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Urbanist } from "next/font/google";
+import TransitionOverlay from "../components/TransitionOverlay";
 import "./globals.css";
 
 const urbanist = Urbanist({
@@ -27,7 +28,10 @@ export default function RootLayout({
       lang="en"
       className={`${urbanist.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <TransitionOverlay />
+      </body>
     </html>
   );
 }

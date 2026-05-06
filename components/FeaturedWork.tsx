@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import TransitionLink from "./TransitionLink";
 import { featuredProjects, type Project } from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -175,7 +175,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
       </div>
 
       <div className="flex items-end justify-start lg:mt-10 lg:justify-end">
-        <Link
+        <TransitionLink
           data-featured-link
           href={`/work/${project.slug}`}
           className="group/roll type-link inline-flex items-center gap-1 text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)]"
@@ -187,7 +187,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
           >
             ↗
           </span>
-        </Link>
+        </TransitionLink>
       </div>
     </>
   );

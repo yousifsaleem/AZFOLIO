@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import TransitionLink from "../../../components/TransitionLink";
 import { featuredProjects } from "../../../data/projects";
 
 type PageProps = {
@@ -31,12 +31,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <div className="mx-auto max-w-6xl">
         <div className="flex min-h-screen flex-col gap-10 sm:gap-12">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <Link
+            <TransitionLink
               href="/"
               className="type-link text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
             >
               Back to home
-            </Link>
+            </TransitionLink>
             <p className="type-meta text-[var(--color-text-muted)]">
               [{String(project.number).padStart(2, "0")}]
             </p>
@@ -91,12 +91,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
 
           <div className="flex pt-4 sm:justify-end">
-            <Link
+            <TransitionLink
               href={`/work/${nextProject.slug}`}
               className="type-link max-w-full text-[var(--color-text-muted)] transition-colors duration-300 ease-out hover:text-[var(--color-text)]"
             >
               Next project: {nextProject.title}
-            </Link>
+            </TransitionLink>
           </div>
         </div>
       </div>
