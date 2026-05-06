@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+
 const contactLinks = [
   {
     label: "Instagram",
@@ -27,98 +32,146 @@ const contactBalls = [
   {
     motif: "monogramA",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-28 w-28 sm:h-32 sm:w-32 lg:h-[10.5rem] lg:w-[10.5rem]",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[10rem] lg:w-[10rem] xl:h-[11rem] xl:w-[11rem]",
     offset: "translate-y-6 lg:translate-y-8",
   },
   {
     motif: "smile",
     accent: "bg-[var(--color-card)]",
-    size: "h-32 w-32 sm:h-36 sm:w-36 lg:h-[11.5rem] lg:w-[11.5rem]",
+    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11rem] lg:w-[11rem] xl:h-[12rem] xl:w-[12rem]",
     offset: "translate-y-1 lg:translate-y-2",
   },
   {
     motif: "flower",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-36 w-36 sm:h-40 sm:w-40 lg:h-[12.5rem] lg:w-[12.5rem]",
-    offset: "translate-y-8 lg:translate-y-10",
+    size: "h-28 w-28 sm:h-36 sm:w-36 lg:h-[12rem] lg:w-[12rem] xl:h-[13rem] xl:w-[13rem]",
+    offset: "translate-y-5 lg:translate-y-6",
   },
   {
     motif: "monogramZ",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-[7.5rem] w-[7.5rem] sm:h-[8.5rem] sm:w-[8.5rem] lg:h-[10.5rem] lg:w-[10.5rem]",
+    size: "h-[5.5rem] w-[5.5rem] sm:h-[7.5rem] sm:w-[7.5rem] lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
     offset: "translate-y-3 lg:translate-y-5",
   },
   {
     motif: "spark",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-[6.5rem] w-[6.5rem] sm:h-[7.5rem] sm:w-[7.5rem] lg:h-[9rem] lg:w-[9rem]",
-    offset: "translate-y-10 lg:translate-y-12",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7.5rem] lg:w-[7.5rem] xl:h-[8.5rem] xl:w-[8.5rem]",
+    offset: "translate-y-7 lg:translate-y-8",
   },
   {
     motif: "orbit",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-32 w-32 sm:h-36 sm:w-36 lg:h-[11.5rem] lg:w-[11.5rem]",
+    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11rem] lg:w-[11rem] xl:h-[12rem] xl:w-[12rem]",
     offset: "translate-y-4 lg:translate-y-6",
   },
   {
     motif: "ribbon",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-[8.5rem] w-[8.5rem] sm:h-[9.5rem] sm:w-[9.5rem] lg:h-[12rem] lg:w-[12rem]",
+    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11.5rem] lg:w-[11.5rem] xl:h-[12.5rem] xl:w-[12.5rem]",
     offset: "translate-y-0",
   },
   {
     motif: "petal",
     accent: "bg-[var(--color-card)]",
-    size: "h-28 w-28 sm:h-32 sm:w-32 lg:h-[10.5rem] lg:w-[10.5rem]",
-    offset: "translate-y-8 lg:translate-y-10",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
+    offset: "translate-y-5 lg:translate-y-6",
   },
   {
     motif: "wave",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-36 w-36 sm:h-40 sm:w-40 lg:h-[12.5rem] lg:w-[12.5rem]",
+    size: "h-28 w-28 sm:h-36 sm:w-36 lg:h-[12rem] lg:w-[12rem] xl:h-[13rem] xl:w-[13rem]",
     offset: "translate-y-2 lg:translate-y-4",
   },
   {
     motif: "starburst",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-[7.5rem] w-[7.5rem] sm:h-[8.5rem] sm:w-[8.5rem] lg:h-[10.5rem] lg:w-[10.5rem]",
-    offset: "translate-y-9 lg:translate-y-11",
+    size: "h-[5.5rem] w-[5.5rem] sm:h-[7.5rem] sm:w-[7.5rem] lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
+    offset: "translate-y-6 lg:translate-y-7",
   },
   {
     motif: "monogramA",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-[6.5rem] w-[6.5rem] sm:h-28 sm:w-28 lg:h-[8.5rem] lg:w-[8.5rem]",
-    offset: "translate-y-7 lg:translate-y-9",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
+    offset: "translate-y-5 lg:translate-y-6",
   },
   {
     motif: "flower",
     accent: "bg-[var(--color-card)]",
-    size: "h-[7rem] w-[7rem] sm:h-32 sm:w-32 lg:h-[9.5rem] lg:w-[9.5rem]",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9rem] lg:w-[9rem] xl:h-[10rem] xl:w-[10rem]",
     offset: "translate-y-3 lg:translate-y-4",
   },
   {
     motif: "orbit",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-[6.75rem] w-[6.75rem] sm:h-[7.75rem] sm:w-[7.75rem] lg:h-[9.5rem] lg:w-[9.5rem]",
-    offset: "translate-y-10 lg:translate-y-12",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8.5rem] lg:w-[8.5rem] xl:h-[9.5rem] xl:w-[9.5rem]",
+    offset: "translate-y-7 lg:translate-y-8",
   },
   {
     motif: "wave",
     accent: "bg-[var(--color-card)]",
-    size: "h-[7.5rem] w-[7.5rem] sm:h-[8.5rem] sm:w-[8.5rem] lg:h-[11rem] lg:w-[11rem]",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[10rem] lg:w-[10rem] xl:h-[11rem] xl:w-[11rem]",
     offset: "translate-y-1 lg:translate-y-2",
   },
   {
     motif: "spark",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-[6.25rem] w-[6.25rem] sm:h-[7rem] sm:w-[7rem] lg:h-[8.5rem] lg:w-[8.5rem]",
-    offset: "translate-y-8 lg:translate-y-9",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
+    offset: "translate-y-6 lg:translate-y-7",
   },
   {
     motif: "petal",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-[6.75rem] w-[6.75rem] sm:h-[7.75rem] sm:w-[7.75rem] lg:h-[9.5rem] lg:w-[9.5rem]",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8.5rem] lg:w-[8.5rem] xl:h-[9.5rem] xl:w-[9.5rem]",
     offset: "translate-y-4 lg:translate-y-5",
+  },
+  {
+    motif: "smile",
+    accent: "bg-[var(--color-accent-butter)]",
+    size: "h-16 w-16 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
+    offset: "translate-y-3 lg:translate-y-4",
+  },
+  {
+    motif: "ribbon",
+    accent: "bg-[var(--color-accent-blue)]",
+    size: "h-20 w-20 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
+    offset: "translate-y-6 lg:translate-y-7",
+  },
+  {
+    motif: "starburst",
+    accent: "bg-[var(--color-card)]",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
+    offset: "translate-y-1 lg:translate-y-2",
+  },
+  {
+    motif: "monogramZ",
+    accent: "bg-[var(--color-accent-lilac)]",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
+    offset: "translate-y-5 lg:translate-y-6",
+  },
+  {
+    motif: "flower",
+    accent: "bg-[var(--color-accent-blue)]",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9rem] lg:w-[9rem] xl:h-[10rem] xl:w-[10rem]",
+    offset: "translate-y-2 lg:translate-y-3",
+  },
+  {
+    motif: "spark",
+    accent: "bg-[var(--color-accent-coral)]",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
+    offset: "translate-y-7 lg:translate-y-8",
+  },
+  {
+    motif: "orbit",
+    accent: "bg-[var(--color-card)]",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
+    offset: "translate-y-4 lg:translate-y-5",
+  },
+  {
+    motif: "petal",
+    accent: "bg-[var(--color-accent-butter)]",
+    size: "h-20 w-20 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
+    offset: "translate-y-0",
   },
 ];
 
@@ -279,14 +332,83 @@ function BallGraphic({ motif }: { motif: string }) {
 }
 
 export default function Contact() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const hasReleasedBallsRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+
+    if (!section) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      const balls = gsap.utils.toArray<HTMLElement>("[data-contact-ball]", section);
+
+      gsap.set(balls, {
+        autoAlpha: 1,
+        force3D: true,
+      });
+
+      balls.forEach((ball, index) => {
+        const direction = index % 2 === 0 ? -1 : 1;
+        const distance = 360 + (index % 6) * 62;
+
+        gsap.set(ball, {
+          x: direction * (8 + (index % 5) * 8),
+          y: -distance,
+          rotate: direction * (18 + (index % 6) * 9),
+        });
+      });
+    }, section);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || hasReleasedBallsRef.current) {
+          return;
+        }
+
+        hasReleasedBallsRef.current = true;
+
+        const balls = gsap.utils.toArray<HTMLElement>("[data-contact-ball]", section);
+
+        balls.forEach((ball, index) => {
+          const direction = index % 2 === 0 ? -1 : 1;
+
+          gsap.to(ball, {
+            x: 0,
+            y: 0,
+            rotate: direction * ((index % 3) * 4),
+            duration: 1.2 + (index % 5) * 0.11,
+            ease: "bounce.out",
+            overwrite: true,
+          });
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -18% 0px",
+        threshold: 0.22,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      ctx.revert();
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="contact"
       data-header-theme="light"
       className="relative overflow-hidden bg-[var(--color-surface)] px-6 text-[var(--color-text)] sm:px-8 lg:px-12"
     >
       <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between py-8 lg:py-10">
-        <div className="grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-12 xl:pt-36 2xl:gap-[4.5rem]">
+        <div className="relative z-10 grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-12 xl:pt-36 2xl:gap-[4.5rem]">
           <div className="max-w-4xl">
             <h2 className="text-[clamp(4.25rem,10.6vw,8.5rem)] font-semibold uppercase leading-[0.82] tracking-[-0.09em] text-[var(--color-text)]">
               LET&apos;S
@@ -332,17 +454,22 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="relative mt-6 pt-5 sm:pt-6">
-          <div className="flex min-h-[250px] flex-wrap items-end gap-2 overflow-hidden sm:min-h-[280px] sm:gap-2.5 lg:min-h-[330px] xl:flex-nowrap xl:gap-3">
+        <div className="relative -mx-6 mt-4 px-6 pb-8 pt-5 sm:-mx-8 sm:px-8 sm:pb-10 sm:pt-6 lg:-mx-12 lg:px-12 lg:pb-12">
+          <div className="flex min-h-[360px] w-full flex-wrap items-end justify-center gap-2 sm:min-h-[410px] sm:gap-2.5 lg:min-h-[500px] lg:justify-start lg:gap-3 xl:min-h-[540px] xl:gap-4">
             {contactBalls.map((ball) => (
               <div
                 key={`${ball.motif}-${ball.accent}-${ball.size}-${ball.offset}`}
-                className={`relative flex ${ball.size} ${ball.offset} shrink-0 items-center justify-center rounded-full ${ball.accent}`}
+                className={`${ball.offset} shrink-0 -ml-4 first:ml-0 sm:-ml-5 lg:-ml-7`}
               >
-                <div className="absolute inset-0 rounded-full border-2 border-[rgba(31,27,25,0.14)]" aria-hidden="true" />
-                <div className="absolute inset-[10%] rounded-full border border-[rgba(31,27,25,0.3)]" aria-hidden="true" />
-                <div className="relative z-10 flex h-full w-full items-center justify-center text-[var(--color-text)]">
-                  <BallGraphic motif={ball.motif} />
+                <div
+                  data-contact-ball
+                  className={`relative flex ${ball.size} items-center justify-center rounded-full ${ball.accent}`}
+                >
+                  <div className="absolute inset-0 rounded-full border-2 border-[rgba(31,27,25,0.14)]" aria-hidden="true" />
+                  <div className="absolute inset-[10%] rounded-full border border-[rgba(31,27,25,0.3)]" aria-hidden="true" />
+                  <div className="relative z-10 flex h-full w-full items-center justify-center text-[var(--color-text)]">
+                    <BallGraphic motif={ball.motif} />
+                  </div>
                 </div>
               </div>
             ))}
