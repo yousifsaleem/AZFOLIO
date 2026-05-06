@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import gsap from "gsap";
-
 const contactLinks = [
   {
     label: "Instagram",
@@ -32,146 +30,122 @@ const contactBalls = [
   {
     motif: "monogramA",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[10rem] lg:w-[10rem] xl:h-[11rem] xl:w-[11rem]",
-    offset: "translate-y-6 lg:translate-y-8",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32 xl:h-36 xl:w-36",
   },
   {
     motif: "smile",
     accent: "bg-[var(--color-card)]",
-    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11rem] lg:w-[11rem] xl:h-[12rem] xl:w-[12rem]",
-    offset: "translate-y-1 lg:translate-y-2",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-36 lg:w-36 xl:h-40 xl:w-40",
   },
   {
     motif: "flower",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-28 w-28 sm:h-36 sm:w-36 lg:h-[12rem] lg:w-[12rem] xl:h-[13rem] xl:w-[13rem]",
-    offset: "translate-y-5 lg:translate-y-6",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-40 lg:w-40",
   },
   {
     motif: "monogramZ",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-[5.5rem] w-[5.5rem] sm:h-[7.5rem] sm:w-[7.5rem] lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
-    offset: "translate-y-3 lg:translate-y-5",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "spark",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7.5rem] lg:w-[7.5rem] xl:h-[8.5rem] xl:w-[8.5rem]",
-    offset: "translate-y-7 lg:translate-y-8",
+    size: "h-11 w-11 sm:h-16 sm:w-16 lg:h-24 lg:w-24",
   },
   {
     motif: "orbit",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11rem] lg:w-[11rem] xl:h-[12rem] xl:w-[12rem]",
-    offset: "translate-y-4 lg:translate-y-6",
+    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-36 lg:w-36 xl:h-40 xl:w-40",
   },
   {
     motif: "ribbon",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-24 w-24 sm:h-32 sm:w-32 lg:h-[11.5rem] lg:w-[11.5rem] xl:h-[12.5rem] xl:w-[12.5rem]",
-    offset: "translate-y-0",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-40 lg:w-40",
   },
   {
     motif: "petal",
     accent: "bg-[var(--color-card)]",
-    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
-    offset: "translate-y-5 lg:translate-y-6",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "wave",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-28 w-28 sm:h-36 sm:w-36 lg:h-[12rem] lg:w-[12rem] xl:h-[13rem] xl:w-[13rem]",
-    offset: "translate-y-2 lg:translate-y-4",
+    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-40 lg:w-40",
   },
   {
     motif: "starburst",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-[5.5rem] w-[5.5rem] sm:h-[7.5rem] sm:w-[7.5rem] lg:h-[9.5rem] lg:w-[9.5rem] xl:h-[10.5rem] xl:w-[10.5rem]",
-    offset: "translate-y-6 lg:translate-y-7",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "monogramA",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
-    offset: "translate-y-5 lg:translate-y-6",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "flower",
     accent: "bg-[var(--color-card)]",
-    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9rem] lg:w-[9rem] xl:h-[10rem] xl:w-[10rem]",
-    offset: "translate-y-3 lg:translate-y-4",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "orbit",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8.5rem] lg:w-[8.5rem] xl:h-[9.5rem] xl:w-[9.5rem]",
-    offset: "translate-y-7 lg:translate-y-8",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "wave",
     accent: "bg-[var(--color-card)]",
-    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[10rem] lg:w-[10rem] xl:h-[11rem] xl:w-[11rem]",
-    offset: "translate-y-1 lg:translate-y-2",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "spark",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
-    offset: "translate-y-6 lg:translate-y-7",
+    size: "h-11 w-11 sm:h-16 sm:w-16 lg:h-24 lg:w-24",
   },
   {
     motif: "petal",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8.5rem] lg:w-[8.5rem] xl:h-[9.5rem] xl:w-[9.5rem]",
-    offset: "translate-y-4 lg:translate-y-5",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "smile",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-16 w-16 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
-    offset: "translate-y-3 lg:translate-y-4",
+    size: "h-11 w-11 sm:h-16 sm:w-16 lg:h-24 lg:w-24",
   },
   {
     motif: "ribbon",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-20 w-20 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
-    offset: "translate-y-6 lg:translate-y-7",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "starburst",
     accent: "bg-[var(--color-card)]",
-    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
-    offset: "translate-y-1 lg:translate-y-2",
+    size: "h-11 w-11 sm:h-16 sm:w-16 lg:h-24 lg:w-24",
   },
   {
     motif: "monogramZ",
     accent: "bg-[var(--color-accent-lilac)]",
-    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
-    offset: "translate-y-5 lg:translate-y-6",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "flower",
     accent: "bg-[var(--color-accent-blue)]",
-    size: "h-20 w-20 sm:h-28 sm:w-28 lg:h-[9rem] lg:w-[9rem] xl:h-[10rem] xl:w-[10rem]",
-    offset: "translate-y-2 lg:translate-y-3",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
   {
     motif: "spark",
     accent: "bg-[var(--color-accent-coral)]",
-    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-[7rem] lg:w-[7rem] xl:h-[8rem] xl:w-[8rem]",
-    offset: "translate-y-7 lg:translate-y-8",
+    size: "h-11 w-11 sm:h-16 sm:w-16 lg:h-24 lg:w-24",
   },
   {
     motif: "orbit",
     accent: "bg-[var(--color-card)]",
-    size: "h-16 w-16 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
-    offset: "translate-y-4 lg:translate-y-5",
+    size: "h-12 w-12 sm:h-16 sm:w-16 lg:h-28 lg:w-28",
   },
   {
     motif: "petal",
     accent: "bg-[var(--color-accent-butter)]",
-    size: "h-20 w-20 sm:h-24 sm:w-24 lg:h-[8rem] lg:w-[8rem] xl:h-[9rem] xl:w-[9rem]",
-    offset: "translate-y-0",
+    size: "h-14 w-14 sm:h-20 sm:w-20 lg:h-32 lg:w-32",
   },
 ];
 
@@ -333,34 +307,62 @@ function BallGraphic({ motif }: { motif: string }) {
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
+  const ballZoneRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const hasReleasedBallsRef = useRef(false);
 
   useEffect(() => {
     const section = sectionRef.current;
+    const ballZone = ballZoneRef.current;
 
-    if (!section) {
+    if (!section || !ballZone) {
       return;
     }
 
-    const ctx = gsap.context(() => {
-      const balls = gsap.utils.toArray<HTMLElement>("[data-contact-ball]", section);
+    type BallState = {
+      element: HTMLElement;
+      radius: number;
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      angle: number;
+      angularVelocity: number;
+      mass: number;
+    };
 
-      gsap.set(balls, {
-        autoAlpha: 1,
-        force3D: true,
+    const balls = Array.from(ballZone.querySelectorAll<HTMLElement>("[data-contact-ball]"));
+
+    const measureBounds = () => {
+      const rect = ballZone.getBoundingClientRect();
+
+      return {
+        width: rect.width,
+        height: rect.height,
+        floor: rect.height - 10,
+      };
+    };
+
+    const setBallTransform = (ball: BallState) => {
+      ball.element.style.transform = `translate3d(${ball.x - ball.radius}px, ${ball.y - ball.radius}px, 0) rotate(${ball.angle}deg)`;
+    };
+
+    const resetBalls = () => {
+      const bounds = measureBounds();
+
+      balls.forEach((element, index) => {
+        const radius = element.offsetWidth / 2;
+        const usableWidth = Math.max(bounds.width - radius * 2, 1);
+        const x = radius + ((index * 97) % usableWidth);
+        const y = -bounds.height - radius - (index % 5) * 54;
+        const angle = index % 2 === 0 ? -24 - index * 3 : 24 + index * 3;
+
+        element.style.opacity = "1";
+        element.style.transform = `translate3d(${x - radius}px, ${y - radius}px, 0) rotate(${angle}deg)`;
       });
+    };
 
-      balls.forEach((ball, index) => {
-        const direction = index % 2 === 0 ? -1 : 1;
-        const distance = 360 + (index % 6) * 62;
-
-        gsap.set(ball, {
-          x: direction * (8 + (index % 5) * 8),
-          y: -distance,
-          rotate: direction * (18 + (index % 6) * 9),
-        });
-      });
-    }, section);
+    resetBalls();
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -370,20 +372,136 @@ export default function Contact() {
 
         hasReleasedBallsRef.current = true;
 
-        const balls = gsap.utils.toArray<HTMLElement>("[data-contact-ball]", section);
+        const bounds = measureBounds();
+        const states: BallState[] = balls.map((element, index) => {
+          const radius = element.offsetWidth / 2;
+          const usableWidth = Math.max(bounds.width - radius * 2, 1);
+          const x = radius + ((index * 131 + 37) % usableWidth);
 
-        balls.forEach((ball, index) => {
-          const direction = index % 2 === 0 ? -1 : 1;
-
-          gsap.to(ball, {
-            x: 0,
-            y: 0,
-            rotate: direction * ((index % 3) * 4),
-            duration: 1.2 + (index % 5) * 0.11,
-            ease: "bounce.out",
-            overwrite: true,
-          });
+          return {
+            element,
+            radius,
+            x,
+            y: -bounds.height - radius - (index % 6) * 48,
+            vx: ((index % 5) - 2) * 0.9,
+            vy: 0,
+            angle: index % 2 === 0 ? -28 : 28,
+            angularVelocity: ((index % 7) - 3) * 0.35,
+            mass: radius * radius,
+          };
         });
+
+        let frame = 0;
+        const maxFrames = 620;
+        const gravity = 0.74;
+        const restitution = 0.56;
+        const air = 0.992;
+        const floorFriction = 0.82;
+        const collisionDamping = 0.92;
+
+        const tick = () => {
+          frame += 1;
+          const nextBounds = measureBounds();
+          let totalMovement = 0;
+
+          states.forEach((ball) => {
+            ball.vy += gravity;
+            ball.vx *= air;
+            ball.vy *= air;
+            ball.angularVelocity *= 0.992;
+
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            ball.angle += ball.angularVelocity;
+
+            if (ball.x - ball.radius < 0) {
+              ball.x = ball.radius;
+              ball.vx = Math.abs(ball.vx) * restitution;
+              ball.angularVelocity *= -0.5;
+            }
+
+            if (ball.x + ball.radius > nextBounds.width) {
+              ball.x = nextBounds.width - ball.radius;
+              ball.vx = -Math.abs(ball.vx) * restitution;
+              ball.angularVelocity *= -0.5;
+            }
+
+            if (ball.y + ball.radius > nextBounds.floor) {
+              ball.y = nextBounds.floor - ball.radius;
+              ball.vy = -Math.abs(ball.vy) * restitution;
+              ball.vx *= floorFriction;
+              ball.angularVelocity += ball.vx * 0.025;
+
+              if (Math.abs(ball.vy) < 0.65) {
+                ball.vy = 0;
+              }
+            }
+          });
+
+          for (let i = 0; i < states.length; i += 1) {
+            for (let j = i + 1; j < states.length; j += 1) {
+              const a = states[i];
+              const b = states[j];
+              const dx = b.x - a.x;
+              const dy = b.y - a.y;
+              const distance = Math.hypot(dx, dy) || 1;
+              const minDistance = a.radius + b.radius - 1;
+
+              if (distance >= minDistance) {
+                continue;
+              }
+
+              const nx = dx / distance;
+              const ny = dy / distance;
+              const overlap = minDistance - distance;
+              const totalMass = a.mass + b.mass;
+              const aShare = b.mass / totalMass;
+              const bShare = a.mass / totalMass;
+
+              a.x -= nx * overlap * aShare;
+              a.y -= ny * overlap * aShare;
+              b.x += nx * overlap * bShare;
+              b.y += ny * overlap * bShare;
+
+              const relativeVelocityX = b.vx - a.vx;
+              const relativeVelocityY = b.vy - a.vy;
+              const velocityAlongNormal = relativeVelocityX * nx + relativeVelocityY * ny;
+
+              if (velocityAlongNormal > 0) {
+                continue;
+              }
+
+              const impulse = (-(1 + restitution) * velocityAlongNormal) / (1 / a.mass + 1 / b.mass);
+              const impulseX = impulse * nx * collisionDamping;
+              const impulseY = impulse * ny * collisionDamping;
+
+              a.vx -= impulseX / a.mass;
+              a.vy -= impulseY / a.mass;
+              b.vx += impulseX / b.mass;
+              b.vy += impulseY / b.mass;
+
+              a.angularVelocity -= impulseX * 0.0009;
+              b.angularVelocity += impulseX * 0.0009;
+            }
+          }
+
+          states.forEach((ball) => {
+            if (ball.y + ball.radius > nextBounds.floor) {
+              ball.y = nextBounds.floor - ball.radius;
+            }
+
+            totalMovement += Math.abs(ball.vx) + Math.abs(ball.vy) + Math.abs(ball.angularVelocity);
+            setBallTransform(ball);
+          });
+
+          if (frame < maxFrames && totalMovement > 0.22) {
+            animationFrameRef.current = window.requestAnimationFrame(tick);
+          } else {
+            animationFrameRef.current = null;
+          }
+        };
+
+        animationFrameRef.current = window.requestAnimationFrame(tick);
       },
       {
         root: null,
@@ -394,9 +512,22 @@ export default function Contact() {
 
     observer.observe(section);
 
+    const handleResize = () => {
+      if (!hasReleasedBallsRef.current) {
+        resetBalls();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
       observer.disconnect();
-      ctx.revert();
+      window.removeEventListener("resize", handleResize);
+
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
     };
   }, []);
 
@@ -454,16 +585,19 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="relative -mx-6 mt-4 px-6 pb-8 pt-5 sm:-mx-8 sm:px-8 sm:pb-10 sm:pt-6 lg:-mx-12 lg:px-12 lg:pb-12">
-          <div className="flex min-h-[360px] w-full flex-wrap items-end justify-center gap-2 sm:min-h-[410px] sm:gap-2.5 lg:min-h-[500px] lg:justify-start lg:gap-3 xl:min-h-[540px] xl:gap-4">
+        <div className="relative -mx-6 mt-4 px-6 pb-0 pt-5 sm:-mx-8 sm:px-8 sm:pt-6 lg:-mx-12 lg:px-12">
+          <div
+            ref={ballZoneRef}
+            className="relative h-[260px] w-full overflow-hidden sm:h-[300px] lg:h-[340px] xl:h-[360px]"
+          >
             {contactBalls.map((ball) => (
               <div
-                key={`${ball.motif}-${ball.accent}-${ball.size}-${ball.offset}`}
-                className={`${ball.offset} shrink-0 -ml-4 first:ml-0 sm:-ml-5 lg:-ml-7`}
+                key={`${ball.motif}-${ball.accent}-${ball.size}`}
+                className="absolute left-0 top-0"
               >
                 <div
                   data-contact-ball
-                  className={`relative flex ${ball.size} items-center justify-center rounded-full ${ball.accent}`}
+                  className={`relative flex ${ball.size} items-center justify-center rounded-full ${ball.accent} opacity-0`}
                 >
                   <div className="absolute inset-0 rounded-full border-2 border-[rgba(31,27,25,0.14)]" aria-hidden="true" />
                   <div className="absolute inset-[10%] rounded-full border border-[rgba(31,27,25,0.3)]" aria-hidden="true" />
