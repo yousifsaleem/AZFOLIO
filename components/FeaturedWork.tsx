@@ -18,6 +18,16 @@ function getFeaturedThumbnailImage(project: Project) {
   return project.thumbnail;
 }
 
+function getDisplayTags(project: Project) {
+  const tags = project.tags.slice(0, 4);
+
+  while (tags.length < 4) {
+    tags.push("Creative Direction");
+  }
+
+  return tags;
+}
+
 const TEXT_REVEAL_START = 0.5;
 const TEXT_REVEAL_DURATION = 0.42;
 
@@ -143,54 +153,52 @@ function FeaturedMediaCard({ project }: { project: Project }) {
           aria-hidden="true"
         />
         <div className="absolute inset-0 bg-[rgba(37,28,23,0.12)]" aria-hidden="true" />
-        <div className="relative flex h-full items-end justify-between p-5 sm:p-8">
-          <div className="type-meta max-w-[12rem] text-[rgba(255,248,242,0.72)]">Project image</div>
-          <div className="type-meta text-right text-[rgba(255,248,242,0.72)]">
-            {project.category} / {project.year}
-          </div>
-        </div>
       </div>
     </div>
   );
 }
 
 function FeaturedTextContent({ project }: { project: Project }) {
+  const displayTags = getDisplayTags(project);
+
   return (
     <>
-      <div className="flex items-start lg:items-center lg:justify-center">
-        <div data-featured-text className="max-w-[30rem]">
+      <div className="flex items-start xl:absolute xl:left-0 xl:top-[calc(50%-6rem)] xl:w-full">
+        <div data-featured-text className="max-w-[24rem] xl:pl-0">
           <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="type-display-lg mt-4 text-[var(--color-card)] max-sm:text-[clamp(2.4rem,11vw,4rem)]">
+          <h2 className="mt-3 text-[clamp(1.95rem,2.7vw,3rem)] font-medium leading-[0.94] text-[var(--color-card)] max-sm:text-[clamp(2.4rem,11vw,4rem)]">
             <RollingTitle title={project.title} />
           </h2>
-          <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">{project.shortDescription}</p>
+          <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
+            {project.shortDescription}
+          </p>
         </div>
       </div>
 
-      <div className="flex justify-start lg:mt-10 lg:justify-end">
-        <div data-featured-tags className="w-full max-w-[16rem] space-y-3">
-          {project.tags.map((tag) => (
-            <p key={tag} className="type-meta border-b border-[rgba(255,248,242,0.16)] pb-3 text-[rgba(255,248,242,0.78)]">
-              {tag}
-            </p>
-          ))}
-        </div>
-      </div>
+      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:top-[calc(50%+15.75rem)] xl:gap-0">
+        <div className="flex w-full items-end justify-between xl:pl-0">
+          <div data-featured-tags className="w-full max-w-[16rem] space-y-1.5">
+            {displayTags.map((tag) => (
+              <p key={tag} className="type-meta text-[rgba(255,248,242,0.78)]">
+                {tag}
+              </p>
+            ))}
+          </div>
 
-      <div className="flex items-end justify-start lg:mt-10 lg:justify-end">
-        <TransitionLink
-          data-featured-link
-          href={`/work/${project.slug}`}
-          className="group/roll type-link inline-flex items-center gap-1 text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)]"
-        >
-          <RollingLinkText />
-          <span
-            aria-hidden="true"
-            className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-[1px] group-hover/roll:translate-x-[2px]"
+          <TransitionLink
+            data-featured-link
+            href={`/work/${project.slug}`}
+            className="group/roll type-link inline-flex items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:translate-y-[-0.08rem]"
           >
-            ↗
-          </span>
-        </TransitionLink>
+            <RollingLinkText />
+            <span
+              aria-hidden="true"
+              className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-[1px] group-hover/roll:translate-x-[2px]"
+            >
+              ↗
+            </span>
+          </TransitionLink>
+        </div>
       </div>
     </>
   );
@@ -510,9 +518,9 @@ export default function FeaturedWork() {
                     aria-hidden="true"
                   />
 
-                  <div className="layout-shell relative z-10 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
-                    <div className="order-1 flex items-center">
-                      <div data-featured-scene-media className="w-full max-w-[760px]">
+                  <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14">
+                    <div className="flex w-full items-center">
+                      <div data-featured-scene-media className="w-full max-w-[520px] xl:max-w-[36vw]">
                         <FeaturedMediaCard project={project} />
                       </div>
                     </div>
@@ -522,17 +530,16 @@ export default function FeaturedWork() {
             ))}
           </div>
 
-          <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
-            <div className="order-1" />
+          <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 flex min-h-screen justify-end py-8 sm:py-10 lg:py-14">
             <div
               data-featured-desktop-text
-              className="pointer-events-auto relative order-2 min-h-[28rem] pb-2 opacity-100 lg:min-h-[34rem]"
+              className="pointer-events-auto relative min-h-[28rem] w-full max-w-[min(32rem,31vw)] pb-2 opacity-100 lg:min-h-[34rem]"
             >
               {featuredProjects.map((project, index) => (
                 <div
                   key={project.slug}
                   data-featured-desktop-text-scene
-                  className="absolute inset-0 grid gap-8 overflow-hidden lg:grid-rows-[1fr_auto_auto] lg:gap-0"
+                  className="absolute inset-0 flex flex-col overflow-hidden"
                   style={{
                     clipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
                     WebkitClipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
@@ -585,14 +592,14 @@ export default function FeaturedWork() {
               aria-hidden="true"
             />
 
-            <div className="layout-shell relative z-10 grid min-h-[100svh] gap-8 py-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
-              <div className="order-1 flex items-center">
+            <div className="layout-shell relative z-10 flex min-h-[100svh] flex-col gap-8 py-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
+              <div className="flex items-center">
                 <div className="w-full max-w-[760px]">
                   <FeaturedMediaCard project={project} />
                 </div>
               </div>
 
-              <div className="order-2 grid gap-8 pb-2">
+              <div className="flex flex-col gap-8 pb-2">
                 <FeaturedTextContent project={project} />
               </div>
             </div>
