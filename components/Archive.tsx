@@ -6,52 +6,52 @@ import gsap from "gsap";
 
 const archiveProjects = [
   {
-    title: "Twice",
-    category: "Interaction & Development",
+    title: "Archive Project 01",
+    category: "Branding / Editorial",
     year: "2026",
-    previewImage: "/images/archive/twice.jpg",
+    previewImage: "/images/placeholders/archive-01.svg",
   },
   {
-    title: "The Dama",
-    category: "Design & Development",
+    title: "Archive Project 02",
+    category: "Digital / Motion",
     year: "2025",
-    previewImage: "/images/archive/the-dama.jpg",
+    previewImage: "/images/placeholders/archive-02.svg",
   },
   {
-    title: "Fabric",
-    category: "Design & Development",
-    year: "2025",
-    previewImage: "/images/archive/fabric.jpg",
-  },
-  {
-    title: "Aanstekelijk",
-    category: "Design & Development",
-    year: "2024",
-    previewImage: "/images/archive/aanstekelijk.jpg",
-  },
-  {
-    title: "Xaar Annual Report",
-    category: "Editorial / Corporate",
-    year: "2026",
-    previewImage: "/images/archive/xaar-annual-report.jpg",
-  },
-  {
-    title: "Titon Annual Report",
-    category: "Editorial / Corporate",
-    year: "2025",
-    previewImage: "/images/archive/titon-annual-report.jpg",
-  },
-  {
-    title: "Star Energy",
+    title: "Archive Project 03",
     category: "Editorial / Strategy",
     year: "2025",
-    previewImage: "/images/archive/star-energy.jpg",
+    previewImage: "/images/placeholders/archive-03.svg",
   },
   {
-    title: "MIGO Opportunities Trust",
-    category: "Editorial / Concept",
+    title: "Archive Project 04",
+    category: "Visual Identity / Web Design",
+    year: "2024",
+    previewImage: "/images/placeholders/archive-04.svg",
+  },
+  {
+    title: "Archive Project 05",
+    category: "Editorial / Art Direction",
     year: "2026",
-    previewImage: "/images/archive/migo-opportunities-trust.jpg",
+    previewImage: "/images/placeholders/archive-05.svg",
+  },
+  {
+    title: "Archive Project 06",
+    category: "Strategy / Branding",
+    year: "2025",
+    previewImage: "/images/placeholders/archive-06.svg",
+  },
+  {
+    title: "Archive Project 07",
+    category: "Branding / Motion",
+    year: "2025",
+    previewImage: "/images/placeholders/archive-07.svg",
+  },
+  {
+    title: "Archive Project 08",
+    category: "Digital / Editorial",
+    year: "2026",
+    previewImage: "/images/placeholders/archive-08.svg",
   },
 ];
 

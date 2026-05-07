@@ -1,30 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-const contactLinks = [
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/toktokelaal",
-    external: true,
-    icon: "orbit",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/afiaxaman?originalSubdomain=uk",
-    external: true,
-    icon: "grid",
-  },
-  {
-    label: "Email",
-    href: "mailto:afiazaman6@gmail.com",
-    icon: "envelope",
-  },
-  {
-    label: "Phone",
-    href: "tel:+447360419460",
-    icon: "receiver",
-  },
-];
+
+import { siteContent } from "../data/siteContent";
 
 const contactBalls = [
   {
@@ -306,6 +284,33 @@ function BallGraphic({ motif }: { motif: string }) {
 }
 
 export default function Contact() {
+  const contactLinks = [
+    {
+      label: siteContent.instagramLabel,
+      href: siteContent.instagramHref,
+      external: true,
+      icon: "orbit",
+    },
+    {
+      label: siteContent.linkedinLabel,
+      href: siteContent.linkedinHref,
+      external: true,
+      icon: "grid",
+    },
+    {
+      label: siteContent.emailLabel,
+      href: siteContent.emailHref,
+      external: false,
+      icon: "envelope",
+    },
+    {
+      label: siteContent.phoneLabel,
+      href: siteContent.phoneHref,
+      external: false,
+      icon: "receiver",
+    },
+  ] as const;
+
   const sectionRef = useRef<HTMLElement>(null);
   const ballZoneRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -546,7 +551,9 @@ export default function Contact() {
               <br />
               COLLAB
             </h2>
-            <p className="type-meta mt-5 text-[var(--color-text-muted)]">PORTFOLIO BY AFIA</p>
+            <p className="type-meta mt-5 text-[var(--color-text-muted)]">
+              {siteContent.role.toUpperCase()} IN {siteContent.location.toUpperCase()}
+            </p>
           </div>
 
           <div className="w-full max-w-xs xl:pt-2">
@@ -576,10 +583,10 @@ export default function Contact() {
           <div className="max-w-sm xl:pt-2">
             <div className="mt-2 space-y-4">
               <p className="type-body max-w-xs text-[var(--color-text-muted)]">
-                Available for branding, editorial and digital projects.
+                {siteContent.availabilityLineOne}
               </p>
               <p className="type-body max-w-xs text-[var(--color-text-muted)]">
-                Open to collaborations and selected freelance work.
+                {siteContent.availabilityLineTwo}
               </p>
             </div>
           </div>

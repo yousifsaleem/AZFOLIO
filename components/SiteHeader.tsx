@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { siteContent } from "../data/siteContent";
 
 const navItems = [
   { href: "#about", label: "info", number: "01", sectionId: "about" },
@@ -184,10 +185,10 @@ export default function SiteHeader() {
           >
             <div className="w-[min(31rem,30vw)] space-y-1 pl-32 text-left">
               <div className={`text-[0.9rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}>
-                Afia Zaman
+                {siteContent.displayName}
               </div>
               <div className={`normal-case tracking-[0.03em] transition-colors duration-300 ${metaColor}`}>
-                Graphic Designer
+                {siteContent.role}
               </div>
             </div>
             <div className="space-y-1 text-right">

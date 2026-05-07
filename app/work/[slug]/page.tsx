@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import TransitionLink from "../../../components/TransitionLink";
@@ -71,21 +72,41 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </section>
 
           <section
-            className="flex min-h-[24rem] flex-col justify-end gap-4 border border-[var(--color-border)] p-5 sm:min-h-[30rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
+            className="relative flex min-h-[24rem] flex-col justify-end gap-4 overflow-hidden border border-[var(--color-border)] p-5 sm:min-h-[30rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
             style={{ backgroundColor: project.accentColor }}
           >
-            <span className="type-meta text-[var(--color-text-muted)]">Hero image placeholder</span>
-            <span className="type-meta text-[rgba(117,104,95,0.78)]">{project.title}</span>
+            <Image
+              src={project.detailImages[0]}
+              alt={`${project.title} placeholder hero visual`}
+              fill
+              unoptimized
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,27,25,0.06)_0%,rgba(31,27,25,0.18)_100%)]" aria-hidden="true" />
+            <span className="relative z-10 type-meta text-[var(--color-card)]">Hero image placeholder</span>
+            <span className="relative z-10 type-meta text-[rgba(247,241,234,0.72)]">{project.title}</span>
           </section>
 
           <section className="grid gap-8">
-            {[1, 2, 3].map((item) => (
+            {project.detailImages.map((image, index) => (
               <div
-                key={item}
-                className="flex min-h-[22rem] flex-col justify-end gap-4 border border-[var(--color-border)] bg-[var(--color-card)] p-5 sm:min-h-[28rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
+                key={image}
+                className="relative flex min-h-[22rem] flex-col justify-end gap-4 overflow-hidden border border-[var(--color-border)] bg-[var(--color-card)] p-5 sm:min-h-[28rem] sm:flex-row sm:items-end sm:justify-between sm:p-8"
               >
-                <span className="type-meta text-[var(--color-text-muted)]">Content placeholder {item}</span>
-                <span className="type-meta text-[rgba(117,104,95,0.6)]">0{item}</span>
+                <Image
+                  src={image}
+                  alt={`${project.title} placeholder detail visual ${index + 1}`}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(248,243,236,0.02)_0%,rgba(31,27,25,0.12)_100%)]" aria-hidden="true" />
+                <span className="relative z-10 type-meta text-[var(--color-card)]">
+                  Content placeholder {index + 1}
+                </span>
+                <span className="relative z-10 type-meta text-[rgba(247,241,234,0.72)]">
+                  0{index + 1}
+                </span>
               </div>
             ))}
           </section>

@@ -91,11 +91,11 @@ export default function Hero() {
                   type="button"
                   className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-3 text-[4.2rem] font-black uppercase leading-none tracking-[0.12em] text-[var(--color-text)] transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-[var(--color-border)] hover:bg-[rgba(255,255,255,0.42)] sm:px-4 sm:text-[5.2rem] lg:text-[6rem] xl:text-[7rem]"
                 >
-                  AZ
+                  AN
                 </button>
                 <div className="h-px flex-1 bg-[var(--color-border)]" />
               </div>
-              <div className="type-meta text-[var(--color-text-muted)]">graphic mark</div>
+              <div className="type-meta text-[var(--color-text-muted)]">architect mark</div>
             </div>
           </div>
         </div>
