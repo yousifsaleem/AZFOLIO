@@ -361,12 +361,12 @@ export default function Archive() {
       ref={rootRef}
       id="archive"
       data-header-theme="light"
-      className="bg-[var(--color-surface-alt)] px-6 py-24 text-[var(--color-text)] sm:px-8 lg:cursor-none lg:px-12"
+      className="section-space bg-[var(--color-surface-alt)] text-[var(--color-text)] lg:cursor-none"
       onMouseEnter={(event) => enterArchive(event.clientX, event.clientY)}
       onMouseMove={(event) => moveCursor(event.clientX, event.clientY)}
       onMouseLeave={leaveArchive}
     >
-      <div className="mx-auto max-w-[1600px]">
+      <div className="layout-shell">
         <div className="mb-12 flex items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
           <p className="type-heading text-[var(--color-text-muted)]">Archive</p>
           <p className="type-body hidden max-w-sm text-[var(--color-text-muted)] xl:block">
@@ -414,7 +414,7 @@ export default function Archive() {
               onMouseEnter={(event) => showPreview(project, event.clientX, event.clientY)}
               onMouseLeave={hidePreview}
             >
-              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 xl:grid-cols-[minmax(0,1fr)_320px_90px] xl:items-end xl:gap-10">
+              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 xl:grid-cols-[minmax(0,1fr)_320px_90px] xl:items-end xl:gap-8">
                 <h3 className="type-display-xl text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)] max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
                   {project.title}
                 </h3>

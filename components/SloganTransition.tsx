@@ -87,7 +87,7 @@ export default function SloganTransition() {
     >
       <div
         ref={frameRef}
-        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-surface)] px-4 py-12 sm:px-8 lg:px-12"
+        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-surface)] py-12"
       >
         <div
           data-ripple-band
@@ -115,15 +115,17 @@ export default function SloganTransition() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-5xl text-center">
-          <p className="type-display-md text-[var(--color-text)] max-sm:text-[clamp(1.75rem,8.6vw,3rem)] max-sm:leading-[1.18]">
-            <span data-slogan-line className="block">
-              I&apos;m a graphic designer.
-            </span>
-            <span data-slogan-line className="mt-5 block">
-              That means I make things look better.
-            </span>
-          </p>
+        <div className="layout-shell relative z-10">
+          <div className="mx-auto max-w-5xl text-center">
+            <p className="type-display-md text-[var(--color-text)] max-sm:text-[clamp(1.75rem,8.6vw,3rem)] max-sm:leading-[1.18]">
+              <span data-slogan-line className="block">
+                I&apos;m a graphic designer.
+              </span>
+              <span data-slogan-line className="mt-5 block">
+                That means I make things look better.
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </section>

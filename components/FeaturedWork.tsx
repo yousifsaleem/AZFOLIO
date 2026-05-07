@@ -155,7 +155,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
   return (
     <>
       <div className="flex items-start lg:items-center lg:justify-center">
-        <div data-featured-text className="max-w-[30rem] lg:ml-4 xl:ml-10">
+        <div data-featured-text className="max-w-[30rem]">
           <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
           <h2 className="type-display-lg mt-4 text-[var(--color-card)] max-sm:text-[clamp(2.4rem,11vw,4rem)]">
             <RollingTitle title={project.title} />
@@ -165,7 +165,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
       </div>
 
       <div className="flex justify-start lg:mt-10 lg:justify-end">
-        <div data-featured-tags className="w-full max-w-[16rem] space-y-3 lg:mr-8 xl:mr-12">
+        <div data-featured-tags className="w-full max-w-[16rem] space-y-3">
           {project.tags.map((tag) => (
             <p key={tag} className="type-meta border-b border-[rgba(255,248,242,0.16)] pb-3 text-[rgba(255,248,242,0.78)]">
               {tag}
@@ -474,7 +474,7 @@ export default function FeaturedWork() {
                   aria-hidden="true"
                 />
 
-                <div className="relative z-10 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:px-14 lg:py-14 xl:px-20">
+                <div className="layout-shell relative z-10 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
                   <div className="order-1 flex items-center">
                     <div data-featured-scene-media className="w-full max-w-[760px]">
                       <FeaturedMediaCard project={project} />
@@ -485,7 +485,7 @@ export default function FeaturedWork() {
             ))}
           </div>
 
-          <div className="pointer-events-none absolute inset-0 z-30 grid min-h-screen w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:px-14 lg:py-14 xl:px-20">
+          <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
             <div className="order-1" />
             <div
               data-featured-desktop-text
@@ -535,7 +535,7 @@ export default function FeaturedWork() {
               aria-hidden="true"
             />
 
-            <div className="relative z-10 grid min-h-[100svh] w-full gap-8 px-6 py-8 sm:px-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
+            <div className="layout-shell relative z-10 grid min-h-[100svh] gap-8 py-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
               <div className="order-1 flex items-center">
                 <div className="w-full max-w-[760px]">
                   <FeaturedMediaCard project={project} />

@@ -27,8 +27,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const nextProject = featuredProjects[(projectIndex + 1) % featuredProjects.length];
 
   return (
-    <main className="bg-[var(--color-surface)] px-4 py-28 text-[var(--color-text)] sm:px-8 sm:py-32 lg:px-12 lg:py-10">
-      <div className="mx-auto max-w-6xl">
+    <main className="bg-[var(--color-surface)] py-28 text-[var(--color-text)] sm:py-32 lg:py-10">
+      <div className="layout-shell-narrow">
         <div className="flex min-h-screen flex-col gap-10 sm:gap-12">
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center sm:gap-6">
             <TransitionLink
@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </p>
           </div>
 
-          <section className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-end">
+          <section className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-end lg:gap-12">
             <div>
               <h1 className="type-display-lg max-w-4xl text-[var(--color-text)]">{project.title}</h1>
               <p className="type-body mt-6 max-w-2xl text-[var(--color-text-muted)]">{project.shortDescription}</p>

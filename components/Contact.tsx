@@ -536,10 +536,10 @@ export default function Contact() {
       ref={sectionRef}
       id="contact"
       data-header-theme="light"
-      className="relative overflow-hidden bg-[var(--color-surface)] px-6 text-[var(--color-text)] sm:px-8 lg:px-12"
+      className="relative overflow-hidden bg-[var(--color-surface)] text-[var(--color-text)]"
     >
-      <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between py-8 lg:py-10">
-        <div className="relative z-10 grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-12 xl:pt-36 2xl:gap-[4.5rem]">
+      <div className="layout-shell flex min-h-screen flex-col justify-between py-8 lg:py-10">
+        <div className="relative z-10 grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-10 xl:pt-36 2xl:gap-16">
           <div className="max-w-4xl">
             <h2 className="text-[clamp(4.25rem,10.6vw,8.5rem)] font-semibold uppercase leading-[0.82] tracking-[-0.09em] text-[var(--color-text)]">
               LET&apos;S
@@ -565,7 +565,7 @@ export default function Contact() {
                   <span className="inline-flex w-8 -translate-x-3 items-center justify-center opacity-0 transition-all duration-300 ease-out group-hover/item:translate-x-0 group-hover/item:opacity-100 lg:w-9">
                     <HoverArrow />
                   </span>
-                  <span className="text-[clamp(1.3rem,1.75vw,1.8rem)] leading-none tracking-[-0.04em] transition-transform duration-300 ease-out group-hover/item:translate-x-2">
+                  <span className="text-[clamp(1.3rem,1.75vw,1.8rem)] leading-none tracking-[-0.03em] transition-transform duration-300 ease-out group-hover/item:translate-x-2">
                     {link.label}
                   </span>
                 </a>
@@ -585,7 +585,7 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="relative -mx-6 mt-4 px-6 pb-0 pt-5 sm:-mx-8 sm:px-8 sm:pt-6 lg:-mx-12 lg:px-12">
+        <div className="relative -mx-4 mt-4 px-4 pb-0 pt-5 sm:-mx-8 sm:px-8 sm:pt-6 lg:-mx-12 lg:px-12">
           <div
             ref={ballZoneRef}
             className="relative h-[260px] w-full overflow-hidden sm:h-[300px] lg:h-[340px] xl:h-[360px]"

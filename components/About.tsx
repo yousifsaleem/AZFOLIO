@@ -19,21 +19,21 @@ export default function About() {
   return (
     <section
       id="about"
-      className="bg-[var(--color-surface)] px-6 py-20 text-[var(--color-text)] sm:px-8 lg:px-12"
+      className="section-space-tight bg-[var(--color-surface)] text-[var(--color-text)]"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="layout-shell">
         <div className="border-b border-[var(--color-border)] pb-6">
-          <h2 className="text-4xl tracking-[-0.03em]">About</h2>
+          <h2 className="type-display-md">About</h2>
         </div>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <p className="max-w-2xl text-lg leading-8 text-[var(--color-text-muted)]">
+        <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12">
+          <p className="type-body max-w-2xl text-[var(--color-text-muted)]">
             Afia Zaman is a graphic designer shaping calm, characterful visual
             systems across editorial, identity and digital work. This section is
             a simple placeholder for a fuller studio story.
           </p>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 sm:gap-5">
             {aboutImages.map((image) => (
               <div
                 key={image.src}

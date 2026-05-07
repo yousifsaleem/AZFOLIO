@@ -27,14 +27,30 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-urbanist), Arial, Helvetica, sans-serif;
+  font-family: var(--font-urbanist), sans-serif;
 }
 
 .font-custom-display {
-  font-family: var(--font-custom-display, var(--font-urbanist)), Arial, Helvetica, sans-serif;
+  font-family: var(--font-custom-display, var(--font-urbanist)), sans-serif;
 }
 
 @layer utilities {
+  .layout-shell {
+    @apply mx-auto w-full max-w-[1600px] px-4 sm:px-8 lg:px-12;
+  }
+
+  .layout-shell-narrow {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-8 lg:px-12;
+  }
+
+  .section-space {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-space-tight {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
   .type-display-xl {
     font-size: clamp(4rem, 10vw, 10rem);
     line-height: 0.92;
@@ -72,16 +88,16 @@ body {
 
   .type-meta {
     font-size: clamp(0.75rem, 0.8vw, 0.9rem);
-    line-height: 1.35;
-    letter-spacing: 0.28em;
+    line-height: 1.45;
+    letter-spacing: 0.18em;
     font-weight: 500;
     text-transform: uppercase;
   }
 
   .type-link {
     font-size: clamp(0.875rem, 1vw, 1rem);
-    line-height: 1.35;
-    letter-spacing: 0.18em;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
     font-weight: 500;
   }
 }

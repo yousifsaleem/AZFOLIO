@@ -79,7 +79,7 @@ export default function Hero() {
       data-header-theme="light"
       className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-32 text-[var(--color-text)] sm:pt-36 xl:pt-0"
     >
-      <div className="mx-auto flex min-h-screen max-w-[1600px] flex-col justify-between px-4 py-8 sm:px-8 xl:absolute xl:inset-0 xl:px-0">
+      <div className="layout-shell flex min-h-screen flex-col justify-between py-8 xl:absolute xl:inset-x-0 xl:top-0 xl:bottom-0">
         <div className="flex-1" />
 
         <div className="pointer-events-none flex items-center justify-center xl:absolute xl:inset-0">
@@ -100,7 +100,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-8 xl:absolute xl:left-[-4rem] xl:right-[-4rem] xl:bottom-8 xl:mt-0 xl:flex-row xl:items-end xl:justify-between">
+        <div className="mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
           <div ref={infoRef} className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left">
             <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
             <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
