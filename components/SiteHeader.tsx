@@ -149,7 +149,7 @@ export default function SiteHeader() {
       />
       <div className="layout-shell flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
-          className={`type-meta -ml-10 text-[0.74rem] transition-colors duration-300 sm:-ml-12 sm:text-[0.8rem] lg:-ml-16 lg:text-[0.86rem] ${navColor}`}
+          className={`type-meta -ml-20 text-[0.74rem] transition-colors duration-300 sm:-ml-24 sm:text-[0.8rem] lg:-ml-32 lg:text-[0.86rem] ${navColor}`}
         >
           <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
             {navItems.map((item) => (
@@ -182,7 +182,7 @@ export default function SiteHeader() {
           <div
             className={`type-meta flex items-start justify-end gap-5 text-[0.74rem] transition-colors duration-300 sm:gap-7 sm:text-[0.8rem] lg:gap-10 lg:text-[0.86rem] ${navColor}`}
           >
-            <div className="w-[min(31rem,30vw)] space-y-1 pl-0 text-left">
+            <div className="w-[min(31rem,30vw)] space-y-1 pl-32 text-left">
               <div className={`text-[0.9rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}>
                 Afia Zaman
               </div>

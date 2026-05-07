@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -28,8 +28,8 @@ function getDisplayTags(project: Project) {
   return tags;
 }
 
-const TEXT_REVEAL_START = 0.5;
-const TEXT_REVEAL_DURATION = 0.42;
+const TEXT_REVEAL_START = 0;
+const TEXT_REVEAL_DURATION = 1;
 
 function RollingText({
   text,
@@ -61,10 +61,10 @@ function RollingText({
             return (
               <span
                 key={`${character}-${wordIndex}-${characterIndex}`}
-                className="inline-block h-[0.98em] overflow-hidden align-top"
+                className="inline-block h-[1.12em] overflow-hidden align-top"
               >
                 <span
-                  className={`flex flex-col transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover/roll:-translate-y-1/2 ${
+                  className={`flex flex-col leading-[1.12] transition-transform ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform group-hover/roll:-translate-y-1/2 ${
                     letterDurationClassName ?? "duration-500"
                   }`}
                   style={{ transitionDelay: `${letterIndex * staggerMs}ms` }}
@@ -85,8 +85,8 @@ function RollingTitle({ title }: { title: string }) {
   return (
     <RollingText
       text={title}
-      groupClassName="group/roll inline-flex max-w-full flex-wrap leading-[0.95]"
-      wordClassName="mb-[0.04em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
+      groupClassName="group/roll inline-flex max-w-full flex-wrap overflow-hidden pb-[0.08em] leading-[1.04]"
+      wordClassName="mb-[0.02em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
       letterDurationClassName="duration-500"
       staggerMs={32}
     />
@@ -109,7 +109,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="relative aspect-[10/8] overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
+      className="relative aspect-square overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
       style={{ backgroundColor: project.backgroundColor }}
     >
       <div
@@ -166,7 +166,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
       <div className="flex items-start xl:absolute xl:left-0 xl:top-[calc(50%-6rem)] xl:w-full">
         <div data-featured-text className="max-w-[24rem] xl:pl-0">
           <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="mt-3 text-[clamp(1.95rem,2.7vw,3rem)] font-medium leading-[0.94] text-[var(--color-card)] max-sm:text-[clamp(2.4rem,11vw,4rem)]">
+          <h2 className="mt-3 overflow-hidden text-[clamp(1.75rem,2.35vw,2.65rem)] font-medium leading-[1.04] text-[var(--color-card)] max-sm:text-[clamp(2.2rem,10vw,3.5rem)]">
             <RollingTitle title={project.title} />
           </h2>
           <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
@@ -177,9 +177,9 @@ function FeaturedTextContent({ project }: { project: Project }) {
 
       <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:top-[calc(50%+15.75rem)] xl:gap-0">
         <div className="flex w-full items-end justify-between xl:pl-0">
-          <div data-featured-tags className="w-full max-w-[16rem] space-y-1.5">
+          <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
             {displayTags.map((tag) => (
-              <p key={tag} className="type-meta text-[rgba(255,248,242,0.78)]">
+              <p key={tag} className="type-meta text-[0.58rem] text-[rgba(255,248,242,0.78)] sm:text-[0.62rem]">
                 {tag}
               </p>
             ))}
@@ -206,8 +206,6 @@ function FeaturedTextContent({ project }: { project: Project }) {
 
 export default function FeaturedWork() {
   const rootRef = useRef<HTMLElement>(null);
-  const activeIndexRef = useRef(0);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -270,9 +268,6 @@ export default function FeaturedWork() {
         setupHoverReveal(root, cleanupCallbacks);
 
         if (pin && desktopScenes.length > 0) {
-          activeIndexRef.current = 0;
-          setActiveIndex(0);
-
           gsap.set(desktopScenes, {
             width: "100%",
           });
@@ -305,17 +300,6 @@ export default function FeaturedWork() {
               pin: true,
               anticipatePin: 1,
               invalidateOnRefresh: true,
-              onUpdate: (self) => {
-                const nextIndex = Math.min(
-                  featuredProjects.length - 1,
-                  Math.round(self.progress * (featuredProjects.length - 1)),
-                );
-
-                if (nextIndex !== activeIndexRef.current) {
-                  activeIndexRef.current = nextIndex;
-                  setActiveIndex(nextIndex);
-                }
-              },
             },
           });
 
@@ -461,8 +445,7 @@ export default function FeaturedWork() {
     };
   }, []);
 
-  const safeActiveIndex = Math.max(0, Math.min(activeIndex, featuredProjects.length - 1));
-  const activeProject = featuredProjects[safeActiveIndex] ?? featuredProjects[0];
+  const activeProject = featuredProjects[0];
 
   return (
     <section
@@ -519,8 +502,8 @@ export default function FeaturedWork() {
                   />
 
                   <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14">
-                    <div className="flex w-full items-center">
-                      <div data-featured-scene-media className="w-full max-w-[520px] xl:max-w-[36vw]">
+                    <div className="flex w-full items-center pl-[8vw]">
+                      <div data-featured-scene-media className="w-full max-w-[420px] xl:max-w-[29vw]">
                         <FeaturedMediaCard project={project} />
                       </div>
                     </div>
