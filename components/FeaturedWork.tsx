@@ -262,11 +262,16 @@ export default function FeaturedWork() {
           setActiveIndex(0);
 
           gsap.set(desktopScenes, {
-            clipPath: "inset(0 0% 0 0)",
+            width: "100%",
           });
 
           gsap.set(desktopScenes.slice(1), {
-            clipPath: "inset(0 100% 0 0)",
+            width: "0%",
+          });
+
+          gsap.set(root.querySelectorAll("[data-featured-bg], [data-featured-scene-media]"), {
+            xPercent: 0,
+            yPercent: 0,
           });
 
           const swipeTimeline = gsap.timeline({
@@ -293,37 +298,16 @@ export default function FeaturedWork() {
           });
 
           desktopScenes.slice(1).forEach((scene, index) => {
-            const background = scene.querySelector<HTMLElement>("[data-featured-bg]");
-            const mediaWrap = scene.querySelector<HTMLElement>("[data-featured-scene-media]");
-
             swipeTimeline.fromTo(
               scene,
-              { clipPath: "inset(0 100% 0 0)" },
+              { width: "0%" },
               {
-                clipPath: "inset(0 0% 0 0)",
+                width: "100%",
                 duration: 1,
                 ease: "none",
               },
               index,
             );
-
-            if (background) {
-              swipeTimeline.fromTo(
-                background,
-                { xPercent: -2 },
-                { xPercent: 0, duration: 1, ease: "none" },
-                index,
-              );
-            }
-
-            if (mediaWrap) {
-              swipeTimeline.fromTo(
-                mediaWrap,
-                { xPercent: 6 },
-                { xPercent: 0, duration: 1, ease: "none" },
-                index,
-              );
-            }
           });
 
           cleanupCallbacks.push(() => {
@@ -440,44 +424,46 @@ export default function FeaturedWork() {
               <div
                 key={project.slug}
                 data-featured-desktop-scene
-                className="absolute inset-0 overflow-hidden"
+                className="absolute inset-y-0 left-0 w-full overflow-hidden"
                 style={{ zIndex: index + 1 }}
               >
-                <div
-                  className="absolute inset-0 h-full w-full"
-                  style={{ backgroundColor: project.backgroundColor }}
-                  aria-hidden="true"
-                />
-                <div
-                  data-featured-bg
-                  className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
-                  aria-hidden="true"
-                >
-                  <Image
-                    src={getFeaturedThumbnailImage(project)}
-                    alt=""
-                    fill
-                    unoptimized
-                    className="h-full w-full object-cover blur-lg"
+                <div className="absolute left-0 top-0 h-full min-h-screen w-screen overflow-hidden">
+                  <div
+                    className="absolute inset-0 h-full w-full"
+                    style={{ backgroundColor: project.backgroundColor }}
+                    aria-hidden="true"
                   />
-                </div>
-                <div
-                  className="pointer-events-none absolute inset-0 h-full w-full"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
-                  }}
-                  aria-hidden="true"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 h-full w-full bg-[rgba(25,17,14,0.22)]"
-                  aria-hidden="true"
-                />
+                  <div
+                    data-featured-bg
+                    className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
+                    aria-hidden="true"
+                  >
+                    <Image
+                      src={getFeaturedThumbnailImage(project)}
+                      alt=""
+                      fill
+                      unoptimized
+                      className="h-full w-full object-cover blur-lg"
+                    />
+                  </div>
+                  <div
+                    className="pointer-events-none absolute inset-0 h-full w-full"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(251,247,242,0.08), rgba(34,25,22,0.2))",
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0 h-full w-full bg-[rgba(25,17,14,0.22)]"
+                    aria-hidden="true"
+                  />
 
-                <div className="layout-shell relative z-10 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
-                  <div className="order-1 flex items-center">
-                    <div data-featured-scene-media className="w-full max-w-[760px]">
-                      <FeaturedMediaCard project={project} />
+                  <div className="layout-shell relative z-10 grid min-h-screen gap-8 py-8 sm:py-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-10 lg:py-14">
+                    <div className="order-1 flex items-center">
+                      <div data-featured-scene-media className="w-full max-w-[760px]">
+                        <FeaturedMediaCard project={project} />
+                      </div>
                     </div>
                   </div>
                 </div>
