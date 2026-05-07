@@ -18,6 +18,9 @@ function getFeaturedThumbnailImage(project: Project) {
   return project.thumbnail;
 }
 
+const TEXT_REVEAL_START = 0.5;
+const TEXT_REVEAL_DURATION = 0.42;
+
 function RollingText({
   text,
   groupClassName,
@@ -254,6 +257,7 @@ export default function FeaturedWork() {
         const cleanupCallbacks: Array<() => void> = [];
         const pin = root.querySelector<HTMLElement>("[data-featured-pin]");
         const desktopScenes = gsap.utils.toArray<HTMLElement>("[data-featured-desktop-scene]", root);
+        const desktopTextScenes = gsap.utils.toArray<HTMLElement>("[data-featured-desktop-text-scene]", root);
 
         setupHoverReveal(root, cleanupCallbacks);
 
@@ -267,6 +271,16 @@ export default function FeaturedWork() {
 
           gsap.set(desktopScenes.slice(1), {
             width: "0%",
+          });
+
+          gsap.set(desktopTextScenes, {
+            clipPath: "inset(0 0% 0 0)",
+            webkitClipPath: "inset(0 0% 0 0)",
+          });
+
+          gsap.set(desktopTextScenes.slice(1), {
+            clipPath: "inset(0 100% 0 0)",
+            webkitClipPath: "inset(0 100% 0 0)",
           });
 
           gsap.set(root.querySelectorAll("[data-featured-bg], [data-featured-scene-media]"), {
@@ -286,7 +300,7 @@ export default function FeaturedWork() {
               onUpdate: (self) => {
                 const nextIndex = Math.min(
                   featuredProjects.length - 1,
-                  Math.floor(self.progress * featuredProjects.length),
+                  Math.round(self.progress * (featuredProjects.length - 1)),
                 );
 
                 if (nextIndex !== activeIndexRef.current) {
@@ -298,6 +312,9 @@ export default function FeaturedWork() {
           });
 
           desktopScenes.slice(1).forEach((scene, index) => {
+            const previousTextScene = desktopTextScenes[index];
+            const textScene = desktopTextScenes[index + 1];
+
             swipeTimeline.fromTo(
               scene,
               { width: "0%" },
@@ -308,6 +325,40 @@ export default function FeaturedWork() {
               },
               index,
             );
+
+            if (textScene) {
+              if (previousTextScene) {
+                swipeTimeline.fromTo(
+                  previousTextScene,
+                  {
+                    clipPath: "inset(0 0% 0 0)",
+                    webkitClipPath: "inset(0 0% 0 0)",
+                  },
+                  {
+                    clipPath: "inset(0 0% 0 100%)",
+                    webkitClipPath: "inset(0 0% 0 100%)",
+                    duration: TEXT_REVEAL_DURATION,
+                    ease: "none",
+                  },
+                  index + TEXT_REVEAL_START,
+                );
+              }
+
+              swipeTimeline.fromTo(
+                textScene,
+                {
+                  clipPath: "inset(0 100% 0 0)",
+                  webkitClipPath: "inset(0 100% 0 0)",
+                },
+                {
+                  clipPath: "inset(0 0% 0 0)",
+                  webkitClipPath: "inset(0 0% 0 0)",
+                  duration: TEXT_REVEAL_DURATION,
+                  ease: "none",
+                },
+                index + TEXT_REVEAL_START,
+              );
+            }
           });
 
           cleanupCallbacks.push(() => {
@@ -475,9 +526,22 @@ export default function FeaturedWork() {
             <div className="order-1" />
             <div
               data-featured-desktop-text
-              className="pointer-events-auto order-2 grid gap-8 pb-2 opacity-100 lg:min-h-[24rem] lg:grid-rows-[1fr_auto_auto] lg:gap-0"
+              className="pointer-events-auto relative order-2 min-h-[28rem] pb-2 opacity-100 lg:min-h-[34rem]"
             >
-              <FeaturedTextContent project={activeProject} />
+              {featuredProjects.map((project, index) => (
+                <div
+                  key={project.slug}
+                  data-featured-desktop-text-scene
+                  className="absolute inset-0 grid gap-8 overflow-hidden lg:grid-rows-[1fr_auto_auto] lg:gap-0"
+                  style={{
+                    clipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+                    WebkitClipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
+                    zIndex: index + 1,
+                  }}
+                >
+                  <FeaturedTextContent project={project} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
