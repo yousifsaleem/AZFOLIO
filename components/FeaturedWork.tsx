@@ -28,8 +28,8 @@ function getDisplayTags(project: Project) {
   return tags;
 }
 
-const TEXT_REVEAL_START = 0;
-const TEXT_REVEAL_DURATION = 1;
+const TEXT_REVEAL_START = 0.6;
+const TEXT_REVEAL_DURATION = 0.4;
 
 function RollingText({
   text,
