@@ -28,6 +28,7 @@ function clamp(value: number, min: number, max: number) {
 export default function SiteHeader() {
   const [headerTheme, setHeaderTheme] = useState<"light" | "dark">("light");
   const [showHeaderFade, setShowHeaderFade] = useState(false);
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [currentTime, setCurrentTime] = useState("00:00:00");
   const [sectionProgress, setSectionProgress] = useState<ProgressMap>(initialProgress);
 
@@ -115,6 +116,18 @@ export default function SiteHeader() {
   }, []);
 
   useEffect(() => {
+    const handleHeaderVisibility = (event: Event) => {
+      setIsHeaderHidden(Boolean((event as CustomEvent<{ hidden?: boolean }>).detail?.hidden));
+    };
+
+    window.addEventListener("site-header-visibility", handleHeaderVisibility);
+
+    return () => {
+      window.removeEventListener("site-header-visibility", handleHeaderVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
     const formatTime = () =>
       new Intl.DateTimeFormat("en-GB", {
         hour: "2-digit",
@@ -144,7 +157,11 @@ export default function SiteHeader() {
   const boxNumberColor = isDarkTheme ? "text-[#f7f1ea]/62" : "text-[var(--color-text-muted)]";
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 bg-transparent transition-[opacity,transform] duration-300 ease-out ${
+        isHeaderHidden ? "pointer-events-none -translate-y-2 opacity-0" : "opacity-100"
+      }`}
+    >
       <div
         className={`pointer-events-none fixed inset-x-0 top-0 z-0 h-56 bg-[linear-gradient(180deg,rgba(251,247,242,0.86)_0%,rgba(251,247,242,0.68)_28%,rgba(248,243,236,0.42)_58%,rgba(248,243,236,0.16)_82%,rgba(248,243,236,0)_100%)] transition-opacity duration-500 ease-out sm:h-60 lg:h-64 ${
           showHeaderFade ? "opacity-100" : "opacity-0"

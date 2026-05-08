@@ -13,6 +13,7 @@ export default function SloganTransition() {
   useEffect(() => {
     const root = rootRef.current;
     const frame = frameRef.current;
+    let isHeaderHidden = false;
 
     if (!root || !frame) {
       return;
@@ -22,6 +23,15 @@ export default function SloganTransition() {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
       const exitBands = root.querySelectorAll("[data-slogan-exit-band]");
+
+      const setHeaderHidden = (hidden: boolean) => {
+        if (isHeaderHidden === hidden) {
+          return;
+        }
+
+        isHeaderHidden = hidden;
+        window.dispatchEvent(new CustomEvent("site-header-visibility", { detail: { hidden } }));
+      };
 
       gsap.set(frame, {
         backgroundColor: "rgba(248, 243, 236, 0)",
@@ -53,6 +63,15 @@ export default function SloganTransition() {
           end: "bottom bottom",
           scrub: 0.75,
           invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            setHeaderHidden(self.progress > 0.72 && self.progress < 0.995);
+          },
+          onLeave: () => {
+            setHeaderHidden(false);
+          },
+          onLeaveBack: () => {
+            setHeaderHidden(false);
+          },
         },
       });
 
@@ -81,29 +100,30 @@ export default function SloganTransition() {
         }, 0.58)
         .to(exitBands, {
           autoAlpha: 1,
-          scale: 2.25,
-          duration: 0.74,
+          scale: 2.08,
+          duration: 0.42,
           ease: "power2.out",
           stagger: {
-            each: 0.05,
+            each: 0.035,
             from: "start",
           },
-        }, 1.02)
+        }, 0.98)
         .to(lines, {
           autoAlpha: 0,
           y: -18,
-          duration: 0.26,
+          duration: 0.22,
           ease: "power2.out",
           stagger: 0.035,
-        }, 1.28)
+        }, 1.06)
         .to(frame, {
           backgroundColor: "#0f172a",
-          duration: 0.42,
+          duration: 0.24,
           ease: "none",
-        }, 1.34);
+        }, 1.18);
     }, root);
 
     return () => {
+      window.dispatchEvent(new CustomEvent("site-header-visibility", { detail: { hidden: false } }));
       ctx.revert();
     };
   }, []);
@@ -113,7 +133,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[240vh] text-[var(--color-text)]"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[205vh] text-[var(--color-text)]"
     >
       <div
         ref={frameRef}
