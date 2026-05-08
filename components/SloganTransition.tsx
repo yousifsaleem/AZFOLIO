@@ -23,6 +23,7 @@ export default function SloganTransition() {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
       const exitBands = root.querySelectorAll("[data-slogan-exit-band]");
+      const featuredWork = document.getElementById("work");
 
       const setHeaderHidden = (hidden: boolean) => {
         if (isHeaderHidden === hidden) {
@@ -63,17 +64,35 @@ export default function SloganTransition() {
           end: "bottom bottom",
           scrub: 0.75,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            setHeaderHidden(self.progress > 0.72 && self.progress < 0.995);
+          snap: {
+            snapTo: (progress) => (progress > 0.72 ? 1 : progress),
+            duration: { min: 0.22, max: 0.42 },
+            delay: 0.02,
+            ease: "power2.inOut",
           },
-          onLeave: () => {
-            setHeaderHidden(false);
+          onUpdate: (self) => {
+            if (self.progress > 0.72) {
+              setHeaderHidden(true);
+            }
           },
           onLeaveBack: () => {
             setHeaderHidden(false);
           },
         },
       });
+
+      if (featuredWork) {
+        ScrollTrigger.create({
+          trigger: featuredWork,
+          start: "top top",
+          onEnter: () => {
+            setHeaderHidden(false);
+          },
+          onLeaveBack: () => {
+            setHeaderHidden(true);
+          },
+        });
+      }
 
       timeline
         .to(frame, {
@@ -116,7 +135,7 @@ export default function SloganTransition() {
           stagger: 0.035,
         }, 1.06)
         .to(frame, {
-          backgroundColor: "#0f172a",
+          backgroundColor: "#08090b",
           duration: 0.24,
           ease: "none",
         }, 1.18);
@@ -133,7 +152,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[205vh] text-[var(--color-text)]"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[155vh] text-[var(--color-text)]"
     >
       <div
         ref={frameRef}
@@ -166,22 +185,22 @@ export default function SloganTransition() {
         />
         <div
           data-slogan-exit-band
-          className="absolute right-[-56vmax] top-[-56vmax] z-[6] h-[132vmax] w-[132vmax] rounded-full bg-[var(--color-accent-blue)]"
+          className="absolute right-[-56vmax] top-[-56vmax] z-[6] h-[132vmax] w-[132vmax] rounded-full bg-[#24272c]"
           aria-hidden="true"
         />
         <div
           data-slogan-exit-band
-          className="absolute right-[-51vmax] top-[-51vmax] z-[7] h-[122vmax] w-[122vmax] rounded-full bg-[var(--color-accent-lilac)]"
+          className="absolute right-[-51vmax] top-[-51vmax] z-[7] h-[122vmax] w-[122vmax] rounded-full bg-[#1a1d22]"
           aria-hidden="true"
         />
         <div
           data-slogan-exit-band
-          className="absolute right-[-46vmax] top-[-46vmax] z-[8] h-[112vmax] w-[112vmax] rounded-full bg-[var(--color-accent-coral)]"
+          className="absolute right-[-46vmax] top-[-46vmax] z-[8] h-[112vmax] w-[112vmax] rounded-full bg-[#111418]"
           aria-hidden="true"
         />
         <div
           data-slogan-exit-band
-          className="absolute right-[-41vmax] top-[-41vmax] z-[9] h-[102vmax] w-[102vmax] rounded-full bg-[#0f172a]"
+          className="absolute right-[-41vmax] top-[-41vmax] z-[9] h-[102vmax] w-[102vmax] rounded-full bg-[#08090b]"
           aria-hidden="true"
         />
 
