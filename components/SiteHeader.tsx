@@ -207,7 +207,7 @@ export default function SiteHeader() {
                 Graphic Designer
               </div>
             </div>
-            <div className="w-[6rem] space-y-1 text-right">
+            <div className="w-[var(--site-time-column-width)] space-y-1 text-left">
               <div
                 className={`text-[0.9rem] font-semibold tracking-[0.03em] tabular-nums transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}
                 suppressHydrationWarning

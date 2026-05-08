@@ -26,7 +26,9 @@
   --cursor-barons: #d7473f;
   --site-shell-padding: 1rem;
   --site-nav-offset: -5rem;
-  --site-featured-text-width: min(32rem, 31vw);
+  --site-featured-text-width: min(33rem, 35vw);
+  --site-time-column-width: 6rem;
+  --site-featured-link-overhang: 2.5rem;
   --site-identity-inset: calc(100% - var(--site-featured-text-width));
 }
 

@@ -117,7 +117,7 @@ function RollingLinkText() {
   return (
     <RollingText
       text="View project"
-      groupClassName="inline-flex flex-wrap leading-none"
+      groupClassName="inline-flex whitespace-nowrap leading-none"
       wordClassName="mr-[0.26em] inline-flex whitespace-nowrap last:mr-0"
       letterDurationClassName="duration-300"
       staggerMs={22}
@@ -203,7 +203,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
       </div>
 
       <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:top-[calc(50%+15.75rem)] xl:gap-0">
-        <div className="flex w-full items-end justify-between xl:pl-0">
+        <div className="flex w-full items-end justify-between gap-6 xl:pl-0">
           <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
             {displayTags.map((tag) => (
               <p key={tag} className="type-meta text-[0.58rem] text-[rgba(255,248,242,0.78)] sm:text-[0.62rem]">
@@ -215,7 +215,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
           <TransitionLink
             data-featured-link
             href={`/work/${project.slug}`}
-            className="group/roll type-link inline-flex items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:translate-y-[-0.08rem]"
+            className="group/roll type-link inline-flex shrink-0 items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:w-[calc(var(--site-time-column-width)+var(--site-featured-link-overhang))] xl:translate-y-[-0.08rem]"
           >
             <RollingLinkText />
             <span
@@ -650,7 +650,7 @@ export default function FeaturedWork() {
           <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 flex min-h-screen justify-end py-8 sm:py-10 lg:py-14">
             <div
               data-featured-desktop-text
-              className="pointer-events-auto relative min-h-[28rem] w-full max-w-[min(32rem,31vw)] pb-2 opacity-100 lg:min-h-[34rem]"
+              className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem]"
             >
               {featuredProjects.map((project, index) => (
                 <div

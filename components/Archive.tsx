@@ -61,12 +61,14 @@ const CURSOR_LERP = 0.44;
 const PREVIEW_LERP = 0.16;
 const PREVIEW_RADIUS = 22;
 const PREVIEW_START_SCALE = CURSOR_SIZE / PREVIEW_DIMENSION;
+const PREVIEW_HIDE_DELAY = 90;
 
 export default function Archive() {
   const [activeProject, setActiveProject] = useState<(typeof archiveProjects)[number] | null>(null);
   const [hasImageError, setHasImageError] = useState(false);
 
   const rootRef = useRef<HTMLElement>(null);
+  const activeProjectRef = useRef<(typeof archiveProjects)[number] | null>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const morphFrameRef = useRef<HTMLDivElement>(null);
@@ -83,6 +85,7 @@ export default function Archive() {
   const previewXRef = useRef(0);
   const previewYRef = useRef(0);
   const canUseHoverPreviewRef = useRef(false);
+  const hidePreviewTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -182,6 +185,10 @@ export default function Archive() {
       isInsideArchiveRef.current = false;
       isHoveringRef.current = false;
       isBaseCursorVisibleRef.current = false;
+      if (hidePreviewTimeoutRef.current !== null) {
+        window.clearTimeout(hidePreviewTimeoutRef.current);
+        hidePreviewTimeoutRef.current = null;
+      }
       if (animationFrameRef.current !== null) {
         window.cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
@@ -231,6 +238,10 @@ export default function Archive() {
     isInsideArchiveRef.current = true;
     isHoveringRef.current = false;
     isBaseCursorVisibleRef.current = true;
+    if (hidePreviewTimeoutRef.current !== null) {
+      window.clearTimeout(hidePreviewTimeoutRef.current);
+      hidePreviewTimeoutRef.current = null;
+    }
     placeCursorImmediately(clientX, clientY);
 
     gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
@@ -297,6 +308,11 @@ export default function Archive() {
     isInsideArchiveRef.current = false;
     isHoveringRef.current = false;
     isBaseCursorVisibleRef.current = false;
+    activeProjectRef.current = null;
+    if (hidePreviewTimeoutRef.current !== null) {
+      window.clearTimeout(hidePreviewTimeoutRef.current);
+      hidePreviewTimeoutRef.current = null;
+    }
     setActiveProject(null);
 
     gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
@@ -359,9 +375,17 @@ export default function Archive() {
       return;
     }
 
+    const isSwitchingPreview = isHoveringRef.current || activeProjectRef.current !== null;
+
+    if (hidePreviewTimeoutRef.current !== null) {
+      window.clearTimeout(hidePreviewTimeoutRef.current);
+      hidePreviewTimeoutRef.current = null;
+    }
+
     isInsideArchiveRef.current = true;
     isHoveringRef.current = true;
     isBaseCursorVisibleRef.current = false;
+    activeProjectRef.current = project;
     setHasImageError(false);
     setActiveProject(project);
     previewXRef.current = clientX;
@@ -374,6 +398,50 @@ export default function Archive() {
       y: clientY - PREVIEW_DIMENSION / 2,
       transformOrigin: "50% 50%",
     });
+
+    if (isSwitchingPreview) {
+      gsap.to(cursor, {
+        autoAlpha: 1,
+        duration: 0.12,
+        ease: "power2.out",
+        overwrite: true,
+      });
+      gsap.to(cursorDot, {
+        autoAlpha: 0,
+        scale: 0.18,
+        duration: 0.16,
+        ease: "power3.out",
+        overwrite: true,
+      });
+      gsap.to(previewContent, {
+        autoAlpha: 1,
+        scale: 1,
+        borderRadius: PREVIEW_RADIUS,
+        duration: 0.28,
+        ease: "power3.out",
+        overwrite: true,
+      });
+      gsap.to(previewMedia, {
+        autoAlpha: 1,
+        scale: 1,
+        borderRadius: PREVIEW_RADIUS,
+        duration: 0.24,
+        ease: "power3.out",
+        overwrite: true,
+      });
+      if (morphFrame) {
+        gsap.to(morphFrame, {
+          autoAlpha: 0.22,
+          scale: 1.045,
+          borderRadius: PREVIEW_RADIUS,
+          duration: 0.28,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      }
+      return;
+    }
+
     if (morphFrame) {
       gsap.set(morphFrame, {
         autoAlpha: 0,
@@ -449,6 +517,17 @@ export default function Archive() {
   };
 
   const hidePreview = () => {
+    if (hidePreviewTimeoutRef.current !== null) {
+      window.clearTimeout(hidePreviewTimeoutRef.current);
+    }
+
+    hidePreviewTimeoutRef.current = window.setTimeout(() => {
+      hidePreviewTimeoutRef.current = null;
+      collapsePreview();
+    }, PREVIEW_HIDE_DELAY);
+  };
+
+  const collapsePreview = () => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
     const morphFrame = morphFrameRef.current;
@@ -503,12 +582,14 @@ export default function Archive() {
         ease: "power4.out",
         overwrite: true,
         onComplete: () => {
+          activeProjectRef.current = null;
           setActiveProject(null);
           restoreCursorDot();
         },
       });
     } else {
       gsap.delayedCall(0.42, () => {
+        activeProjectRef.current = null;
         setActiveProject(null);
         restoreCursorDot();
       });
