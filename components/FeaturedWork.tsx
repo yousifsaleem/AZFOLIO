@@ -28,9 +28,6 @@ function getDisplayTags(project: Project) {
   return tags;
 }
 
-const TEXT_REVEAL_START = 0.6;
-const TEXT_REVEAL_DURATION = 0.4;
-
 function RollingText({
   text,
   groupClassName,
@@ -85,7 +82,7 @@ function RollingTitle({ title }: { title: string }) {
   return (
     <RollingText
       text={title}
-      groupClassName="group/roll inline-flex max-w-full flex-wrap overflow-hidden pb-[0.08em] leading-[1.04]"
+      groupClassName="group/roll inline-flex max-w-full whitespace-nowrap overflow-hidden pb-[0.08em] leading-[1.04]"
       wordClassName="mb-[0.02em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
       letterDurationClassName="duration-500"
       staggerMs={32}
@@ -164,9 +161,9 @@ function FeaturedTextContent({ project }: { project: Project }) {
   return (
     <>
       <div className="flex items-start xl:absolute xl:left-0 xl:top-[calc(50%-6rem)] xl:w-full">
-        <div data-featured-text className="max-w-[24rem] xl:pl-0">
+        <div data-featured-text className="max-w-[27rem] xl:pl-0">
           <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="mt-3 overflow-hidden text-[clamp(1.75rem,2.35vw,2.65rem)] font-medium leading-[1.04] text-[var(--color-card)] max-sm:text-[clamp(2.2rem,10vw,3.5rem)]">
+          <h2 className="mt-3 overflow-hidden text-[clamp(1.55rem,1.95vw,2.2rem)] font-medium leading-[1.04] text-[var(--color-card)] max-sm:text-[clamp(2rem,8.5vw,3.1rem)]">
             <RollingTitle title={project.title} />
           </h2>
           <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
@@ -262,12 +259,15 @@ export default function FeaturedWork() {
       matchMedia.add("(min-width: 1280px)", () => {
         const cleanupCallbacks: Array<() => void> = [];
         const pin = root.querySelector<HTMLElement>("[data-featured-pin]");
+        const desktopText = root.querySelector<HTMLElement>("[data-featured-desktop-text]");
         const desktopScenes = gsap.utils.toArray<HTMLElement>("[data-featured-desktop-scene]", root);
         const desktopTextScenes = gsap.utils.toArray<HTMLElement>("[data-featured-desktop-text-scene]", root);
 
         setupHoverReveal(root, cleanupCallbacks);
 
         if (pin && desktopScenes.length > 0) {
+          const transitionCount = featuredProjects.length - 1;
+
           gsap.set(desktopScenes, {
             width: "100%",
           });
@@ -286,10 +286,61 @@ export default function FeaturedWork() {
             webkitClipPath: "inset(0 100% 0 0)",
           });
 
+          gsap.set(desktopTextScenes, {
+            autoAlpha: 0,
+            pointerEvents: "none",
+          });
+
+          gsap.set(desktopTextScenes[0], {
+            autoAlpha: 1,
+            pointerEvents: "auto",
+          });
+
           gsap.set(root.querySelectorAll("[data-featured-bg], [data-featured-scene-media]"), {
             xPercent: 0,
             yPercent: 0,
           });
+
+          const textBounds = desktopText?.getBoundingClientRect();
+          const textRevealStart = textBounds
+            ? gsap.utils.clamp(0, 0.96, textBounds.left / window.innerWidth)
+            : 0.64;
+          const textRevealEnd = textBounds
+            ? gsap.utils.clamp(textRevealStart + 0.04, 1, textBounds.right / window.innerWidth)
+            : 0.9;
+          const textRevealDuration = textRevealEnd - textRevealStart;
+
+          const updateTextLayerVisibility = (progress: number) => {
+            if (desktopTextScenes.length === 0) {
+              return;
+            }
+
+            const wipeProgress = gsap.utils.clamp(0, transitionCount, progress * transitionCount);
+
+            if (wipeProgress >= transitionCount) {
+              gsap.set(desktopTextScenes, {
+                autoAlpha: 0,
+                pointerEvents: "none",
+              });
+              gsap.set(desktopTextScenes[featuredProjects.length - 1], {
+                autoAlpha: 1,
+                pointerEvents: "auto",
+              });
+              return;
+            }
+
+            const currentTextIndex = gsap.utils.clamp(0, transitionCount - 1, Math.floor(wipeProgress));
+            const nextTextIndex = currentTextIndex + 1;
+
+            gsap.set(desktopTextScenes, {
+              autoAlpha: 0,
+              pointerEvents: "none",
+            });
+            gsap.set([desktopTextScenes[currentTextIndex], desktopTextScenes[nextTextIndex]], {
+              autoAlpha: 1,
+              pointerEvents: "auto",
+            });
+          };
 
           const swipeTimeline = gsap.timeline({
             scrollTrigger: {
@@ -300,6 +351,12 @@ export default function FeaturedWork() {
               pin: true,
               anticipatePin: 1,
               invalidateOnRefresh: true,
+              onRefresh: (self) => {
+                updateTextLayerVisibility(self.progress);
+              },
+              onUpdate: (self) => {
+                updateTextLayerVisibility(self.progress);
+              },
             },
           });
 
@@ -329,10 +386,10 @@ export default function FeaturedWork() {
                   {
                     clipPath: "inset(0 0% 0 100%)",
                     webkitClipPath: "inset(0 0% 0 100%)",
-                    duration: TEXT_REVEAL_DURATION,
+                    duration: textRevealDuration,
                     ease: "none",
                   },
-                  index + TEXT_REVEAL_START,
+                  index + textRevealStart,
                 );
               }
 
@@ -345,10 +402,10 @@ export default function FeaturedWork() {
                 {
                   clipPath: "inset(0 0% 0 0)",
                   webkitClipPath: "inset(0 0% 0 0)",
-                  duration: TEXT_REVEAL_DURATION,
+                  duration: textRevealDuration,
                   ease: "none",
                 },
-                index + TEXT_REVEAL_START,
+                index + textRevealStart,
               );
             }
           });
@@ -445,7 +502,7 @@ export default function FeaturedWork() {
     };
   }, []);
 
-  const activeProject = featuredProjects[0];
+  const firstProject = featuredProjects[0];
 
   return (
     <section
@@ -453,13 +510,13 @@ export default function FeaturedWork() {
       id="work"
       data-header-theme="dark"
       className="overflow-hidden bg-[var(--color-surface-alt)] text-[var(--color-card)]"
-      style={{ backgroundColor: activeProject.backgroundColor }}
+      style={{ backgroundColor: firstProject.backgroundColor }}
     >
       <div data-featured-desktop className="relative hidden xl:block">
         <div
           data-featured-pin
           className="relative min-h-screen overflow-hidden"
-          style={{ backgroundColor: activeProject.backgroundColor }}
+          style={{ backgroundColor: firstProject.backgroundColor }}
         >
           <div className="absolute inset-0">
             {featuredProjects.map((project, index) => (
