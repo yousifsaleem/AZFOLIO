@@ -5,15 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 
 import TransitionLink from "./TransitionLink";
-import { featuredProjects } from "../data/projects";
-
-function getHeroPreviewImage({
-  thumbnail,
-}: {
-  thumbnail?: string;
-}) {
-  return thumbnail || null;
-}
+import { featuredProjects, getProjectThumbnailImage } from "../data/projects";
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
@@ -113,7 +105,7 @@ export default function Hero() {
 
           <div ref={previewsRef} className="flex flex-wrap justify-center gap-3 xl:justify-end">
             {heroProjects.map((project) => {
-              const previewImage = getHeroPreviewImage(project);
+              const previewImage = getProjectThumbnailImage(project);
 
               return (
                 <TransitionLink

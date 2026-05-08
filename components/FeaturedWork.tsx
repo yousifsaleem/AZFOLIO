@@ -6,17 +6,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import TransitionLink from "./TransitionLink";
-import { featuredProjects, type Project } from "../data/projects";
+import {
+  featuredProjects,
+  getProjectBackgroundImage,
+  getProjectPreviewImage,
+  getProjectThumbnailImage,
+  type Project,
+} from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
-
-function getFeaturedPreviewImage(project: Project) {
-  return project.preview || project.thumbnail;
-}
-
-function getFeaturedThumbnailImage(project: Project) {
-  return project.thumbnail;
-}
 
 function getDisplayTags(project: Project) {
   const tags = project.tags.slice(0, 4);
@@ -103,6 +101,9 @@ function RollingLinkText() {
 }
 
 function FeaturedMediaCard({ project }: { project: Project }) {
+  const previewImage = getProjectPreviewImage(project);
+  const thumbnailImage = getProjectThumbnailImage(project);
+
   return (
     <div
       data-featured-media
@@ -120,13 +121,15 @@ function FeaturedMediaCard({ project }: { project: Project }) {
         aria-hidden="true"
       >
         <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
-          <Image
-            src={getFeaturedPreviewImage(project)}
-            alt=""
-            fill
-            unoptimized
-            className="object-cover"
-          />
+          {previewImage ? (
+            <Image
+              src={previewImage}
+              alt=""
+              fill
+              unoptimized
+              className="object-cover"
+            />
+          ) : null}
         </div>
       </div>
       <div data-featured-hover className="absolute inset-0 z-20" />
@@ -135,13 +138,15 @@ function FeaturedMediaCard({ project }: { project: Project }) {
         className="absolute inset-0 z-10 h-full w-full overflow-hidden"
         style={{ backgroundColor: project.backgroundColor }}
       >
-        <Image
-          src={getFeaturedThumbnailImage(project)}
-          alt={project.title}
-          fill
-          unoptimized
-          className="h-full w-full object-cover"
-        />
+        {thumbnailImage ? (
+          <Image
+            src={thumbnailImage}
+            alt={project.title}
+            fill
+            unoptimized
+            className="h-full w-full object-cover"
+          />
+        ) : null}
         <div
           className="absolute inset-0"
           style={{
@@ -527,6 +532,11 @@ export default function FeaturedWork() {
                 style={{ zIndex: index + 1 }}
               >
                 <div className="absolute left-0 top-0 h-full min-h-screen w-screen overflow-hidden">
+                  {(() => {
+                    const backgroundImage = getProjectBackgroundImage(project);
+
+                    return (
+                      <>
                   <div
                     className="absolute inset-0 h-full w-full"
                     style={{ backgroundColor: project.backgroundColor }}
@@ -537,13 +547,15 @@ export default function FeaturedWork() {
                     className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
                     aria-hidden="true"
                   >
-                    <Image
-                      src={getFeaturedThumbnailImage(project)}
-                      alt=""
-                      fill
-                      unoptimized
-                      className="h-full w-full object-cover blur-lg"
-                    />
+                    {backgroundImage ? (
+                      <Image
+                        src={backgroundImage}
+                        alt=""
+                        fill
+                        unoptimized
+                        className="h-full w-full object-cover blur-lg"
+                      />
+                    ) : null}
                   </div>
                   <div
                     className="pointer-events-none absolute inset-0 h-full w-full"
@@ -565,6 +577,9 @@ export default function FeaturedWork() {
                       </div>
                     </div>
                   </div>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             ))}
@@ -602,6 +617,11 @@ export default function FeaturedWork() {
             className="relative isolate overflow-hidden border-b border-[rgba(255,248,242,0.16)] min-[768px]:min-h-[auto] xl:min-h-screen"
             style={{ backgroundColor: project.backgroundColor }}
           >
+            {(() => {
+              const backgroundImage = getProjectBackgroundImage(project);
+
+              return (
+                <>
             <div
               className="absolute inset-0 h-full w-full"
               style={{ backgroundColor: project.backgroundColor }}
@@ -612,13 +632,15 @@ export default function FeaturedWork() {
               className="pointer-events-none absolute inset-0 h-full w-full overflow-hidden"
               aria-hidden="true"
             >
-              <Image
-                src={getFeaturedThumbnailImage(project)}
-                alt=""
-                fill
-                unoptimized
-                className="h-full w-full object-cover blur-lg"
-              />
+              {backgroundImage ? (
+                <Image
+                  src={backgroundImage}
+                  alt=""
+                  fill
+                  unoptimized
+                  className="h-full w-full object-cover blur-lg"
+                />
+              ) : null}
             </div>
             <div
               className="pointer-events-none absolute inset-0 h-full w-full"
@@ -643,6 +665,9 @@ export default function FeaturedWork() {
                 <FeaturedTextContent project={project} />
               </div>
             </div>
+                </>
+              );
+            })()}
           </article>
         ))}
       </div>
