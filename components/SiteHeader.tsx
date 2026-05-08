@@ -3,20 +3,23 @@
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { href: "#about", label: "info", number: "01", sectionId: "about" },
-  { href: "#work", label: "work", number: "02", sectionId: "work" },
-  { href: "#archive", label: "archive", number: "03", sectionId: "archive" },
-  { href: "#contact", label: "contact", number: "04", sectionId: "contact" },
+  { id: "work", href: "#work", label: "work", number: "01", sectionId: "work", scrollTargetId: "work" },
+  { id: "archive", href: "#archive", label: "archive", number: "02", sectionId: "archive", scrollTargetId: "archive" },
+  { id: "info", href: "#about", label: "info", number: "03", sectionId: "info", scrollTargetId: "about" },
+  { id: "about", href: "#about", label: "about", number: "04", sectionId: "about", scrollTargetId: "about" },
 ] as const;
 
-type ProgressMap = Record<(typeof navItems)[number]["sectionId"], number>;
+type NavItem = (typeof navItems)[number];
+type ProgressMap = Record<NavItem["sectionId"], number>;
 
 const initialProgress: ProgressMap = {
-  about: 0,
   work: 0,
   archive: 0,
-  contact: 0,
+  info: 0,
+  about: 0,
 };
+
+const readableFadeSections = new Set<keyof ProgressMap>(["about", "archive", "info"]);
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -40,7 +43,7 @@ export default function SiteHeader() {
     const progressSections = navItems
       .map((item) => ({
         sectionId: item.sectionId,
-        element: document.getElementById(item.sectionId),
+        element: document.getElementById(item.scrollTargetId),
       }))
       .filter((item): item is { sectionId: keyof ProgressMap; element: HTMLElement } => Boolean(item.element));
 
@@ -52,7 +55,9 @@ export default function SiteHeader() {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
       const marker = scrollY + viewportHeight * 0.36;
+      const headerReadabilityMarker = scrollY + viewportHeight * 0.18;
       const nextProgress = { ...initialProgress };
+      let activeProgressSection: keyof ProgressMap | null = null;
 
       progressSections.forEach(({ sectionId, element }) => {
         const rect = element.getBoundingClientRect();
@@ -61,8 +66,8 @@ export default function SiteHeader() {
         const sectionBottom = sectionTop + sectionHeight;
         nextProgress[sectionId] = clamp((marker - sectionTop) / sectionHeight, 0, 1);
 
-        if (sectionBottom <= marker) {
-          nextProgress[sectionId] = 1;
+        if (sectionTop <= headerReadabilityMarker && sectionBottom > headerReadabilityMarker) {
+          activeProgressSection = sectionId;
         }
       });
 
@@ -74,8 +79,7 @@ export default function SiteHeader() {
         return hasChanged ? nextProgress : currentProgress;
       });
 
-      const archiveProgress = nextProgress.archive ?? 0;
-      setShowHeaderFade(archiveProgress > 0 && archiveProgress < 1);
+      setShowHeaderFade(Boolean(activeProgressSection && readableFadeSections.has(activeProgressSection)));
 
       const activeThemedSection = themedSections.find((section) => {
         const rect = section.getBoundingClientRect();
@@ -142,19 +146,19 @@ export default function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-transparent">
       <div
-        className={`pointer-events-none fixed inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(248,243,236,0.82)_0%,rgba(248,243,236,0.64)_28%,rgba(248,243,236,0.34)_58%,rgba(248,243,236,0.12)_80%,rgba(248,243,236,0)_100%)] transition-opacity duration-500 ease-out sm:h-44 lg:h-52 ${
+        className={`pointer-events-none fixed inset-x-0 top-0 z-0 h-56 bg-[linear-gradient(180deg,rgba(251,247,242,0.86)_0%,rgba(251,247,242,0.68)_28%,rgba(248,243,236,0.42)_58%,rgba(248,243,236,0.16)_82%,rgba(248,243,236,0)_100%)] transition-opacity duration-500 ease-out sm:h-60 lg:h-64 ${
           showHeaderFade ? "opacity-100" : "opacity-0"
         }`}
         aria-hidden="true"
       />
-      <div className="layout-shell flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
+      <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
           className={`type-meta -ml-20 text-[0.74rem] transition-colors duration-300 sm:-ml-24 sm:text-[0.8rem] lg:-ml-32 lg:text-[0.86rem] ${navColor}`}
         >
           <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
             {navItems.map((item) => (
               <a
-                key={item.href}
+                key={item.id}
                 href={item.href}
                 className={`group relative flex cursor-pointer items-center gap-2 transition-all duration-300 ease-out hover:translate-x-1 sm:gap-3 ${linkColor}`}
               >
