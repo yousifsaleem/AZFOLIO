@@ -119,10 +119,10 @@ export default function SloganTransition() {
           <div className="mx-auto max-w-5xl text-center">
             <p className="type-display-md text-[var(--color-text)] max-sm:text-[clamp(1.75rem,8.6vw,3rem)] max-sm:leading-[1.18]">
               <span data-slogan-line className="block">
-                I&apos;m an architect.
+                I&apos;m a graphic designer.
               </span>
               <span data-slogan-line className="mt-5 block">
-                That means I shape space, structure and atmosphere.
+                That means I make things look better.
               </span>
             </p>
           </div>
