@@ -21,12 +21,8 @@ export default function SloganTransition() {
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
-      const darkWash = root.querySelector<HTMLElement>("[data-slogan-dark-wash]");
-      const featuredRevealShell = document.querySelector<HTMLElement>("[data-featured-reveal-shell]");
-      const featuredRevealTargets = featuredRevealShell ? [featuredRevealShell] : [];
 
       gsap.set(frame, {
-        autoAlpha: 1,
         backgroundColor: "rgba(248, 243, 236, 0)",
       });
 
@@ -37,24 +33,9 @@ export default function SloganTransition() {
         force3D: true,
       });
 
-      gsap.set(darkWash, {
-        autoAlpha: 0,
-        scale: 0.12,
-        transformOrigin: "100% 0%",
-        force3D: true,
-      });
-
       gsap.set(lines, {
         autoAlpha: 0,
         y: 34,
-        scale: 1,
-        transformOrigin: "50% 50%",
-      });
-
-      gsap.set(featuredRevealTargets, {
-        autoAlpha: 0,
-        clipPath: "inset(0 0 100% 0)",
-        webkitClipPath: "inset(0 0 100% 0)",
       });
 
       const timeline = gsap.timeline({
@@ -62,7 +43,7 @@ export default function SloganTransition() {
           trigger: root,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.55,
+          scrub: 0.75,
           invalidateOnRefresh: true,
         },
       });
@@ -86,37 +67,10 @@ export default function SloganTransition() {
         .to(lines, {
           autoAlpha: 1,
           y: 0,
-          scale: 1,
           duration: 0.38,
           ease: "power3.out",
           stagger: 0.06,
-        }, 0.58)
-        .to(featuredRevealTargets, {
-          autoAlpha: 1,
-          clipPath: "inset(0 0 0% 0)",
-          webkitClipPath: "inset(0 0 0% 0)",
-          duration: 0.22,
-          ease: "none",
-        }, 0.74)
-        .to(darkWash, {
-          autoAlpha: 0.46,
-          scale: 2.28,
-          duration: 0.16,
-          ease: "none",
-        }, 0.78)
-        .to(lines, {
-          autoAlpha: 0,
-          y: -12,
-          scale: 1,
-          duration: 0.14,
-          ease: "none",
-          stagger: 0.018,
-        }, 0.82)
-        .to(frame, {
-          autoAlpha: 0,
-          duration: 0.06,
-          ease: "none",
-        }, 0.96);
+        }, 0.58);
     }, root);
 
     return () => {
@@ -129,7 +83,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[160vh] text-[var(--color-text)]"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[200vh] text-[var(--color-text)]"
     >
       <div
         ref={frameRef}
@@ -158,11 +112,6 @@ export default function SloganTransition() {
         <div
           data-ripple-band
           className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-surface)]"
-          aria-hidden="true"
-        />
-        <div
-          data-slogan-dark-wash
-          className="absolute right-[-48vmax] top-[-48vmax] z-[20] h-[118vmax] w-[118vmax] rounded-full bg-[#08090b]"
           aria-hidden="true"
         />
 

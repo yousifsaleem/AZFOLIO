@@ -15,12 +15,8 @@ export default function Home() {
         <SiteHeader />
         <Loader />
         <Hero />
-        <div className="relative">
-          <SloganTransition />
-          <div data-featured-reveal-shell className="relative z-0 -mt-[100vh] opacity-0">
-            <FeaturedWork />
-          </div>
-        </div>
+        <SloganTransition />
+        <FeaturedWork />
         <Archive />
         <About />
         <Contact />
