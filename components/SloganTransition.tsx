@@ -21,12 +21,20 @@ export default function SloganTransition() {
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
+      const exitBands = root.querySelectorAll("[data-slogan-exit-band]");
 
       gsap.set(frame, {
         backgroundColor: "rgba(248, 243, 236, 0)",
       });
 
       gsap.set(rippleBands, {
+        autoAlpha: 0,
+        scale: 0.04,
+        transformOrigin: "50% 50%",
+        force3D: true,
+      });
+
+      gsap.set(exitBands, {
         autoAlpha: 0,
         scale: 0.04,
         transformOrigin: "50% 50%",
@@ -70,7 +78,29 @@ export default function SloganTransition() {
           duration: 0.38,
           ease: "power3.out",
           stagger: 0.06,
-        }, 0.58);
+        }, 0.58)
+        .to(exitBands, {
+          autoAlpha: 1,
+          scale: 2.25,
+          duration: 0.74,
+          ease: "power2.out",
+          stagger: {
+            each: 0.05,
+            from: "start",
+          },
+        }, 1.02)
+        .to(lines, {
+          autoAlpha: 0,
+          y: -18,
+          duration: 0.26,
+          ease: "power2.out",
+          stagger: 0.035,
+        }, 1.28)
+        .to(frame, {
+          backgroundColor: "#0f172a",
+          duration: 0.42,
+          ease: "none",
+        }, 1.34);
     }, root);
 
     return () => {
@@ -83,7 +113,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[200vh] text-[var(--color-text)]"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[240vh] text-[var(--color-text)]"
     >
       <div
         ref={frameRef}
@@ -112,6 +142,26 @@ export default function SloganTransition() {
         <div
           data-ripple-band
           className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-surface)]"
+          aria-hidden="true"
+        />
+        <div
+          data-slogan-exit-band
+          className="absolute right-[-56vmax] top-[-56vmax] z-[6] h-[132vmax] w-[132vmax] rounded-full bg-[var(--color-accent-blue)]"
+          aria-hidden="true"
+        />
+        <div
+          data-slogan-exit-band
+          className="absolute right-[-51vmax] top-[-51vmax] z-[7] h-[122vmax] w-[122vmax] rounded-full bg-[var(--color-accent-lilac)]"
+          aria-hidden="true"
+        />
+        <div
+          data-slogan-exit-band
+          className="absolute right-[-46vmax] top-[-46vmax] z-[8] h-[112vmax] w-[112vmax] rounded-full bg-[var(--color-accent-coral)]"
+          aria-hidden="true"
+        />
+        <div
+          data-slogan-exit-band
+          className="absolute right-[-41vmax] top-[-41vmax] z-[9] h-[102vmax] w-[102vmax] rounded-full bg-[#0f172a]"
           aria-hidden="true"
         />
 
