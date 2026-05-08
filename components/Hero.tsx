@@ -92,8 +92,12 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
-          <div ref={infoRef} className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left">
+        <div className="relative mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
+          <div
+            ref={infoRef}
+            className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left"
+            style={{ marginLeft: "calc(var(--site-nav-x) - var(--site-shell-x))" }}
+          >
             <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
             <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
               <div className="h-px w-16 bg-[var(--color-border)]" />
@@ -103,7 +107,11 @@ export default function Hero() {
             <div className="type-meta mt-4 text-[var(--color-text-muted)]">scroll to see</div>
           </div>
 
-          <div ref={previewsRef} className="flex flex-wrap justify-center gap-3 xl:justify-end">
+          <div
+            ref={previewsRef}
+            className="flex flex-wrap justify-center gap-3 xl:absolute xl:bottom-0 xl:justify-start xl:gap-3 xl:flex-nowrap"
+            style={{ left: "calc(var(--site-identity-x) - var(--site-shell-x))" }}
+          >
             {heroProjects.map((project) => {
               const previewImage = getProjectThumbnailImage(project);
 

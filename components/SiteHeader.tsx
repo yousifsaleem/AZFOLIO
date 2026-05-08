@@ -153,7 +153,8 @@ export default function SiteHeader() {
       />
       <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
-          className={`type-meta -ml-20 text-[0.74rem] transition-colors duration-300 sm:-ml-24 sm:text-[0.8rem] lg:-ml-32 lg:text-[0.86rem] ${navColor}`}
+          className={`type-meta text-[0.74rem] transition-colors duration-300 sm:text-[0.8rem] lg:text-[0.86rem] ${navColor}`}
+          style={{ marginLeft: "calc(var(--site-nav-x) - var(--site-shell-x))" }}
         >
           <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
             {navItems.map((item) => (
@@ -182,11 +183,23 @@ export default function SiteHeader() {
           </div>
         </nav>
 
+        <div
+          className={`type-meta absolute top-8 hidden text-left transition-colors duration-300 xl:block ${navColor}`}
+          style={{ left: "calc(var(--site-identity-x) - var(--site-shell-x))" }}
+        >
+          <div className={`text-[1.02rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 ${strongColor}`}>
+            Afia Zaman
+          </div>
+          <div className={`normal-case tracking-[0.03em] transition-colors duration-300 ${metaColor}`}>
+            Graphic Designer
+          </div>
+        </div>
+
         <div className="max-w-full self-end text-right md:ml-auto md:w-fit md:self-start">
           <div
             className={`type-meta flex items-start justify-end gap-5 text-[0.74rem] transition-colors duration-300 sm:gap-7 sm:text-[0.8rem] lg:gap-10 lg:text-[0.86rem] ${navColor}`}
           >
-            <div className="w-[min(31rem,30vw)] space-y-1 pl-32 text-left">
+            <div className="space-y-1 text-left xl:hidden">
               <div className={`text-[0.9rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}>
                 Afia Zaman
               </div>
@@ -194,7 +207,7 @@ export default function SiteHeader() {
                 Graphic Designer
               </div>
             </div>
-            <div className="space-y-1 text-right">
+            <div className="w-[6rem] space-y-1 text-right">
               <div
                 className={`text-[0.9rem] font-semibold tracking-[0.03em] tabular-nums transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}
                 suppressHydrationWarning

@@ -24,6 +24,26 @@
   --cursor-quiet-hours: #f1e2a8;
   --cursor-enterprise: rgba(255, 248, 242, 0.92);
   --cursor-barons: #d7473f;
+  --site-shell-x: max(1rem, calc((100vw - 1600px) / 2 + 1rem));
+  --site-nav-offset: -5rem;
+  --site-nav-x: calc(var(--site-shell-x) + var(--site-nav-offset));
+  --site-identity-x: calc(100vw - var(--site-shell-x) - 42rem);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --site-shell-x: max(2rem, calc((100vw - 1600px) / 2 + 2rem));
+    --site-nav-offset: -6rem;
+    --site-nav-x: calc(var(--site-shell-x) + var(--site-nav-offset));
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --site-shell-x: max(3rem, calc((100vw - 1600px) / 2 + 3rem));
+    --site-nav-offset: -8rem;
+    --site-nav-x: calc(var(--site-shell-x) + var(--site-nav-offset));
+  }
 }
 
 @theme inline {
