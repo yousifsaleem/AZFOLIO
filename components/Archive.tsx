@@ -55,10 +55,12 @@ const archiveProjects = [
   },
 ];
 
-const PREVIEW_DIMENSION = 340;
+const PREVIEW_DIMENSION = 236;
 const CURSOR_SIZE = 18;
 const CURSOR_LERP = 0.44;
-const PREVIEW_LERP = 0.18;
+const PREVIEW_LERP = 0.16;
+const PREVIEW_RADIUS = 22;
+const PREVIEW_START_SCALE = CURSOR_SIZE / PREVIEW_DIMENSION;
 
 export default function Archive() {
   const [activeProject, setActiveProject] = useState<(typeof archiveProjects)[number] | null>(null);
@@ -67,7 +69,9 @@ export default function Archive() {
   const rootRef = useRef<HTMLElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
+  const morphFrameRef = useRef<HTMLDivElement>(null);
   const previewContentRef = useRef<HTMLDivElement>(null);
+  const previewMediaRef = useRef<HTMLDivElement>(null);
   const isInsideArchiveRef = useRef(false);
   const isHoveringRef = useRef(false);
   const isBaseCursorVisibleRef = useRef(false);
@@ -98,9 +102,11 @@ export default function Archive() {
   useEffect(() => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    const morphFrame = morphFrameRef.current;
     const previewContent = previewContentRef.current;
+    const previewMedia = previewMediaRef.current;
 
-    if (!cursor || !cursorDot || !previewContent) {
+    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
       return;
     }
 
@@ -124,9 +130,28 @@ export default function Archive() {
         force3D: true,
       });
 
+      if (morphFrame) {
+        gsap.set(morphFrame, {
+          autoAlpha: 0,
+          scale: PREVIEW_START_SCALE,
+          borderRadius: 999,
+          transformOrigin: "50% 50%",
+          force3D: true,
+        });
+      }
+
       gsap.set(previewContent, {
         autoAlpha: 0,
-        scale: 0.1,
+        scale: PREVIEW_START_SCALE,
+        borderRadius: 999,
+        transformOrigin: "50% 50%",
+        force3D: true,
+      });
+
+      gsap.set(previewMedia, {
+        autoAlpha: 0,
+        scale: 1.045,
+        borderRadius: 999,
         transformOrigin: "50% 50%",
         force3D: true,
       });
@@ -188,9 +213,18 @@ export default function Archive() {
   const enterArchive = (clientX: number, clientY: number) => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    const morphFrame = morphFrameRef.current;
     const previewContent = previewContentRef.current;
+    const previewMedia = previewMediaRef.current;
 
-    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !cursor || !cursorDot || !previewContent) {
+    if (
+      !canUseHoverPreviewRef.current ||
+      window.innerWidth < 1024 ||
+      !cursor ||
+      !cursorDot ||
+      !previewContent ||
+      !previewMedia
+    ) {
       return;
     }
 
@@ -199,10 +233,23 @@ export default function Archive() {
     isBaseCursorVisibleRef.current = true;
     placeCursorImmediately(clientX, clientY);
 
-    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
+    if (morphFrame) {
+      gsap.set(morphFrame, {
+        autoAlpha: 0,
+        scale: PREVIEW_START_SCALE,
+        borderRadius: 999,
+      });
+    }
     gsap.set(previewContent, {
       autoAlpha: 0,
-      scale: 0.1,
+      scale: PREVIEW_START_SCALE,
+      borderRadius: 999,
+    });
+    gsap.set(previewMedia, {
+      autoAlpha: 0,
+      scale: 1.045,
+      borderRadius: 999,
     });
     gsap.set(cursorDot, {
       autoAlpha: 0,
@@ -239,9 +286,11 @@ export default function Archive() {
   const leaveArchive = () => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    const morphFrame = morphFrameRef.current;
     const previewContent = previewContentRef.current;
+    const previewMedia = previewMediaRef.current;
 
-    if (!cursor || !cursorDot || !previewContent) {
+    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
       return;
     }
 
@@ -250,7 +299,7 @@ export default function Archive() {
     isBaseCursorVisibleRef.current = false;
     setActiveProject(null);
 
-    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
     gsap.to(cursor, {
       autoAlpha: 0,
       duration: 0.28,
@@ -264,9 +313,28 @@ export default function Archive() {
       ease: "power3.out",
       overwrite: true,
     });
+    if (morphFrame) {
+      gsap.to(morphFrame, {
+        autoAlpha: 0,
+        scale: PREVIEW_START_SCALE,
+        borderRadius: 999,
+        duration: 0.22,
+        ease: "power3.out",
+        overwrite: true,
+      });
+    }
     gsap.to(previewContent, {
       autoAlpha: 0,
-      scale: 0.1,
+      scale: PREVIEW_START_SCALE,
+      borderRadius: 999,
+      duration: 0.22,
+      ease: "power3.out",
+      overwrite: true,
+    });
+    gsap.to(previewMedia, {
+      autoAlpha: 0,
+      scale: 1.035,
+      borderRadius: 999,
       duration: 0.18,
       ease: "power2.out",
       overwrite: true,
@@ -276,9 +344,18 @@ export default function Archive() {
   const showPreview = (project: (typeof archiveProjects)[number], clientX: number, clientY: number) => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    const morphFrame = morphFrameRef.current;
     const previewContent = previewContentRef.current;
+    const previewMedia = previewMediaRef.current;
 
-    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !cursor || !cursorDot || !previewContent) {
+    if (
+      !canUseHoverPreviewRef.current ||
+      window.innerWidth < 1024 ||
+      !cursor ||
+      !cursorDot ||
+      !previewContent ||
+      !previewMedia
+    ) {
       return;
     }
 
@@ -291,75 +368,151 @@ export default function Archive() {
     previewYRef.current = clientY;
     moveCursor(clientX, clientY);
 
-    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
     gsap.set(cursor, {
       x: clientX - PREVIEW_DIMENSION / 2,
       y: clientY - PREVIEW_DIMENSION / 2,
       transformOrigin: "50% 50%",
     });
+    if (morphFrame) {
+      gsap.set(morphFrame, {
+        autoAlpha: 0,
+        scale: PREVIEW_START_SCALE,
+        borderRadius: 999,
+        transformOrigin: "50% 50%",
+      });
+    }
     gsap.set(previewContent, {
+      autoAlpha: 1,
+      scale: PREVIEW_START_SCALE,
+      borderRadius: 999,
+      transformOrigin: "50% 50%",
+    });
+    gsap.set(previewMedia, {
       autoAlpha: 0,
-      scale: 0.1,
+      scale: 1.045,
+      borderRadius: 999,
       transformOrigin: "50% 50%",
     });
 
-    gsap.to(cursor, {
-      autoAlpha: 1,
-      duration: 0.62,
-      ease: "power4.out",
-      overwrite: true,
-    });
+    const timeline = gsap.timeline({ defaults: { overwrite: true } });
 
-    gsap.to(cursorDot, {
-      autoAlpha: 0,
-      scale: 0.45,
-      duration: 0.2,
-      ease: "power2.out",
-      overwrite: true,
-    });
+    timeline
+      .to(cursor, { autoAlpha: 1, duration: 0.12, ease: "power2.out" }, 0)
+      .to(
+        previewContent,
+        {
+          autoAlpha: 1,
+          scale: 1,
+          borderRadius: PREVIEW_RADIUS,
+          duration: 0.82,
+          ease: "power4.out",
+        },
+        0,
+      )
+      .to(
+        cursorDot,
+        {
+          autoAlpha: 0,
+          scale: 0.18,
+          duration: 0.24,
+          ease: "power3.out",
+        },
+        0.04,
+      )
+      .to(
+        previewMedia,
+        {
+          autoAlpha: 1,
+          scale: 1,
+          borderRadius: PREVIEW_RADIUS,
+          duration: 0.76,
+          ease: "power4.out",
+        },
+        0.04,
+      );
 
-    gsap.to(previewContent, {
-      autoAlpha: 1,
-      scale: 1,
-      duration: 0.52,
-      ease: "power4.out",
-      overwrite: true,
-    });
+    if (morphFrame) {
+      timeline.to(
+        morphFrame,
+        {
+          autoAlpha: 0.22,
+          scale: 1.045,
+          borderRadius: PREVIEW_RADIUS,
+          duration: 0.82,
+          ease: "power4.out",
+        },
+        0,
+      );
+    }
+
   };
 
   const hidePreview = () => {
     const cursor = cursorRef.current;
     const cursorDot = cursorDotRef.current;
+    const morphFrame = morphFrameRef.current;
     const previewContent = previewContentRef.current;
+    const previewMedia = previewMediaRef.current;
 
-    if (!cursor || !cursorDot || !previewContent) {
+    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
       return;
     }
 
     isHoveringRef.current = false;
     isBaseCursorVisibleRef.current = false;
-    gsap.killTweensOf([cursor, cursorDot, previewContent]);
+    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
+
+    gsap.to(previewMedia, {
+      autoAlpha: 0,
+      scale: 1.035,
+      borderRadius: 999,
+      duration: 0.32,
+      ease: "power3.out",
+      overwrite: true,
+    });
 
     gsap.to(previewContent, {
       autoAlpha: 0,
-      scale: 0.1,
-      duration: 0.3,
-      ease: "power3.out",
+      scale: PREVIEW_START_SCALE,
+      borderRadius: 999,
+      duration: 0.42,
+      ease: "power4.out",
       overwrite: true,
-      onComplete: () => {
-        setActiveProject(null);
-        if (isInsideArchiveRef.current && !isHoveringRef.current) {
-          isBaseCursorVisibleRef.current = true;
-          gsap.to(cursorDot, {
-            autoAlpha: 1,
-            scale: 1,
-            duration: 0.24,
-            ease: "power3.out",
-            overwrite: true,
-          });
-        }
-      },
     });
+
+    const restoreCursorDot = () => {
+      if (isInsideArchiveRef.current && !isHoveringRef.current) {
+        isBaseCursorVisibleRef.current = true;
+        gsap.to(cursorDot, {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.26,
+          ease: "power3.out",
+          overwrite: true,
+        });
+      }
+    };
+
+    if (morphFrame) {
+      gsap.to(morphFrame, {
+        autoAlpha: 0,
+        scale: PREVIEW_START_SCALE,
+        borderRadius: 999,
+        duration: 0.46,
+        ease: "power4.out",
+        overwrite: true,
+        onComplete: () => {
+          setActiveProject(null);
+          restoreCursorDot();
+        },
+      });
+    } else {
+      gsap.delayedCall(0.42, () => {
+        setActiveProject(null);
+        restoreCursorDot();
+      });
+    }
   };
 
   return (
@@ -388,13 +541,17 @@ export default function Archive() {
         >
           <div
             ref={cursorDotRef}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(31,27,25,0.88)] shadow-[0_10px_28px_rgba(31,27,25,0.16)]"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(31,27,25,0.9)] shadow-[0_10px_28px_rgba(31,27,25,0.16)]"
+          />
+          <div
+            ref={morphFrameRef}
+            className="absolute inset-0 overflow-hidden rounded-[22px] bg-[rgba(31,27,25,0.16)] shadow-[0_24px_70px_rgba(31,27,25,0.24)] blur-[10px]"
           />
           <div
             ref={previewContentRef}
-            className="relative h-full w-full overflow-hidden rounded-[28px] border border-[rgba(31,27,25,0.12)] bg-[var(--color-card-muted)] shadow-[0_22px_60px_rgba(31,27,25,0.18)]"
+            className="relative h-full w-full overflow-hidden rounded-[22px] border border-[rgba(253,250,246,0.2)] bg-[rgba(31,27,25,0.9)] shadow-[0_18px_54px_rgba(31,27,25,0.16)]"
           >
-            <div className="relative h-full w-full overflow-hidden">
+            <div ref={previewMediaRef} className="relative h-full w-full overflow-hidden rounded-[22px]">
               {activeProject && !hasImageError ? (
                 <Image
                   src={activeProject.previewImage}
@@ -405,7 +562,7 @@ export default function Archive() {
                   onError={() => setHasImageError(true)}
                 />
               ) : (
-                <div className="h-full w-full bg-[linear-gradient(135deg,var(--color-accent-lilac)_0%,var(--color-accent-blue)_100%)]" />
+                <div className="h-full w-full bg-[rgba(31,27,25,0.92)]" />
               )}
             </div>
           </div>
