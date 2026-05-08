@@ -21,7 +21,6 @@ export default function SloganTransition() {
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
-      const exitRipple = root.querySelector<HTMLElement>("[data-slogan-exit-ripple]");
 
       gsap.set(frame, {
         backgroundColor: "rgba(248, 243, 236, 0)",
@@ -30,13 +29,6 @@ export default function SloganTransition() {
       gsap.set(rippleBands, {
         autoAlpha: 0,
         scale: 0.04,
-        transformOrigin: "50% 50%",
-        force3D: true,
-      });
-
-      gsap.set(exitRipple, {
-        autoAlpha: 0,
-        scale: 0.08,
         transformOrigin: "50% 50%",
         force3D: true,
       });
@@ -78,26 +70,7 @@ export default function SloganTransition() {
           duration: 0.38,
           ease: "power3.out",
           stagger: 0.06,
-        }, 0.58)
-        .to(exitRipple, {
-          autoAlpha: 0.42,
-          scale: 2.2,
-          duration: 0.13,
-          ease: "none",
-        }, 0.82)
-        .to(lines, {
-          autoAlpha: 0.7,
-          y: -6,
-          duration: 0.1,
-          ease: "none",
-          stagger: 0.012,
-        }, 0.86)
-        .to(exitRipple, {
-          autoAlpha: 0,
-          scale: 2.35,
-          duration: 0.07,
-          ease: "none",
-        }, 0.94);
+        }, 0.58);
     }, root);
 
     return () => {
@@ -139,11 +112,6 @@ export default function SloganTransition() {
         <div
           data-ripple-band
           className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-surface)]"
-          aria-hidden="true"
-        />
-        <div
-          data-slogan-exit-ripple
-          className="absolute right-[-44vmax] top-[-44vmax] z-[6] h-[112vmax] w-[112vmax] rounded-full bg-[#08090b]"
           aria-hidden="true"
         />
 
