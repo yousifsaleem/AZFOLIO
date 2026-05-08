@@ -13,7 +13,6 @@ export default function SloganTransition() {
   useEffect(() => {
     const root = rootRef.current;
     const frame = frameRef.current;
-    let isHeaderHidden = false;
 
     if (!root || !frame) {
       return;
@@ -22,19 +21,12 @@ export default function SloganTransition() {
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
-      const exitBands = root.querySelectorAll("[data-slogan-exit-band]");
-      const featuredWork = document.getElementById("work");
-
-      const setHeaderHidden = (hidden: boolean) => {
-        if (isHeaderHidden === hidden) {
-          return;
-        }
-
-        isHeaderHidden = hidden;
-        window.dispatchEvent(new CustomEvent("site-header-visibility", { detail: { hidden } }));
-      };
+      const darkWash = root.querySelector<HTMLElement>("[data-slogan-dark-wash]");
+      const featuredRevealShell = document.querySelector<HTMLElement>("[data-featured-reveal-shell]");
+      const featuredRevealTargets = featuredRevealShell ? [featuredRevealShell] : [];
 
       gsap.set(frame, {
+        autoAlpha: 1,
         backgroundColor: "rgba(248, 243, 236, 0)",
       });
 
@@ -45,16 +37,24 @@ export default function SloganTransition() {
         force3D: true,
       });
 
-      gsap.set(exitBands, {
+      gsap.set(darkWash, {
         autoAlpha: 0,
-        scale: 0.04,
-        transformOrigin: "50% 50%",
+        scale: 0.12,
+        transformOrigin: "100% 0%",
         force3D: true,
       });
 
       gsap.set(lines, {
         autoAlpha: 0,
         y: 34,
+        scale: 1,
+        transformOrigin: "50% 50%",
+      });
+
+      gsap.set(featuredRevealTargets, {
+        autoAlpha: 0,
+        clipPath: "inset(0 0 100% 0)",
+        webkitClipPath: "inset(0 0 100% 0)",
       });
 
       const timeline = gsap.timeline({
@@ -62,37 +62,10 @@ export default function SloganTransition() {
           trigger: root,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.75,
+          scrub: 0.55,
           invalidateOnRefresh: true,
-          snap: {
-            snapTo: (progress) => (progress > 0.72 ? 1 : progress),
-            duration: { min: 0.22, max: 0.42 },
-            delay: 0.02,
-            ease: "power2.inOut",
-          },
-          onUpdate: (self) => {
-            if (self.progress > 0.72) {
-              setHeaderHidden(true);
-            }
-          },
-          onLeaveBack: () => {
-            setHeaderHidden(false);
-          },
         },
       });
-
-      if (featuredWork) {
-        ScrollTrigger.create({
-          trigger: featuredWork,
-          start: "top top",
-          onEnter: () => {
-            setHeaderHidden(false);
-          },
-          onLeaveBack: () => {
-            setHeaderHidden(true);
-          },
-        });
-      }
 
       timeline
         .to(frame, {
@@ -113,36 +86,40 @@ export default function SloganTransition() {
         .to(lines, {
           autoAlpha: 1,
           y: 0,
+          scale: 1,
           duration: 0.38,
           ease: "power3.out",
           stagger: 0.06,
         }, 0.58)
-        .to(exitBands, {
+        .to(featuredRevealTargets, {
           autoAlpha: 1,
-          scale: 2.08,
-          duration: 0.42,
-          ease: "power2.out",
-          stagger: {
-            each: 0.035,
-            from: "start",
-          },
-        }, 0.98)
+          clipPath: "inset(0 0 0% 0)",
+          webkitClipPath: "inset(0 0 0% 0)",
+          duration: 0.22,
+          ease: "none",
+        }, 0.74)
+        .to(darkWash, {
+          autoAlpha: 0.46,
+          scale: 2.28,
+          duration: 0.16,
+          ease: "none",
+        }, 0.78)
         .to(lines, {
           autoAlpha: 0,
-          y: -18,
-          duration: 0.22,
-          ease: "power2.out",
-          stagger: 0.035,
-        }, 1.06)
-        .to(frame, {
-          backgroundColor: "#08090b",
-          duration: 0.24,
+          y: -12,
+          scale: 1,
+          duration: 0.14,
           ease: "none",
-        }, 1.18);
+          stagger: 0.018,
+        }, 0.82)
+        .to(frame, {
+          autoAlpha: 0,
+          duration: 0.06,
+          ease: "none",
+        }, 0.96);
     }, root);
 
     return () => {
-      window.dispatchEvent(new CustomEvent("site-header-visibility", { detail: { hidden: false } }));
       ctx.revert();
     };
   }, []);
@@ -152,7 +129,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[155vh] text-[var(--color-text)]"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[160vh] text-[var(--color-text)]"
     >
       <div
         ref={frameRef}
@@ -184,23 +161,8 @@ export default function SloganTransition() {
           aria-hidden="true"
         />
         <div
-          data-slogan-exit-band
-          className="absolute right-[-56vmax] top-[-56vmax] z-[6] h-[132vmax] w-[132vmax] rounded-full bg-[#24272c]"
-          aria-hidden="true"
-        />
-        <div
-          data-slogan-exit-band
-          className="absolute right-[-51vmax] top-[-51vmax] z-[7] h-[122vmax] w-[122vmax] rounded-full bg-[#1a1d22]"
-          aria-hidden="true"
-        />
-        <div
-          data-slogan-exit-band
-          className="absolute right-[-46vmax] top-[-46vmax] z-[8] h-[112vmax] w-[112vmax] rounded-full bg-[#111418]"
-          aria-hidden="true"
-        />
-        <div
-          data-slogan-exit-band
-          className="absolute right-[-41vmax] top-[-41vmax] z-[9] h-[102vmax] w-[102vmax] rounded-full bg-[#08090b]"
+          data-slogan-dark-wash
+          className="absolute right-[-48vmax] top-[-48vmax] z-[20] h-[118vmax] w-[118vmax] rounded-full bg-[#08090b]"
           aria-hidden="true"
         />
 
