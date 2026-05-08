@@ -16,6 +16,31 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
+const FEATURED_CURSOR_COLOR_PROPERTY = "--site-cursor-featured-color";
+
+function getProjectCursorColor(project: Project) {
+  return project.cursorColor ?? project.accentColor;
+}
+
+function resolveCursorColor(color: string | undefined, fallbackColor: string) {
+  if (!color) {
+    return fallbackColor;
+  }
+
+  const trimmedColor = color.trim();
+  const variableMatch = trimmedColor.match(/^var\((--[^,\s)]+)(?:,\s*([^)]+))?\)$/);
+
+  if (!variableMatch) {
+    return trimmedColor;
+  }
+
+  return (
+    getComputedStyle(document.documentElement).getPropertyValue(variableMatch[1]).trim() ||
+    variableMatch[2]?.trim() ||
+    fallbackColor
+  );
+}
+
 function getDisplayTags(project: Project) {
   const tags = project.tags.slice(0, 4);
 
@@ -272,6 +297,10 @@ export default function FeaturedWork() {
 
         if (pin && desktopScenes.length > 0) {
           const transitionCount = featuredProjects.length - 1;
+          const fallbackCursorColor = resolveCursorColor("var(--cursor-light)", "rgba(255, 248, 242, 0.9)");
+          const featuredCursorColors = featuredProjects.map((project) =>
+            resolveCursorColor(getProjectCursorColor(project), fallbackCursorColor),
+          );
 
           gsap.set(desktopScenes, {
             width: "100%",
@@ -347,6 +376,33 @@ export default function FeaturedWork() {
             });
           };
 
+          const updateFeaturedCursorColor = (progress: number) => {
+            if (featuredCursorColors.length === 0 || transitionCount <= 0) {
+              return;
+            }
+
+            const wipeProgress = gsap.utils.clamp(0, transitionCount, progress * transitionCount);
+            const currentIndex = gsap.utils.clamp(
+              0,
+              featuredCursorColors.length - 1,
+              Math.floor(wipeProgress),
+            );
+            const nextIndex = gsap.utils.clamp(0, featuredCursorColors.length - 1, currentIndex + 1);
+            const localProgress = currentIndex === nextIndex ? 1 : wipeProgress - currentIndex;
+            const cursorColor =
+              currentIndex === nextIndex
+                ? featuredCursorColors[currentIndex]
+                : gsap.utils.interpolate(
+                    featuredCursorColors[currentIndex],
+                    featuredCursorColors[nextIndex],
+                    localProgress,
+                  );
+
+            document.documentElement.style.setProperty(FEATURED_CURSOR_COLOR_PROPERTY, cursorColor);
+          };
+
+          updateFeaturedCursorColor(0);
+
           const swipeTimeline = gsap.timeline({
             scrollTrigger: {
               trigger: pin,
@@ -358,9 +414,11 @@ export default function FeaturedWork() {
               invalidateOnRefresh: true,
               onRefresh: (self) => {
                 updateTextLayerVisibility(self.progress);
+                updateFeaturedCursorColor(self.progress);
               },
               onUpdate: (self) => {
                 updateTextLayerVisibility(self.progress);
+                updateFeaturedCursorColor(self.progress);
               },
             },
           });
@@ -416,6 +474,7 @@ export default function FeaturedWork() {
           });
 
           cleanupCallbacks.push(() => {
+            document.documentElement.style.removeProperty(FEATURED_CURSOR_COLOR_PROPERTY);
             swipeTimeline.scrollTrigger?.kill();
             swipeTimeline.kill();
           });
@@ -515,7 +574,7 @@ export default function FeaturedWork() {
       id="work"
       data-header-theme="dark"
       data-cursor-theme="dark"
-      data-cursor-color={firstProject.cursorColor ?? firstProject.accentColor}
+      data-cursor-color="var(--site-cursor-featured-color, var(--cursor-light))"
       className="overflow-hidden bg-[var(--color-surface-alt)] text-[var(--color-card)]"
       style={{ backgroundColor: firstProject.backgroundColor }}
     >
@@ -530,7 +589,7 @@ export default function FeaturedWork() {
               <div
                 key={project.slug}
                 data-featured-desktop-scene
-                data-cursor-color={project.cursorColor ?? project.accentColor}
+                data-cursor-color="var(--site-cursor-featured-color, var(--cursor-light))"
                 className="absolute inset-y-0 left-0 w-full overflow-hidden"
                 style={{ zIndex: index + 1 }}
               >
@@ -597,7 +656,7 @@ export default function FeaturedWork() {
                 <div
                   key={project.slug}
                   data-featured-desktop-text-scene
-                  data-cursor-color={project.cursorColor ?? project.accentColor}
+                  data-cursor-color="var(--site-cursor-featured-color, var(--cursor-light))"
                   className="absolute inset-0 flex flex-col overflow-hidden"
                   style={{
                     clipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",

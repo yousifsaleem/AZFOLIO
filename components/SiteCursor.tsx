@@ -28,11 +28,11 @@ function getCursorContext(target: Element | null) {
   const theme = themeElement?.dataset.cursorTheme ?? themeElement?.dataset.headerTheme;
   const isClickable = Boolean(target?.closest(CLICKABLE_SELECTOR));
 
-    return {
-      isDisabled: false,
+  return {
+    isDisabled: false,
     color: cursorColor || (theme === "dark" ? LIGHT_COLOR : DEFAULT_COLOR),
-      isClickable,
-    };
+    isClickable,
+  };
 }
 
 export default function SiteCursor() {
@@ -65,17 +65,20 @@ export default function SiteCursor() {
         cursor: none !important;
       }
 
-      .site-cursor-shell[data-cursor-state='hidden'] {
+      .site-cursor-shell[data-cursor-state='hidden'],
+      .site-cursor-shell[data-cursor-state='handoff'] {
         transition-duration: 180ms;
       }
 
       .site-cursor-shell[data-cursor-state='hover'] .site-cursor-fill,
-      .site-cursor-shell[data-cursor-state='pressed'] .site-cursor-fill {
+      .site-cursor-shell[data-cursor-state='pressed'] .site-cursor-fill,
+      .site-cursor-shell[data-cursor-state='handoff'] .site-cursor-fill {
         opacity: 0;
       }
 
       .site-cursor-shell[data-cursor-state='hover'] .site-cursor-ring,
-      .site-cursor-shell[data-cursor-state='pressed'] .site-cursor-ring {
+      .site-cursor-shell[data-cursor-state='pressed'] .site-cursor-ring,
+      .site-cursor-shell[data-cursor-state='handoff'] .site-cursor-ring {
         opacity: 1;
         transform: scale(1);
       }
@@ -106,11 +109,11 @@ export default function SiteCursor() {
 
       const target = document.elementFromPoint(clientX, clientY);
       const context = getCursorContext(target);
-      const state = context.isDisabled ? "hidden" : isPressedRef.current ? "pressed" : context.isClickable ? "hover" : "default";
+      const state = context.isDisabled ? "handoff" : isPressedRef.current ? "pressed" : context.isClickable ? "hover" : "default";
 
       targetOpacityRef.current = context.isDisabled || !isVisibleRef.current ? 0 : 1;
       targetScaleRef.current = context.isDisabled
-        ? 0.54
+        ? 1.68
         : isPressedRef.current
           ? context.isClickable
             ? 1.12
