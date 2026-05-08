@@ -15,6 +15,15 @@
   --color-accent-lilac: #e4dcf3;
   --color-accent-coral: #ebc8be;
   --color-accent-butter: #f1e2a8;
+  --site-accent-1: var(--color-accent-coral);
+  --site-accent-2: var(--color-accent-blue);
+  --site-accent-3: var(--color-accent-butter);
+  --cursor-default: rgba(31, 27, 25, 0.84);
+  --cursor-light: rgba(255, 248, 242, 0.9);
+  --cursor-winter: #ff6f7d;
+  --cursor-quiet-hours: #f1e2a8;
+  --cursor-enterprise: rgba(255, 248, 242, 0.92);
+  --cursor-barons: #d7473f;
 }
 
 @theme inline {

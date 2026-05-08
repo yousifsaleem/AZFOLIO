@@ -514,6 +514,8 @@ export default function FeaturedWork() {
       ref={rootRef}
       id="work"
       data-header-theme="dark"
+      data-cursor-theme="dark"
+      data-cursor-color={firstProject.cursorColor ?? firstProject.accentColor}
       className="overflow-hidden bg-[var(--color-surface-alt)] text-[var(--color-card)]"
       style={{ backgroundColor: firstProject.backgroundColor }}
     >
@@ -528,6 +530,7 @@ export default function FeaturedWork() {
               <div
                 key={project.slug}
                 data-featured-desktop-scene
+                data-cursor-color={project.cursorColor ?? project.accentColor}
                 className="absolute inset-y-0 left-0 w-full overflow-hidden"
                 style={{ zIndex: index + 1 }}
               >
@@ -594,6 +597,7 @@ export default function FeaturedWork() {
                 <div
                   key={project.slug}
                   data-featured-desktop-text-scene
+                  data-cursor-color={project.cursorColor ?? project.accentColor}
                   className="absolute inset-0 flex flex-col overflow-hidden"
                   style={{
                     clipPath: index === 0 ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)",
@@ -614,6 +618,8 @@ export default function FeaturedWork() {
           <article
             key={project.slug}
             data-featured-mobile-panel
+            data-cursor-theme="dark"
+            data-cursor-color={project.cursorColor ?? project.accentColor}
             className="relative isolate overflow-hidden border-b border-[rgba(255,248,242,0.16)] min-[768px]:min-h-[auto] xl:min-h-screen"
             style={{ backgroundColor: project.backgroundColor }}
           >

@@ -9,6 +9,7 @@ export type Project = {
   backgroundImage?: string;
   thumbnail?: string;
   preview?: string;
+  cursorColor?: string;
   accentColor: string;
   backgroundColor: string;
 };
@@ -37,6 +38,7 @@ export const featuredProjects: Project[] = [
     backgroundImage: "/images/winter/background.jpg",
     thumbnail: "/images/winter/thumbnail.jpg",
     preview: "/images/winter/preview.jpg",
+    cursorColor: "var(--cursor-winter)",
     accentColor: "#d8cfc1",
     backgroundColor: "#0f172a",
   },
@@ -51,6 +53,7 @@ export const featuredProjects: Project[] = [
     backgroundImage: "/images/quiet-hours/thumbnail.jpg",
     thumbnail: "/images/quiet-hours/thumbnail.jpg",
     preview: "/images/quiet-hours/preview.JPG",
+    cursorColor: "var(--cursor-quiet-hours)",
     accentColor: "#9ca3af",
     backgroundColor: "#111827",
   },
@@ -65,6 +68,7 @@ export const featuredProjects: Project[] = [
     backgroundImage: "/images/enterprise/thumbnail.jpg",
     thumbnail: "/images/enterprise/thumbnail.jpg",
     preview: "/images/enterprise/preview.JPG",
+    cursorColor: "var(--cursor-enterprise)",
     accentColor: "#f7f3ed",
     backgroundColor: "#111827",
   },
@@ -79,6 +83,7 @@ export const featuredProjects: Project[] = [
     backgroundImage: "/images/barons/thumbnail.jpg",
     thumbnail: "/images/barons/thumbnail.jpg",
     preview: "/images/barons/preview.JPG",
+    cursorColor: "var(--cursor-barons)",
     accentColor: "#c4b59b",
     backgroundColor: "#0f172a",
   },

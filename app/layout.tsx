@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Urbanist } from "next/font/google";
+import SiteCursor from "../components/SiteCursor";
 import TransitionOverlay from "../components/TransitionOverlay";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {children}
+        <SiteCursor />
         <TransitionOverlay />
       </body>
     </html>

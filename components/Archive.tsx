@@ -204,19 +204,25 @@ export default function Archive() {
       autoAlpha: 0,
       scale: 0.1,
     });
+    gsap.set(cursorDot, {
+      autoAlpha: 0,
+      scale: 0.68,
+    });
 
     gsap.to(cursor, {
       autoAlpha: 1,
-      duration: 0.12,
-      ease: "power2.out",
+      duration: 0.28,
+      delay: 0.04,
+      ease: "power3.out",
       overwrite: true,
     });
 
     gsap.to(cursorDot, {
       autoAlpha: 1,
       scale: 1,
-      duration: 0.22,
-      ease: "power2.out",
+      duration: 0.32,
+      delay: 0.05,
+      ease: "power3.out",
       overwrite: true,
     });
   };
@@ -247,15 +253,15 @@ export default function Archive() {
     gsap.killTweensOf([cursor, cursorDot, previewContent]);
     gsap.to(cursor, {
       autoAlpha: 0,
-      duration: 0.2,
-      ease: "power2.out",
+      duration: 0.28,
+      ease: "power3.out",
       overwrite: true,
     });
     gsap.to(cursorDot, {
       autoAlpha: 0,
-      scale: 0.72,
-      duration: 0.2,
-      ease: "power2.out",
+      scale: 0.68,
+      duration: 0.24,
+      ease: "power3.out",
       overwrite: true,
     });
     gsap.to(previewContent, {
@@ -361,6 +367,7 @@ export default function Archive() {
       ref={rootRef}
       id="archive"
       data-header-theme="light"
+      data-site-cursor="disabled"
       className="section-space bg-[var(--color-surface-alt)] text-[var(--color-text)] lg:cursor-none"
       onMouseEnter={(event) => enterArchive(event.clientX, event.clientY)}
       onMouseMove={(event) => moveCursor(event.clientX, event.clientY)}
