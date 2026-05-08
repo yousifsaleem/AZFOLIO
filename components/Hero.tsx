@@ -96,7 +96,7 @@ export default function Hero() {
           <div
             ref={infoRef}
             className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left"
-            style={{ marginLeft: "calc(var(--site-nav-x) - var(--site-shell-x))" }}
+            style={{ marginLeft: "var(--site-nav-offset)" }}
           >
             <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
             <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
@@ -110,7 +110,7 @@ export default function Hero() {
           <div
             ref={previewsRef}
             className="flex flex-wrap justify-center gap-3 xl:absolute xl:bottom-0 xl:justify-start xl:gap-3 xl:flex-nowrap"
-            style={{ left: "calc(var(--site-identity-x) - var(--site-shell-x))" }}
+            style={{ left: "var(--site-identity-inset)" }}
           >
             {heroProjects.map((project) => {
               const previewImage = getProjectThumbnailImage(project);
