@@ -17,6 +17,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURED_CURSOR_COLOR_PROPERTY = "--site-cursor-featured-color";
+const SNAP_EDGE_THRESHOLD = 0.2;
 
 function getProjectCursorColor(project: Project) {
   return project.cursorColor ?? project.accentColor;
@@ -309,18 +310,28 @@ export default function FeaturedWork() {
           const featuredCursorColors = featuredProjects.map((project) =>
             resolveCursorColor(getProjectCursorColor(project), fallbackCursorColor),
           );
+          let activeTextPairKey = "";
+          let textRevealStart = 0.64;
+          let textRevealEnd = 0.9;
+          let textRevealDuration = textRevealEnd - textRevealStart;
 
           gsap.set(desktopScenes, {
-            width: "100%",
+            clipPath: "inset(0 0% 0 0)",
+            webkitClipPath: "inset(0 0% 0 0)",
+            force3D: true,
+            willChange: "clip-path",
           });
 
           gsap.set(desktopScenes.slice(1), {
-            width: "0%",
+            clipPath: "inset(0 100% 0 0)",
+            webkitClipPath: "inset(0 100% 0 0)",
           });
 
           gsap.set(desktopTextScenes, {
             clipPath: "inset(0 0% 0 0)",
             webkitClipPath: "inset(0 0% 0 0)",
+            force3D: true,
+            willChange: "clip-path",
           });
 
           gsap.set(desktopTextScenes.slice(1), {
@@ -341,16 +352,43 @@ export default function FeaturedWork() {
           gsap.set(root.querySelectorAll("[data-featured-bg], [data-featured-scene-media]"), {
             xPercent: 0,
             yPercent: 0,
+            force3D: true,
+            willChange: "transform",
           });
 
-          const textBounds = desktopText?.getBoundingClientRect();
-          const textRevealStart = textBounds
-            ? gsap.utils.clamp(0, 0.96, textBounds.left / window.innerWidth)
-            : 0.64;
-          const textRevealEnd = textBounds
-            ? gsap.utils.clamp(textRevealStart + 0.04, 1, textBounds.right / window.innerWidth)
-            : 0.9;
-          const textRevealDuration = textRevealEnd - textRevealStart;
+          const measureTextReveal = () => {
+            const textBounds = desktopText?.getBoundingClientRect();
+
+            textRevealStart = textBounds
+              ? gsap.utils.clamp(0, 0.96, textBounds.left / window.innerWidth)
+              : 0.64;
+            textRevealEnd = textBounds
+              ? gsap.utils.clamp(textRevealStart + 0.04, 1, textBounds.right / window.innerWidth)
+              : 0.9;
+            textRevealDuration = textRevealEnd - textRevealStart;
+          };
+
+          const snapToProjectState = (progress: number) => {
+            if (transitionCount <= 0 || progress <= 0 || progress >= 1) {
+              return progress;
+            }
+
+            const scaledProgress = progress * transitionCount;
+            const segmentIndex = Math.min(transitionCount - 1, Math.floor(scaledProgress));
+            const localProgress = scaledProgress - segmentIndex;
+
+            if (localProgress <= SNAP_EDGE_THRESHOLD) {
+              return segmentIndex / transitionCount;
+            }
+
+            if (localProgress >= 1 - SNAP_EDGE_THRESHOLD) {
+              return (segmentIndex + 1) / transitionCount;
+            }
+
+            return progress;
+          };
+
+          measureTextReveal();
 
           const updateTextLayerVisibility = (progress: number) => {
             if (desktopTextScenes.length === 0) {
@@ -360,6 +398,13 @@ export default function FeaturedWork() {
             const wipeProgress = gsap.utils.clamp(0, transitionCount, progress * transitionCount);
 
             if (wipeProgress >= transitionCount) {
+              const finalPairKey = `final-${featuredProjects.length - 1}`;
+
+              if (activeTextPairKey === finalPairKey) {
+                return;
+              }
+
+              activeTextPairKey = finalPairKey;
               gsap.set(desktopTextScenes, {
                 autoAlpha: 0,
                 pointerEvents: "none",
@@ -373,6 +418,13 @@ export default function FeaturedWork() {
 
             const currentTextIndex = gsap.utils.clamp(0, transitionCount - 1, Math.floor(wipeProgress));
             const nextTextIndex = currentTextIndex + 1;
+            const pairKey = `${currentTextIndex}-${nextTextIndex}`;
+
+            if (activeTextPairKey === pairKey) {
+              return;
+            }
+
+            activeTextPairKey = pairKey;
 
             gsap.set(desktopTextScenes, {
               autoAlpha: 0,
@@ -420,7 +472,17 @@ export default function FeaturedWork() {
               pin: true,
               anticipatePin: 1,
               invalidateOnRefresh: true,
+              snap: {
+                snapTo: snapToProjectState,
+                duration: { min: 0.18, max: 0.42 },
+                delay: 0.04,
+                ease: "power2.out",
+              },
+              onRefreshInit: () => {
+                measureTextReveal();
+              },
               onRefresh: (self) => {
+                activeTextPairKey = "";
                 updateTextLayerVisibility(self.progress);
                 updateFeaturedCursorColor(self.progress);
               },
@@ -437,9 +499,13 @@ export default function FeaturedWork() {
 
             swipeTimeline.fromTo(
               scene,
-              { width: "0%" },
               {
-                width: "100%",
+                clipPath: "inset(0 100% 0 0)",
+                webkitClipPath: "inset(0 100% 0 0)",
+              },
+              {
+                clipPath: "inset(0 0% 0 0)",
+                webkitClipPath: "inset(0 0% 0 0)",
                 duration: 1,
                 ease: "none",
               },
