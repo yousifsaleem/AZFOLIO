@@ -203,25 +203,25 @@ export default function TransitionOverlay() {
     >
       <div
         data-page-transition-band
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-coral)]"
+        className="absolute left-0 top-0 rounded-full bg-[rgba(235,200,190,0.38)]"
       />
       <div
         data-page-transition-band
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-butter)]"
+        className="absolute left-0 top-0 rounded-full bg-[rgba(241,226,168,0.28)]"
       />
       <div
         data-page-transition-band
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-lilac)]"
+        className="absolute left-0 top-0 rounded-full bg-[rgba(228,220,243,0.24)]"
       />
       <div
         data-page-transition-band
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-accent-blue)]"
+        className="absolute left-0 top-0 rounded-full bg-[rgba(215,231,242,0.2)]"
       />
       <div
         data-page-transition-band
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-surface)]"
+        className="absolute left-0 top-0 rounded-full bg-[var(--color-text)]"
       />
-      <div ref={screenRef} className="absolute inset-0 bg-[var(--color-surface)]" />
+      <div ref={screenRef} className="absolute inset-0 bg-[var(--color-text)]" />
     </div>
   );
 }

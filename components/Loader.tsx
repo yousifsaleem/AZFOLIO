@@ -108,14 +108,14 @@ export default function Loader() {
   return (
     <div
       ref={rootRef}
-      className={`fixed inset-0 z-[60] bg-[var(--color-surface)] text-[var(--color-text)] ${isComplete ? "pointer-events-none" : ""}`}
+      className={`fixed inset-0 z-[60] bg-[var(--color-text)] text-[var(--color-card)] ${isComplete ? "pointer-events-none" : ""}`}
       aria-hidden={isComplete}
     >
       <div className="relative flex h-full items-center justify-center px-4 sm:px-8 lg:px-12">
         <div className="flex w-full flex-col items-center text-center">
           <div className="h-14 sm:h-20 lg:h-24">
             <p
-              className={`flex h-14 items-center justify-center px-2 text-[clamp(1.65rem,7vw,5rem)] leading-none tracking-[-0.05em] text-[var(--color-text-muted)] transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
+              className={`flex h-14 items-center justify-center px-2 text-[clamp(1.65rem,7vw,5rem)] leading-none tracking-[-0.05em] text-[rgba(253,250,246,0.72)] transition-all duration-300 ease-out sm:h-20 lg:h-24 ${
                 isGreetingVisible ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
               }`}
             >
@@ -126,7 +126,7 @@ export default function Loader() {
           <div className="mt-6 w-[82vw] max-w-[520px] sm:mt-8 sm:w-[68vw] lg:w-[40vw]">
             <svg
               viewBox="0 0 1200 140"
-              className="h-14 w-full text-[var(--color-text-muted)] sm:h-16 lg:h-20"
+              className="h-14 w-full text-[var(--color-card)] sm:h-16 lg:h-20"
               preserveAspectRatio="none"
               aria-hidden="true"
             >
@@ -135,7 +135,7 @@ export default function Loader() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="opacity-12"
+                className="opacity-18"
                 strokeLinecap="round"
               />
               <path
@@ -153,7 +153,7 @@ export default function Loader() {
 
         <p
           ref={counterRef}
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[clamp(0.95rem,3.8vw,2rem)] leading-none tracking-[-0.04em] text-[var(--color-text)] sm:bottom-8 sm:left-auto sm:right-8 sm:translate-x-0 lg:bottom-10 lg:right-12"
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[clamp(0.95rem,3.8vw,2rem)] leading-none tracking-[-0.04em] text-[var(--color-card)] sm:bottom-8 sm:left-auto sm:right-8 sm:translate-x-0 lg:bottom-10 lg:right-12"
         >
           0%
         </p>

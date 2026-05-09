@@ -23,7 +23,7 @@ export default function SloganTransition() {
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
 
       gsap.set(frame, {
-        backgroundColor: "rgba(248, 243, 236, 0)",
+        backgroundColor: "rgba(31, 27, 25, 0)",
       });
 
       gsap.set(rippleBands, {
@@ -50,7 +50,7 @@ export default function SloganTransition() {
 
       timeline
         .to(frame, {
-          backgroundColor: "rgba(248, 243, 236, 1)",
+          backgroundColor: "rgba(31, 27, 25, 1)",
           duration: 0.74,
           ease: "none",
         }, 0)
@@ -82,42 +82,42 @@ export default function SloganTransition() {
     <section
       ref={rootRef}
       id="slogan-transition"
-      data-header-theme="light"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[200vh] text-[var(--color-text)]"
+      data-header-theme="dark"
+      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[200vh] text-[var(--color-card)]"
     >
       <div
         ref={frameRef}
-        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-surface)] py-12"
+        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-text)] py-12"
       >
         <div
           data-ripple-band
-          className="absolute bottom-[-56vmax] left-[-52vmax] z-[1] h-[132vmax] w-[132vmax] rounded-full bg-[var(--color-accent-coral)]"
+          className="absolute bottom-[-56vmax] left-[-52vmax] z-[1] h-[132vmax] w-[132vmax] rounded-full bg-[rgba(235,200,190,0.28)]"
           aria-hidden="true"
         />
         <div
           data-ripple-band
-          className="absolute bottom-[-51vmax] left-[-47vmax] z-[2] h-[122vmax] w-[122vmax] rounded-full bg-[var(--color-accent-butter)]"
+          className="absolute bottom-[-51vmax] left-[-47vmax] z-[2] h-[122vmax] w-[122vmax] rounded-full bg-[rgba(241,226,168,0.22)]"
           aria-hidden="true"
         />
         <div
           data-ripple-band
-          className="absolute bottom-[-46vmax] left-[-42vmax] z-[3] h-[112vmax] w-[112vmax] rounded-full bg-[var(--color-accent-lilac)]"
+          className="absolute bottom-[-46vmax] left-[-42vmax] z-[3] h-[112vmax] w-[112vmax] rounded-full bg-[rgba(228,220,243,0.2)]"
           aria-hidden="true"
         />
         <div
           data-ripple-band
-          className="absolute bottom-[-41vmax] left-[-37vmax] z-[4] h-[102vmax] w-[102vmax] rounded-full bg-[var(--color-accent-blue)]"
+          className="absolute bottom-[-41vmax] left-[-37vmax] z-[4] h-[102vmax] w-[102vmax] rounded-full bg-[rgba(215,231,242,0.18)]"
           aria-hidden="true"
         />
         <div
           data-ripple-band
-          className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-surface)]"
+          className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-text)]"
           aria-hidden="true"
         />
 
         <div className="layout-shell relative z-10">
           <div className="mx-auto max-w-5xl text-center">
-            <p className="type-display-md text-[var(--color-text)] max-sm:text-[clamp(1.75rem,8.6vw,3rem)] max-sm:leading-[1.18]">
+            <p className="type-display-md text-[var(--color-card)] max-sm:text-[clamp(1.75rem,8.6vw,3rem)] max-sm:leading-[1.18]">
               <span data-slogan-line className="block">
                 I&apos;m a graphic designer.
               </span>
