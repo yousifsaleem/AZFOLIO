@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-const CURSOR_SIZE = 22;
 const FOLLOW_EASE = 0.16;
 const SCALE_EASE = 0.18;
 const OPACITY_EASE = 0.24;
@@ -10,6 +9,7 @@ const DEFAULT_COLOR = "var(--cursor-default)";
 const LIGHT_COLOR = "var(--cursor-light)";
 const FALLBACK_ACCENT_COLOR = "var(--site-accent-1)";
 const CLICKABLE_SELECTOR = 'a, button, [role="button"], .cursor-hover';
+const DEFAULT_CURSOR_LABEL = "Explore";
 
 function getCursorContext(target: Element | null) {
   const disabled = target?.closest("[data-site-cursor='disabled']");
@@ -19,24 +19,32 @@ function getCursorContext(target: Element | null) {
       isDisabled: true,
       color: DEFAULT_COLOR,
       isClickable: false,
+      variant: "default",
+      label: "",
     };
   }
 
+  const variantElement = target?.closest<HTMLElement>("[data-cursor-variant]");
   const colorElement = target?.closest<HTMLElement>("[data-cursor-color]");
   const themeElement = target?.closest<HTMLElement>("[data-cursor-theme], [data-header-theme]");
+  const variant = variantElement?.dataset.cursorVariant ?? "default";
+  const label = variantElement?.dataset.cursorLabel ?? (variant === "explore" ? DEFAULT_CURSOR_LABEL : "");
   const cursorColor = colorElement?.dataset.cursorColor;
   const theme = themeElement?.dataset.cursorTheme ?? themeElement?.dataset.headerTheme;
-  const isClickable = Boolean(target?.closest(CLICKABLE_SELECTOR));
+  const isClickable = variant === "explore" || Boolean(target?.closest(CLICKABLE_SELECTOR));
 
   return {
     isDisabled: false,
     color: cursorColor || (theme === "dark" ? LIGHT_COLOR : DEFAULT_COLOR),
     isClickable,
+    variant,
+    label,
   };
 }
 
 export default function SiteCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const isEnabledRef = useRef(false);
   const isVisibleRef = useRef(false);
@@ -52,8 +60,9 @@ export default function SiteCursor() {
 
   useEffect(() => {
     const cursor = cursorRef.current;
+    const label = labelRef.current;
 
-    if (!cursor) {
+    if (!cursor || !label) {
       return;
     }
 
@@ -68,6 +77,20 @@ export default function SiteCursor() {
       .site-cursor-shell[data-cursor-state='hidden'],
       .site-cursor-shell[data-cursor-state='handoff'] {
         transition-duration: 180ms;
+      }
+
+      .site-cursor-shell {
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        transition-property: width, height, border-radius, background-color, border-color, box-shadow;
+      }
+
+      .site-cursor-shell[data-cursor-state='explore'],
+      .site-cursor-shell[data-cursor-state='explore-pressed'] {
+        width: 108px;
+        height: 38px;
+        border-radius: 999px;
       }
 
       .site-cursor-shell[data-cursor-state='hover'] .site-cursor-fill,
@@ -85,6 +108,32 @@ export default function SiteCursor() {
 
       .site-cursor-shell[data-cursor-state='pressed'] .site-cursor-ring {
         background: color-mix(in srgb, var(--site-cursor-color, var(--cursor-default)) 12%, transparent);
+      }
+
+      .site-cursor-shell[data-cursor-state='explore'] .site-cursor-fill,
+      .site-cursor-shell[data-cursor-state='explore-pressed'] .site-cursor-fill {
+        inset: 0;
+        border-radius: 999px;
+        opacity: 1;
+        box-shadow: 0 14px 38px rgba(31, 27, 25, 0.22);
+      }
+
+      .site-cursor-shell[data-cursor-state='explore'] .site-cursor-ring,
+      .site-cursor-shell[data-cursor-state='explore-pressed'] .site-cursor-ring {
+        opacity: 0.58;
+        transform: scale(1.06);
+        border-color: color-mix(in srgb, var(--site-cursor-color, var(--cursor-default)) 64%, transparent);
+        background: color-mix(in srgb, var(--site-cursor-color, var(--cursor-default)) 10%, transparent);
+      }
+
+      .site-cursor-shell[data-cursor-state='explore-pressed'] .site-cursor-fill {
+        opacity: 0.9;
+      }
+
+      .site-cursor-shell[data-cursor-state='explore'] .site-cursor-label,
+      .site-cursor-shell[data-cursor-state='explore-pressed'] .site-cursor-label {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
       }
     `;
     document.head.appendChild(styleElement);
@@ -109,11 +158,26 @@ export default function SiteCursor() {
 
       const target = document.elementFromPoint(clientX, clientY);
       const context = getCursorContext(target);
-      const state = context.isDisabled ? "handoff" : isPressedRef.current ? "pressed" : context.isClickable ? "hover" : "default";
+      const isExplore = context.variant === "explore";
+      const state = context.isDisabled
+        ? "handoff"
+        : isExplore
+          ? isPressedRef.current
+            ? "explore-pressed"
+            : "explore"
+          : isPressedRef.current
+            ? "pressed"
+            : context.isClickable
+              ? "hover"
+              : "default";
 
       targetOpacityRef.current = context.isDisabled || !isVisibleRef.current ? 0 : 1;
       targetScaleRef.current = context.isDisabled
         ? 1.68
+        : isExplore
+          ? isPressedRef.current
+            ? 0.96
+            : 1
         : isPressedRef.current
           ? context.isClickable
             ? 1.12
@@ -122,6 +186,9 @@ export default function SiteCursor() {
             ? 1.42
             : 1;
       cursor.style.setProperty("--site-cursor-color", context.color || FALLBACK_ACCENT_COLOR);
+      if (label.textContent !== context.label) {
+        label.textContent = context.label;
+      }
       cursor.dataset.cursorState = state;
     };
 
@@ -174,9 +241,9 @@ export default function SiteCursor() {
       opacityRef.current += (targetOpacityRef.current - opacityRef.current) * OPACITY_EASE;
 
       cursor.style.opacity = opacityRef.current.toFixed(3);
-      cursor.style.transform = `translate3d(${cursorXRef.current - CURSOR_SIZE / 2}px, ${
-        cursorYRef.current - CURSOR_SIZE / 2
-      }px, 0) scale(${scaleRef.current})`;
+      cursor.style.transform = `translate3d(${cursorXRef.current}px, ${
+        cursorYRef.current
+      }px, 0) translate3d(-50%, -50%, 0) scale(${scaleRef.current})`;
 
       animationFrameRef.current = window.requestAnimationFrame(tick);
     };
@@ -211,11 +278,15 @@ export default function SiteCursor() {
   return (
     <div
       ref={cursorRef}
-      className="site-cursor-shell pointer-events-none fixed left-0 top-0 z-[90] hidden h-[22px] w-[22px] opacity-0 transition-[background-color,border-color,box-shadow] duration-300 ease-out will-change-transform lg:block"
+      className="site-cursor-shell pointer-events-none fixed left-0 top-0 z-[90] hidden opacity-0 duration-300 ease-out will-change-transform lg:block"
       aria-hidden="true"
     >
       <div className="site-cursor-ring absolute inset-0 rounded-full border border-[var(--site-cursor-color,var(--cursor-default))] opacity-0 shadow-[0_0_22px_rgba(255,248,242,0.14)] transition-[background-color,border-color,opacity,transform] duration-300 ease-out" />
-      <div className="site-cursor-fill absolute inset-[3px] rounded-full bg-[var(--site-cursor-color,var(--cursor-default))] shadow-[0_8px_22px_rgba(31,27,25,0.12)] transition-[background-color,opacity] duration-300 ease-out" />
+      <div className="site-cursor-fill absolute inset-[3px] rounded-full bg-[var(--site-cursor-color,var(--cursor-default))] shadow-[0_8px_22px_rgba(31,27,25,0.12)] transition-[inset,background-color,border-radius,opacity] duration-300 ease-out" />
+      <span
+        ref={labelRef}
+        className="site-cursor-label absolute inset-0 grid -translate-y-px place-items-center text-center text-[0.8rem] font-semibold uppercase leading-none tracking-[0.08em] text-[var(--color-text)] opacity-0 transition-[opacity,transform] duration-200 ease-out"
+      />
     </div>
   );
 }

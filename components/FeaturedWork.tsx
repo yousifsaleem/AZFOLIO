@@ -132,7 +132,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="relative aspect-square overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
+      className="group/media relative aspect-square overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
       style={{ backgroundColor: project.backgroundColor }}
     >
       <div
@@ -142,10 +142,10 @@ function FeaturedMediaCard({ project }: { project: Project }) {
       />
       <div
         data-featured-preview
-        className="pointer-events-none absolute inset-0 z-[2] flex h-full w-full items-center justify-center px-8"
+        className="pointer-events-none absolute inset-0 z-[2] flex h-full w-full items-center justify-center px-5"
         aria-hidden="true"
       >
-        <div className="relative aspect-video w-full max-w-[78%] overflow-hidden rounded-[1.25rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
+        <div className="relative aspect-video w-full max-w-[88%] overflow-hidden rounded-[0.9rem] border border-[rgba(255,248,242,0.34)] bg-[rgba(71,56,48,0.08)]">
           {previewImage ? (
             <Image
               src={previewImage}
@@ -157,7 +157,16 @@ function FeaturedMediaCard({ project }: { project: Project }) {
           ) : null}
         </div>
       </div>
-      <div data-featured-hover className="absolute inset-0 z-20" />
+      <TransitionLink
+        data-featured-hover
+        data-cursor-variant="explore"
+        data-cursor-label="Explore"
+        href={`/work/${project.slug}`}
+        aria-label={`Explore ${project.title}`}
+        className="absolute inset-0 z-20 cursor-none"
+      >
+        <span className="sr-only">Explore {project.title}</span>
+      </TransitionLink>
       <div
         data-featured-image-layer
         className="absolute inset-0 z-10 h-full w-full overflow-hidden"
@@ -248,11 +257,10 @@ export default function FeaturedWork() {
         const cards = gsap.utils.toArray<HTMLElement>("[data-featured-media]", scope);
 
         cards.forEach((card) => {
-          const hoverArea = card.querySelector<HTMLElement>("[data-featured-hover]");
           const imageLayer = card.querySelector<HTMLElement>("[data-featured-image-layer]");
           const previewLayer = card.querySelector<HTMLElement>("[data-featured-preview]");
 
-          if (!hoverArea || !imageLayer || !previewLayer) {
+          if (!imageLayer || !previewLayer) {
             return;
           }
 
@@ -275,12 +283,12 @@ export default function FeaturedWork() {
             hoverTimeline.reverse();
           };
 
-          hoverArea.addEventListener("mouseenter", handleEnter);
-          hoverArea.addEventListener("mouseleave", handleLeave);
+          card.addEventListener("mouseenter", handleEnter);
+          card.addEventListener("mouseleave", handleLeave);
 
           cleanupCallbacks.push(() => {
-            hoverArea.removeEventListener("mouseenter", handleEnter);
-            hoverArea.removeEventListener("mouseleave", handleLeave);
+            card.removeEventListener("mouseenter", handleEnter);
+            card.removeEventListener("mouseleave", handleLeave);
             hoverTimeline.kill();
           });
         });
