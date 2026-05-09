@@ -540,7 +540,7 @@ export default function Contact() {
     >
       <div className="layout-shell flex min-h-screen flex-col justify-between py-8 lg:py-10">
         <div className="relative z-10 grid gap-12 pt-28 xl:grid-cols-[minmax(0,1.05fr)_minmax(180px,220px)_minmax(240px,0.62fr)] xl:items-start xl:gap-10 xl:pt-36 2xl:gap-16">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl xl:max-w-[min(31rem,38vw)] 2xl:max-w-[34rem]">
             <h2 className="text-[clamp(4.25rem,10.6vw,8.5rem)] font-semibold uppercase leading-[0.82] tracking-[-0.09em] text-[var(--color-text)]">
               LET&apos;S
               <br />
@@ -549,7 +549,7 @@ export default function Contact() {
             <p className="type-meta mt-5 text-[var(--color-text-muted)]">PORTFOLIO BY AFIA</p>
           </div>
 
-          <div className="w-full max-w-xs xl:pt-2">
+          <div className="w-full max-w-xs xl:absolute xl:left-[calc(var(--site-identity-inset)+2.75rem)] xl:top-36 xl:z-10 xl:w-[min(18rem,22vw)] xl:max-w-none xl:pt-2 2xl:top-40">
             <div className="group/list mt-2 flex flex-col gap-1">
               {contactLinks.map((link) => (
                 <a
@@ -557,12 +557,12 @@ export default function Contact() {
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  className="group/item flex items-center gap-3 py-2.5 text-[var(--color-text-muted)] transition-colors duration-300 ease-out group-hover/list:text-[rgba(117,104,95,0.44)] hover:text-[var(--color-text)] group-hover/list:hover:text-[var(--color-text)]"
+                  className="group/item relative flex items-center py-2.5 pl-0 text-[var(--color-text-muted)] transition-colors duration-300 ease-out group-hover/list:text-[rgba(117,104,95,0.44)] hover:text-[var(--color-text)] group-hover/list:hover:text-[var(--color-text)]"
                 >
-                  <span className="inline-flex h-6 w-6 items-center justify-center text-[var(--color-text-muted)] transition-colors duration-300 ease-out group-hover/item:text-[var(--color-text)] lg:h-7 lg:w-7">
+                  <span className="absolute left-[-4.5rem] inline-flex h-6 w-6 items-center justify-center text-[var(--color-text-muted)] transition-colors duration-300 ease-out group-hover/item:text-[var(--color-text)] lg:left-[-5rem] lg:h-7 lg:w-7">
                     <LinkIcon type={link.icon} />
                   </span>
-                  <span className="inline-flex w-8 -translate-x-3 items-center justify-center opacity-0 transition-all duration-300 ease-out group-hover/item:translate-x-0 group-hover/item:opacity-100 lg:w-9">
+                  <span className="absolute left-[-2.4rem] inline-flex w-8 -translate-x-3 items-center justify-center opacity-0 transition-all duration-300 ease-out group-hover/item:translate-x-0 group-hover/item:opacity-100 lg:left-[-2.55rem] lg:w-9">
                     <HoverArrow />
                   </span>
                   <span className="text-[clamp(1.3rem,1.75vw,1.8rem)] leading-none tracking-[-0.03em] transition-transform duration-300 ease-out group-hover/item:translate-x-2">
@@ -573,8 +573,8 @@ export default function Contact() {
             </div>
           </div>
 
-          <div className="max-w-sm xl:pt-2">
-            <div className="mt-2 space-y-4">
+          <div className="max-w-sm xl:col-start-3 xl:ml-auto xl:w-[min(16rem,20vw)] xl:max-w-none xl:justify-self-end xl:pt-2">
+            <div className="mt-2 space-y-4 text-left">
               <p className="type-body max-w-xs text-[var(--color-text-muted)]">
                 Available for branding, editorial and digital projects.
               </p>

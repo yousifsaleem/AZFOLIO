@@ -608,11 +608,9 @@ export default function Archive() {
       onMouseLeave={leaveArchive}
     >
       <div className="layout-shell">
-        <div className="mb-12 flex items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
-          <p className="type-heading text-[var(--color-text-muted)]">Archive</p>
-          <p className="type-body hidden max-w-sm text-[var(--color-text-muted)] xl:block">
-            A wider editorial index of projects, prepared for future cursor-follow previews.
-          </p>
+        <div className="mb-12 border-b border-[var(--color-border)] pb-6 xl:grid xl:grid-cols-[minmax(0,1fr)_var(--site-time-column-width)] xl:gap-8">
+          <div className="hidden xl:block" aria-hidden="true" />
+          <h2 className="type-heading text-left text-[var(--color-text-muted)]">Archive</h2>
         </div>
 
         <div
@@ -650,7 +648,7 @@ export default function Archive() {
         </div>
 
         <div>
-          {archiveProjects.map((project) => (
+          {archiveProjects.map((project, index) => (
             <div
               key={project.title}
               className={`group border-b border-[var(--color-border)] transition-colors duration-300 ease-out hover:border-[var(--color-border-strong)] ${
@@ -659,14 +657,19 @@ export default function Archive() {
               onMouseEnter={(event) => showPreview(project, event.clientX, event.clientY)}
               onMouseLeave={hidePreview}
             >
-              <div className="grid gap-3 py-8 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-10 xl:grid-cols-[minmax(0,1fr)_320px_90px] xl:items-end xl:gap-8">
-                <h3 className="type-display-xl text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)] max-md:text-[clamp(2.2rem,12vw,4.2rem)] max-md:leading-[0.98]">
-                  {project.title}
-                </h3>
+              <div className="grid gap-3 py-6 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-7 xl:grid-cols-[minmax(0,1fr)_var(--site-time-column-width)] xl:items-end xl:gap-8">
+                <div className="min-w-0">
+                  <p className="type-meta mb-2 text-[rgba(117,104,95,0.78)]">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="text-[clamp(1.65rem,2.5vw,2.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)]">
+                    {project.title}
+                  </h3>
+                </div>
 
-                <p className="type-meta text-[var(--color-text-muted)] xl:pb-3">{project.category}</p>
-
-                <p className="type-meta text-[rgba(117,104,95,0.78)] xl:pb-3 xl:text-right">{project.year}</p>
+                <div className="type-meta flex flex-col items-start gap-1 text-left xl:pb-1">
+                  <p className="text-[rgba(117,104,95,0.78)]">{project.year}</p>
+                </div>
               </div>
             </div>
           ))}
