@@ -96,7 +96,7 @@ export default function Hero() {
           <div
             ref={infoRef}
             className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left"
-            style={{ marginLeft: "var(--site-nav-offset)" }}
+            style={{ marginLeft: "calc(var(--site-nav-offset) + 3rem)" }}
           >
             <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
             <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
