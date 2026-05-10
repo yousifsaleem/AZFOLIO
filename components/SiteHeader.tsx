@@ -155,7 +155,7 @@ export default function SiteHeader() {
         <nav
           className={`w-full transition-colors duration-300 lg:w-auto xl:fixed ${navColor}`}
           style={{
-            left: "var(--layout-left-nav-x)",
+            left: "calc(var(--layout-left-nav-x) - 3rem)",
             top: "calc(var(--layout-header-baseline-y) - 0.375rem)",
           }}
         >

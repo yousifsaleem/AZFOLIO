@@ -95,16 +95,27 @@ export default function Hero() {
         <div className="relative mt-[clamp(2.5rem,9vw,5rem)] grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
           <div
             ref={infoRef}
-            className="max-w-[34rem] break-words text-left text-[var(--color-text)] xl:absolute"
-            style={{
-              left: "var(--layout-nav-x)",
-            }}
+            className="max-w-[34rem] break-words text-left text-[var(--color-text)] xl:absolute xl:inset-0 xl:max-w-none"
           >
-            <div className="type-midsize text-[var(--color-text)]">
-              <span className="block">currently exploring how branding,</span>
-              <span className="block">editorial and motion can live together.</span>
+            <div
+              className="type-midsize text-[var(--color-text)] xl:absolute xl:max-w-[34rem]"
+              style={{
+                left: "calc(var(--layout-left-nav-x) - 3rem)",
+                bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
+              }}
+            >
+              currently exploring how branding,<br />
+              editorial and motion can live together.
             </div>
-            <div className="type-small mt-4 text-[var(--color-text-muted)]">[scroll down to explore]</div>
+            <div
+              className="type-small mt-4 text-[var(--color-text-muted)] xl:absolute xl:mt-0"
+              style={{
+                left: "calc(var(--layout-left-nav-x) - 3rem)",
+                bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",
+              }}
+            >
+              [scroll down to explore]
+            </div>
           </div>
 
           <div
