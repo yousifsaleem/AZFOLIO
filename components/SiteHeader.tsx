@@ -200,9 +200,9 @@ export default function SiteHeader() {
         </div>
 
         <div
-          className="max-w-full self-start text-left lg:ml-auto lg:w-fit xl:absolute"
+          className="max-w-full self-end text-left ml-auto lg:w-fit xl:absolute xl:left-auto"
           style={{
-            right: "var(--layout-page-edge-x)",
+            right: "var(--layout-page-left)",
             top: "var(--layout-header-baseline-y)",
           }}
         >
