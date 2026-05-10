@@ -9,83 +9,70 @@ const archiveProjects = [
     title: "Twice",
     category: "Interaction & Development",
     year: "2026",
-    previewImage: "/images/archive/twice.jpg",
+    previewImage: "/images/winter/preview.jpg",
   },
   {
     title: "The Dama",
     category: "Design & Development",
     year: "2025",
-    previewImage: "/images/archive/the-dama.jpg",
+    previewImage: "/images/quiet-hours/preview.JPG",
   },
   {
     title: "Fabric",
     category: "Design & Development",
     year: "2025",
-    previewImage: "/images/archive/fabric.jpg",
+    previewImage: "/images/enterprise/preview.JPG",
   },
   {
     title: "Aanstekelijk",
     category: "Design & Development",
     year: "2024",
-    previewImage: "/images/archive/aanstekelijk.jpg",
+    previewImage: "/images/barons/preview.JPG",
   },
   {
     title: "Xaar Annual Report",
     category: "Editorial / Corporate",
     year: "2026",
-    previewImage: "/images/archive/xaar-annual-report.jpg",
+    previewImage: "/images/winter/background.jpg",
   },
   {
     title: "Titon Annual Report",
     category: "Editorial / Corporate",
     year: "2025",
-    previewImage: "/images/archive/titon-annual-report.jpg",
+    previewImage: "/images/quiet-hours/thumbnail.jpg",
   },
   {
     title: "Star Energy",
     category: "Editorial / Strategy",
     year: "2025",
-    previewImage: "/images/archive/star-energy.jpg",
+    previewImage: "/images/enterprise/thumbnail.jpg",
   },
   {
     title: "MIGO Opportunities Trust",
     category: "Editorial / Concept",
     year: "2026",
-    previewImage: "/images/archive/migo-opportunities-trust.jpg",
+    previewImage: "/images/barons/thumbnail.jpg",
   },
 ];
 
-const PREVIEW_DIMENSION = 236;
-const CURSOR_SIZE = 18;
-const CURSOR_LERP = 0.44;
-const PREVIEW_LERP = 0.16;
-const PREVIEW_RADIUS = 22;
-const PREVIEW_START_SCALE = CURSOR_SIZE / PREVIEW_DIMENSION;
-const PREVIEW_HIDE_DELAY = 90;
+const PREVIEW_TRAVEL_PERCENT = 112;
+const PREVIEW_CARD_COUNT = 2;
+
+type ArchiveProject = (typeof archiveProjects)[number];
 
 export default function Archive() {
-  const [activeProject, setActiveProject] = useState<(typeof archiveProjects)[number] | null>(null);
-  const [hasImageError, setHasImageError] = useState(false);
+  const [activeProject, setActiveProject] = useState<ArchiveProject | null>(null);
 
   const rootRef = useRef<HTMLElement>(null);
-  const activeProjectRef = useRef<(typeof archiveProjects)[number] | null>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
-  const morphFrameRef = useRef<HTMLDivElement>(null);
-  const previewContentRef = useRef<HTMLDivElement>(null);
-  const previewMediaRef = useRef<HTMLDivElement>(null);
-  const isInsideArchiveRef = useRef(false);
-  const isHoveringRef = useRef(false);
-  const isBaseCursorVisibleRef = useRef(false);
-  const animationFrameRef = useRef<number | null>(null);
-  const mouseXRef = useRef(0);
-  const mouseYRef = useRef(0);
-  const cursorXRef = useRef(0);
-  const cursorYRef = useRef(0);
-  const previewXRef = useRef(0);
-  const previewYRef = useRef(0);
+  const previewCardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const previewMediaRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const imageLayerRefs = useRef<Array<Array<HTMLDivElement | null>>>([]);
+  const activeProjectRef = useRef<ArchiveProject | null>(null);
+  const queuedProjectRef = useRef<ArchiveProject | null>(null);
+  const switchTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const canUseHoverPreviewRef = useRef(false);
-  const hidePreviewTimeoutRef = useRef<number | null>(null);
+  const isPreviewVisibleRef = useRef(false);
+  const activeCardIndexRef = useRef(0);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -103,497 +90,260 @@ export default function Archive() {
   }, []);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const morphFrame = morphFrameRef.current;
-    const previewContent = previewContentRef.current;
-    const previewMedia = previewMediaRef.current;
+    const previewCards = previewCardRefs.current.filter(Boolean);
+    const previewMedia = previewMediaRefs.current.filter(Boolean);
+    const imageLayers = imageLayerRefs.current.flat().filter(Boolean);
 
-    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
+    if (!previewCards.length || !previewMedia.length) {
       return;
     }
 
     const ctx = gsap.context(() => {
-      gsap.set(cursor, {
+      gsap.set(previewCards, {
         autoAlpha: 0,
-        width: PREVIEW_DIMENSION,
-        height: PREVIEW_DIMENSION,
-        transformOrigin: "50% 50%",
-        x: -9999,
-        y: -9999,
-        force3D: true,
-      });
-
-      gsap.set(cursorDot, {
-        autoAlpha: 1,
-        width: CURSOR_SIZE,
-        height: CURSOR_SIZE,
-        scale: 1,
-        transformOrigin: "50% 50%",
-        force3D: true,
-      });
-
-      if (morphFrame) {
-        gsap.set(morphFrame, {
-          autoAlpha: 0,
-          scale: PREVIEW_START_SCALE,
-          borderRadius: 999,
-          transformOrigin: "50% 50%",
-          force3D: true,
-        });
-      }
-
-      gsap.set(previewContent, {
-        autoAlpha: 0,
-        scale: PREVIEW_START_SCALE,
-        borderRadius: 999,
+        y: 0,
+        yPercent: PREVIEW_TRAVEL_PERCENT,
+        scale: 0.96,
         transformOrigin: "50% 50%",
         force3D: true,
       });
 
       gsap.set(previewMedia, {
-        autoAlpha: 0,
-        scale: 1.045,
-        borderRadius: 999,
+        scale: 1.04,
         transformOrigin: "50% 50%",
         force3D: true,
       });
-    }, cursor);
 
-    const tick = () => {
-      if (isInsideArchiveRef.current) {
-        cursorXRef.current += (mouseXRef.current - cursorXRef.current) * CURSOR_LERP;
-        cursorYRef.current += (mouseYRef.current - cursorYRef.current) * CURSOR_LERP;
-        previewXRef.current += (mouseXRef.current - previewXRef.current) * PREVIEW_LERP;
-        previewYRef.current += (mouseYRef.current - previewYRef.current) * PREVIEW_LERP;
-
-        const targetX = isHoveringRef.current ? previewXRef.current : cursorXRef.current;
-        const targetY = isHoveringRef.current ? previewYRef.current : cursorYRef.current;
-
-        gsap.set(cursor, {
-          x: targetX - PREVIEW_DIMENSION / 2,
-          y: targetY - PREVIEW_DIMENSION / 2,
-        });
-      }
-
-      animationFrameRef.current = window.requestAnimationFrame(tick);
-    };
-
-    animationFrameRef.current = window.requestAnimationFrame(tick);
+      gsap.set(imageLayers, {
+        autoAlpha: 0,
+        force3D: true,
+      });
+    }, rootRef);
 
     return () => {
-      isInsideArchiveRef.current = false;
-      isHoveringRef.current = false;
-      isBaseCursorVisibleRef.current = false;
-      if (hidePreviewTimeoutRef.current !== null) {
-        window.clearTimeout(hidePreviewTimeoutRef.current);
-        hidePreviewTimeoutRef.current = null;
-      }
-      if (animationFrameRef.current !== null) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
+      isPreviewVisibleRef.current = false;
+      activeProjectRef.current = null;
+      queuedProjectRef.current = null;
+      switchTimelineRef.current = null;
       ctx.revert();
     };
   }, []);
 
-  const placeCursorImmediately = (clientX: number, clientY: number) => {
-    const cursor = cursorRef.current;
-
-    if (!cursor) {
-      return;
-    }
-
-    mouseXRef.current = clientX;
-    mouseYRef.current = clientY;
-    cursorXRef.current = clientX;
-    cursorYRef.current = clientY;
-    previewXRef.current = clientX;
-    previewYRef.current = clientY;
-
-    gsap.set(cursor, {
-      x: clientX - PREVIEW_DIMENSION / 2,
-      y: clientY - PREVIEW_DIMENSION / 2,
-    });
-  };
-
-  const enterArchive = (clientX: number, clientY: number) => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const morphFrame = morphFrameRef.current;
-    const previewContent = previewContentRef.current;
-    const previewMedia = previewMediaRef.current;
-
-    if (
-      !canUseHoverPreviewRef.current ||
-      window.innerWidth < 1024 ||
-      !cursor ||
-      !cursorDot ||
-      !previewContent ||
-      !previewMedia
-    ) {
-      return;
-    }
-
-    isInsideArchiveRef.current = true;
-    isHoveringRef.current = false;
-    isBaseCursorVisibleRef.current = true;
-    if (hidePreviewTimeoutRef.current !== null) {
-      window.clearTimeout(hidePreviewTimeoutRef.current);
-      hidePreviewTimeoutRef.current = null;
-    }
-    placeCursorImmediately(clientX, clientY);
-
-    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
-    if (morphFrame) {
-      gsap.set(morphFrame, {
-        autoAlpha: 0,
-        scale: PREVIEW_START_SCALE,
-        borderRadius: 999,
-      });
-    }
-    gsap.set(previewContent, {
-      autoAlpha: 0,
-      scale: PREVIEW_START_SCALE,
-      borderRadius: 999,
-    });
-    gsap.set(previewMedia, {
-      autoAlpha: 0,
-      scale: 1.045,
-      borderRadius: 999,
-    });
-    gsap.set(cursorDot, {
-      autoAlpha: 0,
-      scale: 0.68,
-    });
-
-    gsap.to(cursor, {
-      autoAlpha: 1,
-      duration: 0.28,
-      delay: 0.04,
-      ease: "power3.out",
-      overwrite: true,
-    });
-
-    gsap.to(cursorDot, {
-      autoAlpha: 1,
-      scale: 1,
-      duration: 0.32,
-      delay: 0.05,
-      ease: "power3.out",
-      overwrite: true,
-    });
-  };
-
-  const moveCursor = (clientX: number, clientY: number) => {
-    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !isInsideArchiveRef.current) {
-      return;
-    }
-
-    mouseXRef.current = clientX;
-    mouseYRef.current = clientY;
-  };
-
   const leaveArchive = () => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const morphFrame = morphFrameRef.current;
-    const previewContent = previewContentRef.current;
-    const previewMedia = previewMediaRef.current;
+    const previewCards = previewCardRefs.current.filter(Boolean);
+    const previewMedia = previewMediaRefs.current.filter(Boolean);
 
-    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
+    if (!previewCards.length || !previewMedia.length) {
       return;
     }
 
-    isInsideArchiveRef.current = false;
-    isHoveringRef.current = false;
-    isBaseCursorVisibleRef.current = false;
     activeProjectRef.current = null;
-    if (hidePreviewTimeoutRef.current !== null) {
-      window.clearTimeout(hidePreviewTimeoutRef.current);
-      hidePreviewTimeoutRef.current = null;
-    }
-    setActiveProject(null);
+    queuedProjectRef.current = null;
+    isPreviewVisibleRef.current = false;
+    switchTimelineRef.current?.kill();
 
-    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
-    gsap.to(cursor, {
-      autoAlpha: 0,
-      duration: 0.28,
-      ease: "power3.out",
-      overwrite: true,
-    });
-    gsap.to(cursorDot, {
-      autoAlpha: 0,
-      scale: 0.68,
-      duration: 0.24,
-      ease: "power3.out",
-      overwrite: true,
-    });
-    if (morphFrame) {
-      gsap.to(morphFrame, {
+    gsap.killTweensOf([...previewCards, ...previewMedia]);
+    switchTimelineRef.current = gsap
+      .timeline({
+        defaults: { overwrite: "auto" },
+        onComplete: () => {
+          switchTimelineRef.current = null;
+
+          if (!activeProjectRef.current) {
+            setActiveProject(null);
+          }
+        },
+      })
+      .to(previewCards, {
+        yPercent: PREVIEW_TRAVEL_PERCENT,
+        scale: 0.98,
+        duration: 0.32,
+        ease: "power3.inOut",
+      }, 0)
+      .to(previewCards, {
         autoAlpha: 0,
-        scale: PREVIEW_START_SCALE,
-        borderRadius: 999,
-        duration: 0.22,
-        ease: "power3.out",
-        overwrite: true,
+        duration: 0.08,
+        ease: "power2.out",
+      }, 0.3)
+      .to(previewMedia, {
+        scale: 1.035,
+        duration: 0.32,
+        ease: "power3.inOut",
+      }, 0);
+  };
+
+  const setPreviewImage = (cardIndex: number, project: ArchiveProject) => {
+    const projectIndex = archiveProjects.findIndex((archiveProject) => archiveProject.title === project.title);
+
+    activeProjectRef.current = project;
+    setActiveProject(project);
+
+    imageLayerRefs.current[cardIndex]?.forEach((imageLayer, index) => {
+      if (!imageLayer) {
+        return;
+      }
+
+      gsap.set(imageLayer, {
+        autoAlpha: index === projectIndex ? 1 : 0,
       });
-    }
-    gsap.to(previewContent, {
-      autoAlpha: 0,
-      scale: PREVIEW_START_SCALE,
-      borderRadius: 999,
-      duration: 0.22,
-      ease: "power3.out",
-      overwrite: true,
-    });
-    gsap.to(previewMedia, {
-      autoAlpha: 0,
-      scale: 1.035,
-      borderRadius: 999,
-      duration: 0.18,
-      ease: "power2.out",
-      overwrite: true,
     });
   };
 
-  const showPreview = (project: (typeof archiveProjects)[number], clientX: number, clientY: number) => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const morphFrame = morphFrameRef.current;
-    const previewContent = previewContentRef.current;
-    const previewMedia = previewMediaRef.current;
+  const setCardOffscreen = (previewCard: HTMLDivElement, previewMedia: HTMLDivElement) => {
+    gsap.set(previewCard, {
+      autoAlpha: 0,
+      y: 0,
+      yPercent: PREVIEW_TRAVEL_PERCENT,
+      scale: 0.96,
+    });
+
+    gsap.set(previewMedia, {
+      y: 0,
+      autoAlpha: 1,
+      scale: 1.045,
+    });
+  };
+
+  const playQueuedPreview = () => {
+    const queuedProject = queuedProjectRef.current;
+    queuedProjectRef.current = null;
 
     if (
-      !canUseHoverPreviewRef.current ||
-      window.innerWidth < 1024 ||
-      !cursor ||
-      !cursorDot ||
-      !previewContent ||
-      !previewMedia
+      queuedProject &&
+      isPreviewVisibleRef.current &&
+      activeProjectRef.current?.title !== queuedProject.title
     ) {
+      playSwitchPreview(queuedProject);
+    }
+  };
+
+  const playSwitchPreview = (project: ArchiveProject) => {
+    const currentCardIndex = activeCardIndexRef.current;
+    const nextCardIndex = (currentCardIndex + 1) % PREVIEW_CARD_COUNT;
+    const currentCard = previewCardRefs.current[currentCardIndex];
+    const currentMedia = previewMediaRefs.current[currentCardIndex];
+    const nextCard = previewCardRefs.current[nextCardIndex];
+    const nextMedia = previewMediaRefs.current[nextCardIndex];
+
+    if (!currentCard || !currentMedia || !nextCard || !nextMedia) {
       return;
     }
 
-    const isSwitchingPreview = isHoveringRef.current || activeProjectRef.current !== null;
+    switchTimelineRef.current?.kill();
+    gsap.killTweensOf([currentCard, currentMedia, nextCard, nextMedia]);
+    setCardOffscreen(nextCard, nextMedia);
 
-    if (hidePreviewTimeoutRef.current !== null) {
-      window.clearTimeout(hidePreviewTimeoutRef.current);
-      hidePreviewTimeoutRef.current = null;
-    }
-
-    isInsideArchiveRef.current = true;
-    isHoveringRef.current = true;
-    isBaseCursorVisibleRef.current = false;
-    activeProjectRef.current = project;
-    setHasImageError(false);
-    setActiveProject(project);
-    previewXRef.current = clientX;
-    previewYRef.current = clientY;
-    moveCursor(clientX, clientY);
-
-    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
-    gsap.set(cursor, {
-      x: clientX - PREVIEW_DIMENSION / 2,
-      y: clientY - PREVIEW_DIMENSION / 2,
-      transformOrigin: "50% 50%",
-    });
-
-    if (isSwitchingPreview) {
-      gsap.to(cursor, {
-        autoAlpha: 1,
-        duration: 0.12,
+    switchTimelineRef.current = gsap
+      .timeline({
+        defaults: { overwrite: "auto" },
+        onComplete: () => {
+          switchTimelineRef.current = null;
+          activeCardIndexRef.current = nextCardIndex;
+          playQueuedPreview();
+        },
+      })
+      .set(nextCard, { zIndex: 2 }, 0)
+      .set(currentCard, { zIndex: 1 }, 0)
+      .to(currentCard, {
+        yPercent: PREVIEW_TRAVEL_PERCENT,
+        scale: 0.98,
+        duration: 0.34,
+        ease: "power3.inOut",
+      }, 0)
+      .to(currentCard, {
+        autoAlpha: 0,
+        duration: 0.08,
         ease: "power2.out",
-        overwrite: true,
-      });
-      gsap.to(cursorDot, {
-        autoAlpha: 0,
-        scale: 0.18,
-        duration: 0.16,
-        ease: "power3.out",
-        overwrite: true,
-      });
-      gsap.to(previewContent, {
-        autoAlpha: 1,
+      }, 0.32)
+      .to(currentMedia, {
+        scale: 1.035,
+        duration: 0.34,
+        ease: "power3.inOut",
+      }, 0)
+      .add(() => {
+        setPreviewImage(nextCardIndex, project);
+        setCardOffscreen(nextCard, nextMedia);
+      })
+      .to(nextCard, {
+        yPercent: 0,
         scale: 1,
-        borderRadius: PREVIEW_RADIUS,
-        duration: 0.28,
-        ease: "power3.out",
-        overwrite: true,
-      });
-      gsap.to(previewMedia, {
         autoAlpha: 1,
+        duration: 0.4,
+        ease: "power4.out",
+      })
+      .to(nextMedia, {
         scale: 1,
-        borderRadius: PREVIEW_RADIUS,
-        duration: 0.24,
-        ease: "power3.out",
-        overwrite: true,
-      });
-      if (morphFrame) {
-        gsap.to(morphFrame, {
-          autoAlpha: 0.22,
-          scale: 1.045,
-          borderRadius: PREVIEW_RADIUS,
-          duration: 0.28,
-          ease: "power3.out",
-          overwrite: true,
-        });
-      }
-      return;
-    }
-
-    if (morphFrame) {
-      gsap.set(morphFrame, {
-        autoAlpha: 0,
-        scale: PREVIEW_START_SCALE,
-        borderRadius: 999,
-        transformOrigin: "50% 50%",
-      });
-    }
-    gsap.set(previewContent, {
-      autoAlpha: 1,
-      scale: PREVIEW_START_SCALE,
-      borderRadius: 999,
-      transformOrigin: "50% 50%",
-    });
-    gsap.set(previewMedia, {
-      autoAlpha: 0,
-      scale: 1.045,
-      borderRadius: 999,
-      transformOrigin: "50% 50%",
-    });
-
-    const timeline = gsap.timeline({ defaults: { overwrite: true } });
-
-    timeline
-      .to(cursor, { autoAlpha: 1, duration: 0.12, ease: "power2.out" }, 0)
-      .to(
-        previewContent,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          borderRadius: PREVIEW_RADIUS,
-          duration: 0.82,
-          ease: "power4.out",
-        },
-        0,
-      )
-      .to(
-        cursorDot,
-        {
-          autoAlpha: 0,
-          scale: 0.18,
-          duration: 0.24,
-          ease: "power3.out",
-        },
-        0.04,
-      )
-      .to(
-        previewMedia,
-        {
-          autoAlpha: 1,
-          scale: 1,
-          borderRadius: PREVIEW_RADIUS,
-          duration: 0.76,
-          ease: "power4.out",
-        },
-        0.04,
-      );
-
-    if (morphFrame) {
-      timeline.to(
-        morphFrame,
-        {
-          autoAlpha: 0.22,
-          scale: 1.045,
-          borderRadius: PREVIEW_RADIUS,
-          duration: 0.82,
-          ease: "power4.out",
-        },
-        0,
-      );
-    }
-
-  };
-
-  const hidePreview = () => {
-    if (hidePreviewTimeoutRef.current !== null) {
-      window.clearTimeout(hidePreviewTimeoutRef.current);
-    }
-
-    hidePreviewTimeoutRef.current = window.setTimeout(() => {
-      hidePreviewTimeoutRef.current = null;
-      collapsePreview();
-    }, PREVIEW_HIDE_DELAY);
-  };
-
-  const collapsePreview = () => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-    const morphFrame = morphFrameRef.current;
-    const previewContent = previewContentRef.current;
-    const previewMedia = previewMediaRef.current;
-
-    if (!cursor || !cursorDot || !previewContent || !previewMedia) {
-      return;
-    }
-
-    isHoveringRef.current = false;
-    isBaseCursorVisibleRef.current = false;
-    gsap.killTweensOf([cursor, cursorDot, morphFrame, previewContent, previewMedia].filter(Boolean));
-
-    gsap.to(previewMedia, {
-      autoAlpha: 0,
-      scale: 1.035,
-      borderRadius: 999,
-      duration: 0.32,
-      ease: "power3.out",
-      overwrite: true,
-    });
-
-    gsap.to(previewContent, {
-      autoAlpha: 0,
-      scale: PREVIEW_START_SCALE,
-      borderRadius: 999,
-      duration: 0.42,
-      ease: "power4.out",
-      overwrite: true,
-    });
-
-    const restoreCursorDot = () => {
-      if (isInsideArchiveRef.current && !isHoveringRef.current) {
-        isBaseCursorVisibleRef.current = true;
-        gsap.to(cursorDot, {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.26,
-          ease: "power3.out",
-          overwrite: true,
-        });
-      }
-    };
-
-    if (morphFrame) {
-      gsap.to(morphFrame, {
-        autoAlpha: 0,
-        scale: PREVIEW_START_SCALE,
-        borderRadius: 999,
         duration: 0.46,
         ease: "power4.out",
-        overwrite: true,
-        onComplete: () => {
-          activeProjectRef.current = null;
-          setActiveProject(null);
-          restoreCursorDot();
-        },
-      });
-    } else {
-      gsap.delayedCall(0.42, () => {
-        activeProjectRef.current = null;
-        setActiveProject(null);
-        restoreCursorDot();
-      });
+      }, "<");
+  };
+
+  const playEnterPreview = (project: ArchiveProject) => {
+    const previewCard = previewCardRefs.current[activeCardIndexRef.current];
+    const previewMedia = previewMediaRefs.current[activeCardIndexRef.current];
+
+    if (!previewCard || !previewMedia) {
+      return;
     }
+
+    switchTimelineRef.current?.kill();
+    isPreviewVisibleRef.current = true;
+    setPreviewImage(activeCardIndexRef.current, project);
+
+    gsap.killTweensOf([previewCard, previewMedia]);
+    setCardOffscreen(previewCard, previewMedia);
+
+    switchTimelineRef.current = gsap
+      .timeline({
+        defaults: { overwrite: "auto" },
+        onComplete: () => {
+          switchTimelineRef.current = null;
+          playQueuedPreview();
+        },
+      })
+      .set(previewCard, { zIndex: 2 }, 0)
+      .to(previewCard, {
+        autoAlpha: 1,
+        yPercent: 0,
+        scale: 1,
+        duration: 0.42,
+        ease: "power4.out",
+      }, 0)
+      .to(previewMedia, {
+        scale: 1,
+        duration: 0.48,
+        ease: "power4.out",
+      }, 0);
+  };
+
+  const showPreview = (project: ArchiveProject) => {
+    const hasPreviewCards = previewCardRefs.current.filter(Boolean).length === PREVIEW_CARD_COUNT;
+
+    if (!canUseHoverPreviewRef.current || window.innerWidth < 1024 || !hasPreviewCards) {
+      return;
+    }
+
+    const previousProject = activeProjectRef.current;
+    const isSwitchingPreview = isPreviewVisibleRef.current && previousProject?.title !== project.title;
+
+    if (
+      (isPreviewVisibleRef.current && previousProject?.title === project.title) ||
+      queuedProjectRef.current?.title === project.title
+    ) {
+      return;
+    }
+
+    if (switchTimelineRef.current?.isActive()) {
+      queuedProjectRef.current = project;
+      return;
+    }
+
+    if (isSwitchingPreview) {
+      playSwitchPreview(project);
+      return;
+    }
+
+    playEnterPreview(project);
   };
 
   return (
@@ -601,10 +351,7 @@ export default function Archive() {
       ref={rootRef}
       id="archive"
       data-header-theme="light"
-      data-site-cursor="disabled"
-      className="section-space bg-[var(--color-surface-alt)] text-[var(--color-text)] lg:cursor-none"
-      onMouseEnter={(event) => enterArchive(event.clientX, event.clientY)}
-      onMouseMove={(event) => moveCursor(event.clientX, event.clientY)}
+      className="section-space bg-[var(--color-surface-alt)] text-[var(--color-text)]"
       onMouseLeave={leaveArchive}
     >
       <div className="layout-shell">
@@ -614,37 +361,48 @@ export default function Archive() {
         </div>
 
         <div
-          ref={cursorRef}
-          className="pointer-events-none fixed left-0 top-0 z-[70] hidden will-change-transform lg:block"
+          className="pointer-events-none fixed bottom-8 right-[max(2rem,4vw)] z-[60] hidden aspect-[6/4] w-[clamp(400px,48vw,760px)] max-w-[calc(100vw-4rem)] lg:block"
           aria-hidden="true"
         >
-          <div
-            ref={cursorDotRef}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgba(31,27,25,0.9)] shadow-[0_10px_28px_rgba(31,27,25,0.16)]"
-          />
-          <div
-            ref={morphFrameRef}
-            className="absolute inset-0 overflow-hidden rounded-[22px] bg-[rgba(31,27,25,0.16)] shadow-[0_24px_70px_rgba(31,27,25,0.24)] blur-[10px]"
-          />
-          <div
-            ref={previewContentRef}
-            className="relative h-full w-full overflow-hidden rounded-[22px] border border-[rgba(253,250,246,0.2)] bg-[rgba(31,27,25,0.9)] shadow-[0_18px_54px_rgba(31,27,25,0.16)]"
-          >
-            <div ref={previewMediaRef} className="relative h-full w-full overflow-hidden rounded-[22px]">
-              {activeProject && !hasImageError ? (
-                <Image
-                  src={activeProject.previewImage}
-                  alt={activeProject.title}
-                  fill
-                  unoptimized
-                  className="object-cover"
-                  onError={() => setHasImageError(true)}
-                />
-              ) : (
-                <div className="h-full w-full bg-[rgba(31,27,25,0.92)]" />
-              )}
+          {Array.from({ length: PREVIEW_CARD_COUNT }).map((_, cardIndex) => (
+            <div
+              key={cardIndex}
+              ref={(node) => {
+                previewCardRefs.current[cardIndex] = node;
+              }}
+              className="absolute inset-0 overflow-hidden rounded-[1.05rem] border border-[rgba(31,27,25,0.14)] bg-[rgba(31,27,25,0.9)] shadow-[0_30px_90px_rgba(31,27,25,0.24)] [will-change:transform,opacity]"
+            >
+              <div
+                ref={(node) => {
+                  previewMediaRefs.current[cardIndex] = node;
+                }}
+                className="relative h-full w-full overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-[rgba(31,27,25,0.92)]" />
+                {archiveProjects.map((project, projectIndex) => (
+                  <div
+                    key={project.title}
+                    ref={(node) => {
+                      if (!imageLayerRefs.current[cardIndex]) {
+                        imageLayerRefs.current[cardIndex] = [];
+                      }
+                      imageLayerRefs.current[cardIndex][projectIndex] = node;
+                    }}
+                    className="absolute inset-0 [will-change:opacity]"
+                  >
+                    <Image
+                      src={project.previewImage}
+                      alt=""
+                      fill
+                      unoptimized
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 48vw, 0px"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
 
         <div>
@@ -652,10 +410,9 @@ export default function Archive() {
             <div
               key={project.title}
               className={`group border-b border-[var(--color-border)] transition-colors duration-300 ease-out hover:border-[var(--color-border-strong)] ${
-                activeProject?.title === project.title ? "cursor-none bg-[rgba(255,255,255,0.18)]" : "cursor-none"
+                activeProject?.title === project.title ? "bg-[rgba(255,255,255,0.18)]" : ""
               }`}
-              onMouseEnter={(event) => showPreview(project, event.clientX, event.clientY)}
-              onMouseLeave={hidePreview}
+              onMouseEnter={() => showPreview(project)}
             >
               <div className="grid gap-3 py-6 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-7 xl:grid-cols-[minmax(0,1fr)_var(--site-time-column-width)] xl:items-end xl:gap-8">
                 <div className="min-w-0">
