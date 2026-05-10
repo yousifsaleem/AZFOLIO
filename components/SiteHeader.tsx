@@ -153,9 +153,9 @@ export default function SiteHeader() {
       />
       <div className="layout-shell relative z-10 flex flex-col gap-[var(--site-header-gap)] py-4 sm:py-5 lg:flex-row lg:items-start lg:justify-between lg:min-h-[120px] lg:py-8">
         <nav
-          className={`w-full transition-colors duration-300 lg:w-auto xl:absolute ${navColor}`}
+          className={`w-full transition-colors duration-300 lg:w-auto xl:fixed ${navColor}`}
           style={{
-            left: "var(--layout-nav-x)",
+            left: "var(--layout-left-nav-x)",
             top: "calc(var(--layout-header-baseline-y) - 0.375rem)",
           }}
         >
