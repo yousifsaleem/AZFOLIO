@@ -1,34 +1,29 @@
 "use client";
 
 const verticalGuides = [
-  ["--guide-x-1", "154px"],
-  ["--guide-x-2", "174px"],
-  ["--guide-x-3", "206px"],
-  ["--guide-x-4", "1291px"],
-  ["--guide-x-5", "1696px"],
-  ["--guide-x-6", "1836px"],
-  ["--guide-x-7", "1856px"],
+  ["page-left", "--guide-x-page-left", "1px"],
+  ["left-bleed-inner", "--guide-x-left-bleed-inner", "24px"],
+  ["left-nav", "--guide-x-left-nav", "60px"],
+  ["text-column", "--guide-x-text-column", "1282px"],
+  ["time-column", "--guide-x-time-column", "1738px"],
+  ["right-content", "--guide-x-right-content", "1896px"],
+  ["page-right", "--guide-x-page-right", "1919px"],
 ] as const;
 
 const horizontalGuides = [
-  ["--guide-y-1", "20px"],
-  ["--guide-y-2", "99px"],
-  ["--guide-y-3", "132px"],
-  ["--guide-y-4", "139px"],
-  ["--guide-y-5", "248px"],
-  ["--guide-y-6", "272px"],
-  ["--guide-y-7", "409px"],
-  ["--guide-y-8", "424px"],
-  ["--guide-y-9", "447px"],
-  ["--guide-y-10", "462px"],
-  ["--guide-y-11", "762px"],
-  ["--guide-y-12", "772px"],
-  ["--guide-y-13", "888px"],
-  ["--guide-y-14", "918px"],
-  ["--guide-y-15", "949px"],
-  ["--guide-y-16", "1004px"],
-  ["--guide-y-17", "1038px"],
-  ["--guide-y-18", "1044px"],
+  ["page-top", "--guide-y-page-top", "0px"],
+  ["header-top", "--guide-y-header-top", "43px"],
+  ["header-baseline", "--guide-y-header-baseline", "51px"],
+  ["nav-block-bottom", "--guide-y-nav-block-bottom", "190px"],
+  ["header-bottom", "--guide-y-header-bottom", "221px"],
+  ["project-number", "--guide-y-project-number", "395px"],
+  ["title-top", "--guide-y-title-top", "413px"],
+  ["description-top", "--guide-y-description-top", "443px"],
+  ["description-bottom", "--guide-y-description-bottom", "462px"],
+  ["tags-top", "--guide-y-tags-top", "843px"],
+  ["tags-bottom", "--guide-y-tags-bottom", "855px"],
+  ["next-top", "--guide-y-next-top", "1003px"],
+  ["page-bottom", "--guide-y-page-bottom", "1041px"],
 ] as const;
 
 export default function GridOverlay() {
@@ -37,26 +32,32 @@ export default function GridOverlay() {
       className="pointer-events-none fixed inset-0 z-[9999] hidden xl:block"
       aria-hidden="true"
     >
-      {verticalGuides.map(([guide, fallback], index) => (
+      {verticalGuides.map(([label, guide, fallback], index) => (
         <div
           key={guide}
           className="fixed top-0 h-screen w-px bg-cyan-400/80 shadow-[0_0_0_1px_rgba(34,211,238,0.18)]"
           style={{ left: `var(${guide}, ${fallback})` }}
         >
-          <span className="absolute left-1 top-1 rounded-sm bg-cyan-300/90 px-1 font-mono text-[10px] leading-4 text-black">
-            x-{index + 1}
+          <span
+            className="absolute left-1 rounded-sm bg-cyan-300/90 px-1 font-mono text-[10px] leading-4 text-black"
+            style={{ top: `${8 + index * 18}px` }}
+          >
+            {label}
           </span>
         </div>
       ))}
 
-      {horizontalGuides.map(([guide, fallback], index) => (
+      {horizontalGuides.map(([label, guide, fallback], index) => (
         <div
           key={guide}
           className="fixed left-0 h-px w-screen bg-cyan-300/75 shadow-[0_0_0_1px_rgba(103,232,249,0.14)]"
           style={{ top: `var(${guide}, ${fallback})` }}
         >
-          <span className="absolute left-1 top-1 rounded-sm bg-cyan-300/90 px-1 font-mono text-[10px] leading-4 text-black">
-            y-{index + 1}
+          <span
+            className="absolute top-1 rounded-sm bg-cyan-300/90 px-1 font-mono text-[10px] leading-4 text-black"
+            style={{ left: `${8 + (index % 7) * 118}px` }}
+          >
+            {label}
           </span>
         </div>
       ))}

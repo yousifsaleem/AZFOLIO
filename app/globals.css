@@ -31,54 +31,60 @@
   --site-featured-link-overhang: 2.5rem;
   --site-identity-inset: calc(100% - var(--site-featured-text-width));
 
-  /* InDesign guide overlay — editable desktop reference
-     These variables are for the visual guide overlay only.
-     They are intentionally not applied to component layout yet. */
+  /* InDesign guide overlay — scaled to 1920 × 1080
+     Editable visual reference only. These variables are not applied to layout yet. */
   --design-width: 1920px;
   --design-height: 1080px;
 
-  /* Vertical guide lines */
-  --guide-x-1: 154px;
-  --guide-x-2: 174px;
-  --guide-x-3: 206px;
-  --guide-x-4: 1291px;
-  --guide-x-5: 1696px;
-  --guide-x-6: 1836px;
-  --guide-x-7: 1856px;
+  /* X guides */
+  --guide-x-page-left: 1px;
+  --guide-x-left-bleed-inner: 24px;
+  --guide-x-left-nav: 60px;
+  --guide-x-text-column: 1282px;
+  --guide-x-time-column: 1738px;
+  --guide-x-right-content: 1896px;
+  --guide-x-page-right: 1919px;
 
-  /* Horizontal guide lines */
-  --guide-y-1: 20px;
-  --guide-y-2: 99px;
-  --guide-y-3: 132px;
-  --guide-y-4: 139px;
-  --guide-y-5: 248px;
-  --guide-y-6: 272px;
-  --guide-y-7: 409px;
-  --guide-y-8: 424px;
-  --guide-y-9: 447px;
-  --guide-y-10: 462px;
-  --guide-y-11: 762px;
-  --guide-y-12: 772px;
-  --guide-y-13: 888px;
-  --guide-y-14: 918px;
-  --guide-y-15: 949px;
-  --guide-y-16: 1004px;
-  --guide-y-17: 1038px;
-  --guide-y-18: 1044px;
+  /* Y guides */
+  --guide-y-page-top: 0px;
+  --guide-y-header-top: 43px;
+  --guide-y-header-baseline: 51px;
+  --guide-y-nav-block-bottom: 190px;
+  --guide-y-header-bottom: 221px;
+  --guide-y-project-number: 395px;
+  --guide-y-title-top: 413px;
+  --guide-y-description-top: 443px;
+  --guide-y-description-bottom: 462px;
+  --guide-y-tags-top: 843px;
+  --guide-y-tags-bottom: 855px;
+  --guide-y-next-top: 1003px;
+  --guide-y-page-bottom: 1041px;
 
-  /* Semantic aliases for future layout passes. Do not use in components yet. */
-  --layout-left-nav-x: var(--guide-x-3);
-  --layout-feature-image-x: 410px;
-  --layout-feature-text-x: var(--guide-x-4);
-  --layout-time-x: var(--guide-x-5);
-  --layout-right-x: var(--guide-x-6);
-  --layout-header-y: var(--guide-y-3);
-  --layout-feature-image-y: var(--guide-y-5);
-  --layout-project-number-y: var(--guide-y-7);
-  --layout-title-y: var(--guide-y-8);
-  --layout-description-y: var(--guide-y-9);
-  --layout-tags-y: var(--guide-y-11);
-  --layout-next-y: var(--guide-y-16);
+  /* Semantic aliases */
+  --layout-page-left: var(--guide-x-page-left);
+  --layout-left-nav-x: var(--guide-x-left-nav);
+  --layout-text-x: var(--guide-x-text-column);
+  --layout-time-x: var(--guide-x-time-column);
+  --layout-right-x: var(--guide-x-right-content);
+  --layout-page-right: var(--guide-x-page-right);
+  --layout-header-top-y: var(--guide-y-header-top);
+  --layout-header-baseline-y: var(--guide-y-header-baseline);
+  --layout-nav-bottom-y: var(--guide-y-nav-block-bottom);
+  --layout-header-bottom-y: var(--guide-y-header-bottom);
+  --layout-project-number-y: var(--guide-y-project-number);
+  --layout-title-y: var(--guide-y-title-top);
+  --layout-description-y: var(--guide-y-description-top);
+  --layout-description-bottom-y: var(--guide-y-description-bottom);
+  --layout-tags-y: var(--guide-y-tags-top);
+  --layout-tags-bottom-y: var(--guide-y-tags-bottom);
+  --layout-next-y: var(--guide-y-next-top);
+  --layout-page-bottom-y: var(--guide-y-page-bottom);
+
+  /* Estimated image/card position from the screenshot */
+  --layout-image-x: 306px;
+  --layout-image-y: 231px;
+
+  /* Featured image size */
   --featured-image-w: 550px;
   --featured-image-h: 462px;
 }
