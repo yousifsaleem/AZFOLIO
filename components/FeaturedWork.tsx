@@ -107,7 +107,7 @@ function RollingTitle({ title }: { title: string }) {
   return (
     <RollingText
       text={title}
-      groupClassName="group/roll inline-flex max-w-full whitespace-nowrap overflow-hidden pb-[0.08em] leading-[1.04]"
+      groupClassName="group/roll inline-flex max-w-full flex-wrap overflow-hidden pb-[0.08em] leading-[1.04] xl:flex-nowrap xl:whitespace-nowrap"
       wordClassName="mb-[0.02em] mr-[0.28em] inline-flex whitespace-nowrap last:mr-0"
       letterDurationClassName="duration-500"
       staggerMs={32}
@@ -165,7 +165,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
         data-cursor-label="Explore"
         href={`/work/${project.slug}`}
         aria-label={`Explore ${project.title}`}
-        className="absolute inset-0 z-20 cursor-none"
+        className="absolute inset-0 z-20 cursor-pointer xl:cursor-none"
       >
         <span className="sr-only">Explore {project.title}</span>
       </TransitionLink>
@@ -616,8 +616,12 @@ export default function FeaturedWork() {
             );
           }
 
+          const animatedContent = [textGroup, tags, link].filter(
+            (element): element is HTMLElement => Boolean(element),
+          );
+
           gsap.fromTo(
-            [textGroup, tags, link],
+            animatedContent,
             {
               autoAlpha: 0,
               y: 18,
@@ -810,7 +814,7 @@ export default function FeaturedWork() {
 
             <div className="layout-shell relative z-10 flex min-h-[100svh] flex-col gap-8 py-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
               <div className="flex items-center">
-                <div className="w-full max-w-[760px]">
+                <div className="aspect-square w-full max-w-[min(760px,100%)]">
                   <FeaturedMediaCard project={project} />
                 </div>
               </div>

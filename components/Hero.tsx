@@ -95,7 +95,7 @@ export default function Hero() {
         <div className="relative mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
           <div
             ref={infoRef}
-            className="max-w-[34rem] text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:absolute xl:left-[calc(var(--layout-left-nav-x)-max(0px,(100vw-1600px)/2)+7px)] xl:text-left"
+            className="max-w-[34rem] break-words text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:absolute xl:left-[calc(var(--layout-left-nav-x)-max(0px,(100vw-1600px)/2)+7px)] xl:text-left"
           >
             <div className="type-midsize text-[var(--color-text)]">
               <span className="block">currently exploring how branding,</span>
@@ -106,7 +106,7 @@ export default function Hero() {
 
           <div
             ref={previewsRef}
-            className="flex flex-wrap justify-center gap-2.5 xl:absolute xl:bottom-0 xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            className="max-w-full flex flex-wrap justify-center gap-2.5 xl:absolute xl:bottom-0 xl:justify-start xl:gap-2.5 xl:flex-nowrap"
             style={{
               left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
               bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
@@ -148,7 +148,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="type-small flex flex-wrap justify-center gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            className="type-small max-w-full flex flex-wrap justify-center gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:justify-start xl:gap-2.5 xl:flex-nowrap"
             style={{
               left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
               bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",

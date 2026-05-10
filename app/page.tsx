@@ -1,7 +1,6 @@
 import Loader from "../components/Loader";
 import SmoothScroll from "../components/SmoothScroll";
 import SiteHeader from "../components/SiteHeader";
-import GridOverlay from "../components/GridOverlay";
 import Hero from "../components/Hero";
 import SloganTransition from "../components/SloganTransition";
 import FeaturedWork from "../components/FeaturedWork";
@@ -14,7 +13,6 @@ export default function Home() {
     <SmoothScroll>
       <main>
         <SiteHeader />
-        <GridOverlay />
         <Loader />
         <Hero />
         <div className="relative isolate">

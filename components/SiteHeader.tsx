@@ -153,7 +153,7 @@ export default function SiteHeader() {
       />
       <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
-          className={`ml-[var(--site-nav-offset)] transition-colors duration-300 xl:absolute xl:ml-0 ${navColor}`}
+          className={`transition-colors duration-300 xl:absolute ${navColor}`}
           style={{
             left: "calc(var(--layout-left-nav-x) - max(0px, (100vw - 1600px) / 2) - 29px)",
             top: "calc(var(--layout-header-baseline-y) - 0.375rem)",
@@ -202,7 +202,7 @@ export default function SiteHeader() {
         </div>
 
         <div
-          className="max-w-full self-end text-right md:ml-auto md:w-fit md:self-start xl:absolute"
+          className="max-w-full self-start text-left md:ml-auto md:w-fit xl:absolute"
           style={{
             left:
               "calc(var(--layout-time-x) - max(0px, (100vw - 1600px) / 2) - (var(--site-time-column-width) + 4.5rem) + 35px)",
@@ -220,7 +220,7 @@ export default function SiteHeader() {
                 Graphic Designer
               </div>
             </div>
-            <div className="w-[calc(var(--site-time-column-width)+4.5rem)] space-y-1 text-left">
+            <div className="w-[min(100%,calc(var(--site-time-column-width)+4.5rem))] space-y-1 text-left">
               <div
                 className={`type-regular tabular-nums transition-colors duration-300 ${strongColor}`}
                 suppressHydrationWarning
