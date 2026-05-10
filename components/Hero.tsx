@@ -69,19 +69,19 @@ export default function Hero() {
       ref={rootRef}
       id="hero"
       data-header-theme="light"
-      className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-32 text-[var(--color-text)] sm:pt-36 xl:pt-0"
+      className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-[clamp(13rem,45vw,16rem)] text-[var(--color-text)] sm:pt-48 lg:pt-40 xl:pt-0"
     >
       <div className="layout-shell flex min-h-screen flex-col justify-between py-8 xl:absolute xl:inset-x-0 xl:top-0 xl:bottom-0">
         <div className="flex-1" />
 
         <div className="pointer-events-none flex items-center justify-center xl:absolute xl:inset-0">
-          <div ref={logoRef} className="relative w-full max-w-[380px] text-center">
+          <div ref={logoRef} className="relative w-full max-w-[min(380px,100%)] text-center">
             <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 py-10 sm:gap-8 sm:py-12 lg:py-14">
               <div className="flex w-full items-center justify-center gap-3 sm:gap-4">
                 <div className="h-px flex-1 bg-[var(--color-border)]" />
                 <button
                   type="button"
-                  className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-3 text-[4.2rem] font-black uppercase leading-none tracking-[0.12em] text-[var(--color-text)] transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-[var(--color-border)] hover:bg-[rgba(255,255,255,0.42)] sm:px-4 sm:text-[5.2rem] lg:text-[6rem] xl:text-[7rem]"
+                  className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-3 text-[length:var(--hero-mark-size)] font-black uppercase leading-none tracking-[0.12em] text-[var(--color-text)] transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-[var(--color-border)] hover:bg-[rgba(255,255,255,0.42)] sm:px-4"
                 >
                   AZ
                 </button>
@@ -92,10 +92,13 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
+        <div className="relative mt-[clamp(2.5rem,9vw,5rem)] grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
           <div
             ref={infoRef}
-            className="max-w-[34rem] break-words text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:absolute xl:left-[calc(var(--layout-left-nav-x)-max(0px,(100vw-1600px)/2)+7px)] xl:text-left"
+            className="max-w-[34rem] break-words text-left text-[var(--color-text)] xl:absolute"
+            style={{
+              left: "var(--layout-nav-x)",
+            }}
           >
             <div className="type-midsize text-[var(--color-text)]">
               <span className="block">currently exploring how branding,</span>
@@ -106,9 +109,9 @@ export default function Hero() {
 
           <div
             ref={previewsRef}
-            className="max-w-full flex flex-wrap justify-center gap-2.5 xl:absolute xl:bottom-0 xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            className="max-w-full flex flex-wrap justify-start gap-2.5 xl:absolute xl:bottom-0 xl:gap-2.5 xl:flex-nowrap"
             style={{
-              left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
+              left: "var(--layout-text-x)",
               bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
             }}
           >
@@ -120,7 +123,7 @@ export default function Hero() {
                   key={project.slug}
                   data-hero-preview-item
                   href={`/work/${project.slug}`}
-                  className="group relative flex h-[72px] w-[72px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.1rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[92px] sm:w-[92px] sm:rounded-[1.2rem] sm:p-4 lg:h-[112px] lg:w-[112px] xl:h-[132px] xl:w-[132px]"
+                  className="group relative flex h-[var(--hero-preview-size)] w-[var(--hero-preview-size)] cursor-pointer flex-col justify-between overflow-hidden rounded-[1rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:rounded-[1.2rem] sm:p-4"
                   aria-label={`View ${project.title}`}
                 >
                   {previewImage ? (
@@ -148,9 +151,9 @@ export default function Hero() {
           </div>
 
           <div
-            className="type-small max-w-full flex flex-wrap justify-center gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            className="type-small max-w-full flex flex-wrap justify-start gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:gap-2.5 xl:flex-nowrap"
             style={{
-              left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
+              left: "var(--layout-text-x)",
               bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",
             }}
             aria-hidden="true"
@@ -158,7 +161,7 @@ export default function Hero() {
             {heroProjects.map((project) => (
               <div
                 key={project.slug}
-                className="w-[72px] sm:w-[92px] lg:w-[112px] xl:w-[132px]"
+                className="w-[var(--hero-preview-size)]"
               >
                 [{project.number}]
               </div>

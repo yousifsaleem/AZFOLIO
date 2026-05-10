@@ -134,7 +134,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="group/media relative h-full w-full overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
+      className="group/media relative h-full w-full overflow-hidden rounded-[clamp(1.25rem,4vw,2rem)] border border-[rgba(255,248,242,0.3)] xl:rounded-[2rem]"
       style={{ backgroundColor: project.backgroundColor }}
     >
       <div
@@ -213,7 +213,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-0">
+      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-6">
         <div className="flex w-full items-end justify-between gap-6 xl:pl-0">
           <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
             {displayTags.map((tag) => (
@@ -222,8 +222,16 @@ function FeaturedTextContent({ project }: { project: Project }) {
               </p>
             ))}
           </div>
-
         </div>
+
+        <TransitionLink
+          data-featured-link
+          href={`/work/${project.slug}`}
+          className="group/roll type-regular inline-flex w-fit text-[var(--color-card)]"
+          aria-label={`View ${project.title}`}
+        >
+          <RollingLinkText />
+        </TransitionLink>
       </div>
     </>
   );
@@ -723,8 +731,12 @@ export default function FeaturedWork() {
                   />
 
                   <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14 xl:items-start xl:py-0">
-                    <div className="flex w-full items-center pl-[8vw] xl:translate-x-[-69px] xl:pt-[var(--layout-header-bottom-y)]">
-                      <div data-featured-scene-media className="aspect-square w-full max-w-[420px] xl:aspect-auto xl:h-[calc(var(--layout-tags-bottom-y)-var(--layout-header-bottom-y))] xl:w-[calc(var(--layout-tags-bottom-y)-var(--layout-header-bottom-y)+53px)] xl:max-w-none">
+                    <div className="flex w-full items-center xl:pt-[var(--layout-header-bottom-y)]">
+                      <div
+                        data-featured-scene-media
+                        className="aspect-square w-full max-w-[420px] xl:aspect-auto xl:h-[var(--layout-featured-media-size)] xl:w-[var(--layout-featured-media-size)] xl:max-w-none"
+                        style={{ marginLeft: "var(--layout-featured-media-x)" }}
+                      >
                         <FeaturedMediaCard project={project} />
                       </div>
                     </div>
@@ -742,7 +754,8 @@ export default function FeaturedWork() {
               data-featured-desktop-text
               className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem] xl:absolute xl:h-screen xl:min-h-screen xl:mr-0"
               style={{
-                left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 0.5rem)",
+                left: "var(--layout-text-x)",
+                width: "var(--site-text-column-width)",
               }}
             >
               {featuredProjects.map((project, index) => (
@@ -812,14 +825,14 @@ export default function FeaturedWork() {
               aria-hidden="true"
             />
 
-            <div className="layout-shell relative z-10 flex min-h-[100svh] flex-col gap-8 py-8 sm:py-10 min-[768px]:min-h-[auto] min-[768px]:gap-10 min-[768px]:py-12">
-              <div className="flex items-center">
-                <div className="aspect-square w-full max-w-[min(760px,100%)]">
+            <div className="layout-shell relative z-10 flex min-h-[100svh] flex-col gap-[var(--site-section-gap)] py-[var(--featured-mobile-panel-padding-y)] min-[768px]:min-h-[auto]">
+              <div className="flex items-center justify-center min-[900px]:justify-start">
+                <div className="aspect-square w-full max-w-[var(--featured-mobile-media-size)]">
                   <FeaturedMediaCard project={project} />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-8 pb-2">
+              <div className="flex max-w-[42rem] flex-col gap-8 pb-2">
                 <FeaturedTextContent project={project} />
               </div>
             </div>

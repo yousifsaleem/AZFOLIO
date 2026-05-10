@@ -27,7 +27,27 @@
   --cursor-quiet-hours: #f1e2a8;
   --cursor-enterprise: rgba(255, 248, 242, 0.92);
   --cursor-barons: #d7473f;
-  --site-shell-padding: 1rem;
+  --site-shell-max-width: 1600px;
+  --site-shell-padding: clamp(1rem, 4.2vw, 1.5rem);
+  --site-shell-offset: max(0px, calc((100vw - var(--site-shell-max-width)) / 2));
+  --site-shell-content-width: min(
+    calc(100vw - (var(--site-shell-padding) * 2)),
+    calc(var(--site-shell-max-width) - (var(--site-shell-padding) * 2))
+  );
+  --site-section-gap: clamp(2rem, 6vw, 4.5rem);
+  --site-header-gap: clamp(0.75rem, 2.2vw, 1.5rem);
+  --hero-preview-size: clamp(3.875rem, 19vw, 7rem);
+  --hero-mark-size: clamp(4.2rem, 16vw, 7rem);
+  --featured-mobile-media-size: min(100%, clamp(18rem, 78vw, 47.5rem));
+  --featured-mobile-panel-padding-y: clamp(2rem, 7vw, 4.5rem);
+  --site-text-column-width: min(100%, 27rem);
+  --layout-page-gutter: clamp(1.5rem, 3.125vw, 3.75rem);
+  --layout-page-edge-x: calc(var(--layout-page-gutter) - var(--site-shell-offset));
+  --layout-nav-x: var(--site-shell-padding);
+  --layout-text-x: var(--site-shell-padding);
+  --layout-right-x: calc(100% - var(--site-shell-padding));
+  --layout-featured-media-x: var(--site-shell-padding);
+  --layout-featured-media-size: min(100%, 34rem);
   --site-nav-offset: -5rem;
   --site-featured-text-width: min(35rem, 37vw);
   --site-time-column-width: 6rem;
@@ -98,15 +118,32 @@
 
 @media (min-width: 640px) {
   :root {
-    --site-shell-padding: 2rem;
+    --site-shell-padding: clamp(2rem, 5vw, 3rem);
     --site-nav-offset: -6rem;
+    --hero-preview-size: clamp(5.75rem, 13vw, 8.25rem);
+    --layout-featured-media-size: min(100%, 47.5rem);
   }
 }
 
 @media (min-width: 1024px) {
   :root {
-    --site-shell-padding: 3rem;
+    --site-shell-padding: clamp(2.5rem, 4vw, 3rem);
     --site-nav-offset: -8rem;
+    --hero-preview-size: clamp(7rem, 10.5vw, 8.25rem);
+    --featured-mobile-media-size: min(760px, 100%);
+    --site-text-column-width: clamp(24rem, 28vw, 27rem);
+    --layout-text-x: calc(100% - var(--site-shell-padding) - var(--site-text-column-width));
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --site-shell-padding: 3rem;
+    --layout-nav-x: var(--layout-page-edge-x);
+    --layout-featured-media-x: calc(var(--site-shell-padding) + clamp(4.5rem, 8vw, 9.5rem) - 69px);
+    --layout-featured-media-size: clamp(38rem, 35.8vw, 42.9375rem);
+    --hero-preview-size: clamp(6.2rem, 6.875vw, 8.25rem);
+    --hero-mark-size: 7rem;
   }
 }
 
@@ -130,11 +167,14 @@ body {
 
 @layer utilities {
   .layout-shell {
-    @apply mx-auto w-full max-w-[1600px] px-4 sm:px-8 lg:px-12;
+    @apply mx-auto w-full;
+    max-width: var(--site-shell-max-width);
+    padding-inline: var(--site-shell-padding);
   }
 
   .layout-shell-narrow {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-6xl;
+    padding-inline: var(--site-shell-padding);
   }
 
   .section-space {

@@ -151,15 +151,15 @@ export default function SiteHeader() {
         }`}
         aria-hidden="true"
       />
-      <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
+      <div className="layout-shell relative z-10 flex flex-col gap-[var(--site-header-gap)] py-4 sm:py-5 lg:flex-row lg:items-start lg:justify-between lg:min-h-[120px] lg:py-8">
         <nav
-          className={`transition-colors duration-300 xl:absolute ${navColor}`}
+          className={`w-full transition-colors duration-300 lg:w-auto xl:absolute ${navColor}`}
           style={{
-            left: "calc(var(--layout-left-nav-x) - max(0px, (100vw - 1600px) / 2) - 29px)",
+            left: "var(--layout-nav-x)",
             top: "calc(var(--layout-header-baseline-y) - 0.375rem)",
           }}
         >
-          <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
+          <div className="flex flex-col items-start gap-y-1.5 sm:gap-y-2 lg:max-w-[60vw] xl:max-w-none">
             {navItems.map((item) => (
               <a
                 key={item.id}
@@ -169,9 +169,7 @@ export default function SiteHeader() {
                 <span className={`type-small translate-x-3 transition-colors duration-300 ${boxNumberColor}`}>
                   {item.number}
                 </span>
-                <span
-                  className="relative inline-flex min-w-[6.2rem] overflow-hidden rounded-[0.5rem] px-2.5 py-1.5"
-                >
+                <span className="relative inline-flex min-w-[6.2rem] overflow-hidden rounded-[0.5rem] px-2.5 py-1.5 max-[380px]:min-w-[5.4rem]">
                   <span
                     className={`absolute inset-y-[1px] left-0 rounded-[0.4rem] transition-[width] duration-150 ease-out ${boxFillColor}`}
                     style={{ width: `${(sectionProgress[item.sectionId] ?? 0) * 100}%` }}
@@ -189,7 +187,7 @@ export default function SiteHeader() {
         <div
           className={`absolute hidden text-left transition-colors duration-300 xl:block ${navColor}`}
           style={{
-            left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 0.5rem)",
+            left: "var(--layout-text-x)",
             top: "var(--layout-header-baseline-y)",
           }}
         >
@@ -202,15 +200,14 @@ export default function SiteHeader() {
         </div>
 
         <div
-          className="max-w-full self-start text-left md:ml-auto md:w-fit xl:absolute"
+          className="max-w-full self-start text-left lg:ml-auto lg:w-fit xl:absolute"
           style={{
-            left:
-              "calc(var(--layout-time-x) - max(0px, (100vw - 1600px) / 2) - (var(--site-time-column-width) + 4.5rem) + 35px)",
+            right: "var(--layout-page-edge-x)",
             top: "var(--layout-header-baseline-y)",
           }}
         >
           <div
-            className={`flex items-start justify-end gap-5 transition-colors duration-300 sm:gap-7 lg:gap-10 ${navColor}`}
+            className={`flex max-w-full flex-wrap items-start justify-between gap-x-5 gap-y-2 transition-colors duration-300 sm:gap-x-7 lg:justify-end lg:gap-10 ${navColor}`}
           >
             <div className="space-y-1 text-left xl:hidden">
               <div className={`type-regular transition-colors duration-300 ${strongColor}`}>
@@ -220,7 +217,7 @@ export default function SiteHeader() {
                 Graphic Designer
               </div>
             </div>
-            <div className="w-[min(100%,calc(var(--site-time-column-width)+4.5rem))] space-y-1 text-left">
+            <div className="min-w-[10.5rem] max-w-full space-y-1 text-left sm:w-[min(100%,calc(var(--site-time-column-width)+4.5rem))]">
               <div
                 className={`type-regular tabular-nums transition-colors duration-300 ${strongColor}`}
                 suppressHydrationWarning
