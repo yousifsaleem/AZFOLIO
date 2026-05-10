@@ -30,6 +30,57 @@
   --site-time-column-width: 6rem;
   --site-featured-link-overhang: 2.5rem;
   --site-identity-inset: calc(100% - var(--site-featured-text-width));
+
+  /* InDesign guide overlay — editable desktop reference
+     These variables are for the visual guide overlay only.
+     They are intentionally not applied to component layout yet. */
+  --design-width: 1920px;
+  --design-height: 1080px;
+
+  /* Vertical guide lines */
+  --guide-x-1: 154px;
+  --guide-x-2: 174px;
+  --guide-x-3: 206px;
+  --guide-x-4: 1291px;
+  --guide-x-5: 1696px;
+  --guide-x-6: 1836px;
+  --guide-x-7: 1856px;
+
+  /* Horizontal guide lines */
+  --guide-y-1: 20px;
+  --guide-y-2: 99px;
+  --guide-y-3: 132px;
+  --guide-y-4: 139px;
+  --guide-y-5: 248px;
+  --guide-y-6: 272px;
+  --guide-y-7: 409px;
+  --guide-y-8: 424px;
+  --guide-y-9: 447px;
+  --guide-y-10: 462px;
+  --guide-y-11: 762px;
+  --guide-y-12: 772px;
+  --guide-y-13: 888px;
+  --guide-y-14: 918px;
+  --guide-y-15: 949px;
+  --guide-y-16: 1004px;
+  --guide-y-17: 1038px;
+  --guide-y-18: 1044px;
+
+  /* Semantic aliases for future layout passes. Do not use in components yet. */
+  --layout-left-nav-x: var(--guide-x-3);
+  --layout-feature-image-x: 410px;
+  --layout-feature-text-x: var(--guide-x-4);
+  --layout-time-x: var(--guide-x-5);
+  --layout-right-x: var(--guide-x-6);
+  --layout-header-y: var(--guide-y-3);
+  --layout-feature-image-y: var(--guide-y-5);
+  --layout-project-number-y: var(--guide-y-7);
+  --layout-title-y: var(--guide-y-8);
+  --layout-description-y: var(--guide-y-9);
+  --layout-tags-y: var(--guide-y-11);
+  --layout-next-y: var(--guide-y-16);
+  --featured-image-w: 550px;
+  --featured-image-h: 462px;
 }
 
 @media (min-width: 640px) {
