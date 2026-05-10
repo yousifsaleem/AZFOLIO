@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 const navItems = [
   { id: "welcome", href: "#hero", label: "Welcome", number: "01", sectionId: "welcome", scrollTargetId: "hero" },
-  { id: "featured", href: "#work", label: "featured", number: "02", sectionId: "featured", scrollTargetId: "work" },
-  { id: "projects", href: "#archive", label: "projects", number: "03", sectionId: "projects", scrollTargetId: "archive" },
-  { id: "connect", href: "#contact", label: "connect", number: "04", sectionId: "connect", scrollTargetId: "contact" },
+  { id: "featured", href: "#work", label: "Featured", number: "02", sectionId: "featured", scrollTargetId: "work" },
+  { id: "projects", href: "#archive", label: "Projects", number: "03", sectionId: "projects", scrollTargetId: "archive" },
+  { id: "connect", href: "#contact", label: "Connect", number: "04", sectionId: "connect", scrollTargetId: "contact" },
 ] as const;
 
 type NavItem = (typeof navItems)[number];
@@ -166,7 +166,7 @@ export default function SiteHeader() {
                 href={item.href}
                 className={`group relative flex cursor-pointer items-center gap-2 transition-all duration-300 ease-out hover:translate-x-1 sm:gap-3 ${linkColor}`}
               >
-                <span className={`type-small transition-colors duration-300 ${boxNumberColor}`}>
+                <span className={`type-small translate-x-3 transition-colors duration-300 ${boxNumberColor}`}>
                   {item.number}
                 </span>
                 <span

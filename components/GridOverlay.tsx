@@ -17,7 +17,7 @@ const horizontalGuides = [
   ["nav-block-bottom", "--guide-y-nav-block-bottom", "190px"],
   ["header-bottom", "--guide-y-header-bottom", "221px"],
   ["project-number", "--guide-y-project-number", "395px"],
-  ["title-top", "--guide-y-title-top", "413px"],
+  ["title-top", "--guide-y-title-top", "410px"],
   ["description-top", "--guide-y-description-top", "443px"],
   ["description-bottom", "--guide-y-description-bottom", "462px"],
   ["hero-bottom", "--guide-y-hero-bottom", "calc(100vh - 70px)"],

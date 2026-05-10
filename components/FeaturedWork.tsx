@@ -134,7 +134,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   return (
     <div
       data-featured-media
-      className="group/media relative aspect-square overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
+      className="group/media relative h-full w-full overflow-hidden rounded-[2rem] border border-[rgba(255,248,242,0.3)]"
       style={{ backgroundColor: project.backgroundColor }}
     >
       <div
@@ -201,41 +201,28 @@ function FeaturedTextContent({ project }: { project: Project }) {
 
   return (
     <>
-      <div className="flex items-start xl:absolute xl:left-0 xl:top-[calc(50%-6rem)] xl:w-full">
+      <div className="flex items-start xl:absolute xl:left-0 xl:top-[325px] xl:w-full">
         <div data-featured-text className="max-w-[27rem] xl:pl-0">
           <p className="type-small text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="type-large mt-3 overflow-hidden text-[var(--color-card)]">
+          <h2 className="type-large mt-3 overflow-hidden text-[var(--color-card)] xl:mt-[5px]">
             <RollingTitle title={project.title} />
           </h2>
-          <p className="type-subheading mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
+          <p className="type-subheading mt-0 max-w-md text-[rgba(255,248,242,0.78)]">
             {project.shortDescription}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:top-[calc(50%+15.75rem)] xl:gap-0">
+      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-0">
         <div className="flex w-full items-end justify-between gap-6 xl:pl-0">
           <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
             {displayTags.map((tag) => (
               <p key={tag} className="type-regular text-[rgba(255,248,242,0.78)]">
-                {tag}
+                [{tag}]
               </p>
             ))}
           </div>
 
-          <TransitionLink
-            data-featured-link
-            href={`/work/${project.slug}`}
-            className="group/roll type-small inline-flex shrink-0 items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:w-[calc(var(--site-time-column-width)+var(--site-featured-link-overhang))] xl:translate-y-[-0.08rem]"
-          >
-            <RollingLinkText />
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/roll:-translate-y-[1px] group-hover/roll:translate-x-[2px]"
-            >
-              ↗
-            </span>
-          </TransitionLink>
         </div>
       </div>
     </>
@@ -731,9 +718,9 @@ export default function FeaturedWork() {
                     aria-hidden="true"
                   />
 
-                  <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14">
-                    <div className="flex w-full items-center pl-[8vw]">
-                      <div data-featured-scene-media className="w-full max-w-[420px] xl:max-w-[29vw]">
+                  <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14 xl:items-start xl:py-0">
+                    <div className="flex w-full items-center pl-[8vw] xl:translate-x-[-69px] xl:pt-[var(--layout-header-bottom-y)]">
+                      <div data-featured-scene-media className="aspect-square w-full max-w-[420px] xl:aspect-auto xl:h-[calc(var(--layout-tags-bottom-y)-var(--layout-header-bottom-y))] xl:w-[calc(var(--layout-tags-bottom-y)-var(--layout-header-bottom-y)+53px)] xl:max-w-none">
                         <FeaturedMediaCard project={project} />
                       </div>
                     </div>
@@ -749,7 +736,10 @@ export default function FeaturedWork() {
           <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 flex min-h-screen justify-end py-8 sm:py-10 lg:py-14">
             <div
               data-featured-desktop-text
-              className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem]"
+              className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem] xl:absolute xl:h-screen xl:min-h-screen xl:mr-0"
+              style={{
+                left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 0.5rem)",
+              }}
             >
               {featuredProjects.map((project, index) => (
                 <div
