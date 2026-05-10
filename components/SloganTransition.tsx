@@ -9,21 +9,27 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SloganTransition() {
   const rootRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
+  const exitRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     const frame = frameRef.current;
+    const exit = exitRef.current;
 
-    if (!root || !frame) {
+    if (!root || !frame || !exit) {
       return;
     }
 
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
+      const exitBands = root.querySelectorAll("[data-exit-band]");
+      const exitFill = root.querySelector("[data-exit-fill]");
 
       gsap.set(frame, {
         backgroundColor: "rgba(31, 27, 25, 0)",
+        clipPath: "circle(150% at 100% 0%)",
+        webkitClipPath: "circle(150% at 100% 0%)",
       });
 
       gsap.set(rippleBands, {
@@ -36,6 +42,21 @@ export default function SloganTransition() {
       gsap.set(lines, {
         autoAlpha: 0,
         y: 34,
+      });
+
+      gsap.set(exit, {
+        autoAlpha: 0,
+      });
+
+      gsap.set(exitBands, {
+        autoAlpha: 0,
+        scale: 0.04,
+        transformOrigin: "50% 50%",
+        force3D: true,
+      });
+
+      gsap.set(exitFill, {
+        autoAlpha: 0,
       });
 
       const timeline = gsap.timeline({
@@ -70,7 +91,49 @@ export default function SloganTransition() {
           duration: 0.38,
           ease: "power3.out",
           stagger: 0.06,
-        }, 0.58);
+        }, 0.58)
+        .to({}, {
+          duration: 0.18,
+        })
+        .to(exit, {
+          autoAlpha: 1,
+          duration: 0.01,
+          ease: "none",
+        }, 1.08)
+        .to(lines, {
+          autoAlpha: 0,
+          y: -18,
+          duration: 0.3,
+          ease: "power2.in",
+        }, 1.14)
+        .to(exitBands, {
+          autoAlpha: 1,
+          scale: 2.7,
+          duration: 1,
+          ease: "power2.inOut",
+          stagger: {
+            each: 0.055,
+            from: "start",
+          },
+        }, 1.1)
+        .to(exitFill, {
+          autoAlpha: 1,
+          duration: 0.24,
+          ease: "none",
+        }, 1.92);
+
+      gsap.to(frame, {
+        clipPath: "circle(0% at 100% 0%)",
+        webkitClipPath: "circle(0% at 100% 0%)",
+        ease: "none",
+        scrollTrigger: {
+          trigger: root,
+          start: "bottom 115%",
+          end: "bottom bottom",
+          scrub: 0.65,
+          invalidateOnRefresh: true,
+        },
+      });
     }, root);
 
     return () => {
@@ -83,7 +146,7 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="dark"
-      className="pointer-events-none relative z-10 -mt-[100vh] min-h-[200vh] text-[var(--color-card)]"
+      className="pointer-events-none relative z-20 -mt-[100vh] min-h-[215vh] text-[var(--color-card)]"
     >
       <div
         ref={frameRef}
@@ -114,6 +177,37 @@ export default function SloganTransition() {
           className="absolute bottom-[-36vmax] left-[-32vmax] z-[5] h-[92vmax] w-[92vmax] rounded-full bg-[var(--color-text)]"
           aria-hidden="true"
         />
+
+        <div
+          ref={exitRef}
+          className="absolute inset-0 z-20 overflow-hidden"
+          aria-hidden="true"
+        >
+          <div
+            data-exit-band
+            className="absolute right-[-58vmax] top-[-58vmax] h-[136vmax] w-[136vmax] rounded-full bg-[#2b2722]"
+          />
+          <div
+            data-exit-band
+            className="absolute right-[-52vmax] top-[-52vmax] h-[124vmax] w-[124vmax] rounded-full bg-[#211e1a]"
+          />
+          <div
+            data-exit-band
+            className="absolute right-[-46vmax] top-[-46vmax] h-[112vmax] w-[112vmax] rounded-full bg-[#181614]"
+          />
+          <div
+            data-exit-band
+            className="absolute right-[-40vmax] top-[-40vmax] h-[100vmax] w-[100vmax] rounded-full bg-[#100f0e]"
+          />
+          <div
+            data-exit-band
+            className="absolute right-[-34vmax] top-[-34vmax] h-[88vmax] w-[88vmax] rounded-full bg-[#0c0b0a]"
+          />
+          <div
+            data-exit-fill
+            className="absolute inset-0 bg-[#0c0b0a]"
+          />
+        </div>
 
         <div className="layout-shell relative z-10">
           <div className="mx-auto max-w-5xl text-center">

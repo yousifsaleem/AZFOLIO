@@ -15,8 +15,12 @@ export default function Home() {
         <SiteHeader />
         <Loader />
         <Hero />
-        <SloganTransition />
-        <FeaturedWork />
+        <div className="relative isolate">
+          <SloganTransition />
+          <div className="relative z-0 -mt-[100vh] bg-[#0c0b0a]">
+            <FeaturedWork />
+          </div>
+        </div>
         <Archive />
         <About />
         <Contact />

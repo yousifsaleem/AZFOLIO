@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const FEATURED_CURSOR_COLOR_PROPERTY = "--site-cursor-featured-color";
 const SNAP_EDGE_THRESHOLD = 0.2;
+const FEATURED_ENTRY_HOLD = 0.35;
 
 function getProjectCursorColor(project: Project) {
   return project.cursorColor ?? project.accentColor;
@@ -306,6 +307,8 @@ export default function FeaturedWork() {
 
         if (pin && desktopScenes.length > 0) {
           const transitionCount = featuredProjects.length - 1;
+          const timelineUnits = transitionCount + FEATURED_ENTRY_HOLD;
+          const entryHoldProgress = FEATURED_ENTRY_HOLD / timelineUnits;
           const fallbackCursorColor = resolveCursorColor("var(--cursor-light)", "rgba(255, 248, 242, 0.9)");
           const featuredCursorColors = featuredProjects.map((project) =>
             resolveCursorColor(getProjectCursorColor(project), fallbackCursorColor),
@@ -373,19 +376,32 @@ export default function FeaturedWork() {
               return progress;
             }
 
-            const scaledProgress = progress * transitionCount;
+            if (progress <= entryHoldProgress) {
+              return progress;
+            }
+
+            const activeProgress = (progress - entryHoldProgress) / (1 - entryHoldProgress);
+            const scaledProgress = activeProgress * transitionCount;
             const segmentIndex = Math.min(transitionCount - 1, Math.floor(scaledProgress));
             const localProgress = scaledProgress - segmentIndex;
 
             if (localProgress <= SNAP_EDGE_THRESHOLD) {
-              return segmentIndex / transitionCount;
+              return entryHoldProgress + (segmentIndex / transitionCount) * (1 - entryHoldProgress);
             }
 
             if (localProgress >= 1 - SNAP_EDGE_THRESHOLD) {
-              return (segmentIndex + 1) / transitionCount;
+              return entryHoldProgress + ((segmentIndex + 1) / transitionCount) * (1 - entryHoldProgress);
             }
 
             return progress;
+          };
+
+          const getActiveProgress = (progress: number) => {
+            if (transitionCount <= 0) {
+              return progress;
+            }
+
+            return gsap.utils.clamp(0, 1, (progress - entryHoldProgress) / (1 - entryHoldProgress));
           };
 
           measureTextReveal();
@@ -467,7 +483,7 @@ export default function FeaturedWork() {
             scrollTrigger: {
               trigger: pin,
               start: "top top",
-              end: `+=${window.innerHeight * (featuredProjects.length - 1)}`,
+              end: `+=${window.innerHeight * timelineUnits}`,
               scrub: true,
               pin: true,
               anticipatePin: 1,
@@ -483,19 +499,28 @@ export default function FeaturedWork() {
               },
               onRefresh: (self) => {
                 activeTextPairKey = "";
-                updateTextLayerVisibility(self.progress);
-                updateFeaturedCursorColor(self.progress);
+                const activeProgress = getActiveProgress(self.progress);
+
+                updateTextLayerVisibility(activeProgress);
+                updateFeaturedCursorColor(activeProgress);
               },
               onUpdate: (self) => {
-                updateTextLayerVisibility(self.progress);
-                updateFeaturedCursorColor(self.progress);
+                const activeProgress = getActiveProgress(self.progress);
+
+                updateTextLayerVisibility(activeProgress);
+                updateFeaturedCursorColor(activeProgress);
               },
             },
+          });
+
+          swipeTimeline.to({}, {
+            duration: FEATURED_ENTRY_HOLD,
           });
 
           desktopScenes.slice(1).forEach((scene, index) => {
             const previousTextScene = desktopTextScenes[index];
             const textScene = desktopTextScenes[index + 1];
+            const transitionStart = FEATURED_ENTRY_HOLD + index;
 
             swipeTimeline.fromTo(
               scene,
@@ -509,7 +534,7 @@ export default function FeaturedWork() {
                 duration: 1,
                 ease: "none",
               },
-              index,
+              transitionStart,
             );
 
             if (textScene) {
@@ -526,7 +551,7 @@ export default function FeaturedWork() {
                     duration: textRevealDuration,
                     ease: "none",
                   },
-                  index + textRevealStart,
+                  transitionStart + textRevealStart,
                 );
               }
 
@@ -542,7 +567,7 @@ export default function FeaturedWork() {
                   duration: textRevealDuration,
                   ease: "none",
                 },
-                index + textRevealStart,
+                transitionStart + textRevealStart,
               );
             }
           });
