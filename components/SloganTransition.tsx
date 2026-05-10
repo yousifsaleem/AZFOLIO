@@ -28,8 +28,8 @@ export default function SloganTransition() {
 
       gsap.set(frame, {
         backgroundColor: "rgba(31, 27, 25, 0)",
-        clipPath: "circle(150% at 100% 0%)",
-        webkitClipPath: "circle(150% at 100% 0%)",
+        clipPath: "circle(160vmax at 100% 0%)",
+        webkitClipPath: "circle(160vmax at 100% 0%)",
       });
 
       gsap.set(rippleBands, {
@@ -72,9 +72,9 @@ export default function SloganTransition() {
       timeline
         .to(frame, {
           backgroundColor: "rgba(31, 27, 25, 1)",
-          duration: 0.74,
+          duration: 0.2,
           ease: "none",
-        }, 0)
+        }, 0.08)
         .to(rippleBands, {
           autoAlpha: 1,
           scale: 2.35,
@@ -123,12 +123,12 @@ export default function SloganTransition() {
         }, 1.92);
 
       gsap.to(frame, {
-        clipPath: "circle(0% at 100% 0%)",
-        webkitClipPath: "circle(0% at 100% 0%)",
+        clipPath: "circle(0vmax at 100% 0%)",
+        webkitClipPath: "circle(0vmax at 100% 0%)",
         ease: "none",
         scrollTrigger: {
           trigger: root,
-          start: "bottom 115%",
+          start: "bottom 112%",
           end: "bottom bottom",
           scrub: 0.65,
           invalidateOnRefresh: true,
@@ -150,7 +150,7 @@ export default function SloganTransition() {
     >
       <div
         ref={frameRef}
-        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-[var(--color-text)] py-12"
+        className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-transparent py-12"
       >
         <div
           data-ripple-band
