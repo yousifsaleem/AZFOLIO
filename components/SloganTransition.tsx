@@ -22,14 +22,19 @@ export default function SloganTransition() {
 
     const ctx = gsap.context(() => {
       const lines = root.querySelectorAll("[data-slogan-line]");
+      const entryCover = root.querySelector("[data-entry-cover]");
       const rippleBands = root.querySelectorAll("[data-ripple-band]");
       const exitBands = root.querySelectorAll("[data-exit-band]");
       const exitFill = root.querySelector("[data-exit-fill]");
 
       gsap.set(frame, {
         backgroundColor: "rgba(31, 27, 25, 0)",
-        clipPath: "circle(160vmax at 100% 0%)",
-        webkitClipPath: "circle(160vmax at 100% 0%)",
+        clipPath: "circle(160vmax at 50% 50%)",
+        webkitClipPath: "circle(160vmax at 50% 50%)",
+      });
+
+      gsap.set(entryCover, {
+        autoAlpha: 0,
       });
 
       gsap.set(rippleBands, {
@@ -70,11 +75,11 @@ export default function SloganTransition() {
       });
 
       timeline
-        .to(frame, {
-          backgroundColor: "rgba(31, 27, 25, 1)",
-          duration: 0.2,
+        .to(entryCover, {
+          autoAlpha: 1,
+          duration: 0.08,
           ease: "none",
-        }, 0.08)
+        }, 0.01)
         .to(rippleBands, {
           autoAlpha: 1,
           scale: 2.35,
@@ -123,12 +128,12 @@ export default function SloganTransition() {
         }, 1.92);
 
       gsap.to(frame, {
-        clipPath: "circle(0vmax at 100% 0%)",
-        webkitClipPath: "circle(0vmax at 100% 0%)",
+        clipPath: "circle(0vmax at 50% 50%)",
+        webkitClipPath: "circle(0vmax at 50% 50%)",
         ease: "none",
         scrollTrigger: {
           trigger: root,
-          start: "bottom 112%",
+          start: "bottom 200%",
           end: "bottom bottom",
           scrub: 0.65,
           invalidateOnRefresh: true,
@@ -146,12 +151,18 @@ export default function SloganTransition() {
       ref={rootRef}
       id="slogan-transition"
       data-header-theme="dark"
-      className="pointer-events-none relative z-20 -mt-[100vh] min-h-[215vh] text-[var(--color-card)]"
+      className="pointer-events-none relative z-20 -mt-[100vh] min-h-[315vh] text-[var(--color-card)]"
     >
       <div
         ref={frameRef}
         className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden bg-transparent py-12"
       >
+        <div
+          data-entry-cover
+          className="absolute inset-0 z-0 bg-[var(--color-card)]"
+          aria-hidden="true"
+        />
+
         <div
           data-ripple-band
           className="absolute bottom-[-56vmax] left-[-52vmax] z-[1] h-[132vmax] w-[132vmax] rounded-full bg-[rgba(235,200,190,0.28)]"

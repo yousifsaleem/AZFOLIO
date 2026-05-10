@@ -18,7 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const FEATURED_CURSOR_COLOR_PROPERTY = "--site-cursor-featured-color";
 const SNAP_EDGE_THRESHOLD = 0.2;
-const FEATURED_ENTRY_HOLD = 0.5;
+const FEATURED_ENTRY_HOLD = 1;
 
 function getProjectCursorColor(project: Project) {
   return project.cursorColor ?? project.accentColor;
