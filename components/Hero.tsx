@@ -22,7 +22,7 @@ export default function Hero() {
     }
 
     const ctx = gsap.context(() => {
-      const previewItems = previewsRef.current?.querySelectorAll("a");
+      const previewItems = previewsRef.current?.querySelectorAll("[data-hero-preview-item]");
 
       gsap.set(logoRef.current, { autoAlpha: 0, scale: 0.96 });
       gsap.set(infoRef.current, { autoAlpha: 0, y: 24 });
@@ -95,22 +95,22 @@ export default function Hero() {
         <div className="relative mt-10 grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
           <div
             ref={infoRef}
-            className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left"
-            style={{ marginLeft: "calc(var(--site-nav-offset) + 3rem)" }}
+            className="max-w-[34rem] text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:absolute xl:left-[calc(var(--layout-left-nav-x)-max(0px,(100vw-1600px)/2)+7px)] xl:text-left"
           >
-            <div className="type-midsize text-[var(--color-text)]">What I do</div>
-            <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
-              <div className="h-px w-16 bg-[var(--color-border)]" />
-              <div className="h-px w-12 bg-[var(--color-border)]" />
-              <div className="h-px w-8 bg-[var(--color-border)]" />
+            <div className="type-midsize text-[var(--color-text)]">
+              <span className="block">currently exploring how branding,</span>
+              <span className="block">editorial and motion can live together.</span>
             </div>
-            <div className="type-small mt-4 text-[var(--color-text-muted)]">scroll to see</div>
+            <div className="type-small mt-4 text-[var(--color-text-muted)]">[scroll down to explore]</div>
           </div>
 
           <div
             ref={previewsRef}
-            className="flex flex-wrap justify-center gap-3 xl:absolute xl:bottom-0 xl:justify-start xl:gap-3 xl:flex-nowrap"
-            style={{ left: "var(--site-identity-inset)" }}
+            className="flex flex-wrap justify-center gap-2.5 xl:absolute xl:bottom-0 xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            style={{
+              left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
+              bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
+            }}
           >
             {heroProjects.map((project) => {
               const previewImage = getProjectThumbnailImage(project);
@@ -118,8 +118,9 @@ export default function Hero() {
               return (
                 <TransitionLink
                   key={project.slug}
+                  data-hero-preview-item
                   href={`/work/${project.slug}`}
-                  className="group relative flex h-[84px] w-[84px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.35rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[108px] sm:w-[108px] sm:rounded-[1.45rem] sm:p-4 lg:h-[132px] lg:w-[132px] xl:h-[160px] xl:w-[160px]"
+                  className="group relative flex h-[72px] w-[72px] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.1rem] border border-[var(--color-border)] bg-[var(--color-card)] p-3 text-left text-sm text-[var(--color-text)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:bg-[var(--color-accent-blue)]/45 sm:h-[92px] sm:w-[92px] sm:rounded-[1.2rem] sm:p-4 lg:h-[112px] lg:w-[112px] xl:h-[132px] xl:w-[132px]"
                   aria-label={`View ${project.title}`}
                 >
                   {previewImage ? (
@@ -141,12 +142,27 @@ export default function Hero() {
                     className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,27,25,0.14)_0%,rgba(31,27,25,0.03)_45%,rgba(31,27,25,0.18)_100%)]"
                     aria-hidden="true"
                   />
-                  <span className="type-small relative z-10 text-[var(--color-card)] [text-shadow:0_1px_8px_rgba(31,27,25,0.28)]">
-                    {project.number}
-                  </span>
                 </TransitionLink>
               );
             })}
+          </div>
+
+          <div
+            className="type-small flex flex-wrap justify-center gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:justify-start xl:gap-2.5 xl:flex-nowrap"
+            style={{
+              left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 7px)",
+              bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",
+            }}
+            aria-hidden="true"
+          >
+            {heroProjects.map((project) => (
+              <div
+                key={project.slug}
+                className="w-[72px] sm:w-[92px] lg:w-[112px] xl:w-[132px]"
+              >
+                [{project.number}]
+              </div>
+            ))}
           </div>
         </div>
       </div>

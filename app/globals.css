@@ -58,6 +58,8 @@
   --guide-y-title-top: 413px;
   --guide-y-description-top: 443px;
   --guide-y-description-bottom: 462px;
+  --guide-y-hero-bottom: calc(100vh - 70px);
+  --guide-y-sub-home-bottom: calc(100vh - 34px);
   --guide-y-tags-top: 843px;
   --guide-y-tags-bottom: 855px;
   --guide-y-next-top: 1003px;
@@ -78,6 +80,8 @@
   --layout-title-y: var(--guide-y-title-top);
   --layout-description-y: var(--guide-y-description-top);
   --layout-description-bottom-y: var(--guide-y-description-bottom);
+  --layout-hero-bottom-y: var(--guide-y-hero-bottom);
+  --layout-sub-home-bottom-y: var(--guide-y-sub-home-bottom);
   --layout-tags-y: var(--guide-y-tags-top);
   --layout-tags-bottom-y: var(--guide-y-tags-bottom);
   --layout-next-y: var(--guide-y-next-top);

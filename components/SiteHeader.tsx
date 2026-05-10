@@ -3,23 +3,23 @@
 import { useEffect, useState } from "react";
 
 const navItems = [
-  { id: "work", href: "#work", label: "work", number: "01", sectionId: "work", scrollTargetId: "work" },
-  { id: "archive", href: "#archive", label: "archive", number: "02", sectionId: "archive", scrollTargetId: "archive" },
-  { id: "info", href: "#about", label: "info", number: "03", sectionId: "info", scrollTargetId: "about" },
-  { id: "about", href: "#about", label: "about", number: "04", sectionId: "about", scrollTargetId: "about" },
+  { id: "welcome", href: "#hero", label: "Welcome", number: "01", sectionId: "welcome", scrollTargetId: "hero" },
+  { id: "featured", href: "#work", label: "featured", number: "02", sectionId: "featured", scrollTargetId: "work" },
+  { id: "projects", href: "#archive", label: "projects", number: "03", sectionId: "projects", scrollTargetId: "archive" },
+  { id: "connect", href: "#contact", label: "connect", number: "04", sectionId: "connect", scrollTargetId: "contact" },
 ] as const;
 
 type NavItem = (typeof navItems)[number];
 type ProgressMap = Record<NavItem["sectionId"], number>;
 
 const initialProgress: ProgressMap = {
-  work: 0,
-  archive: 0,
-  info: 0,
-  about: 0,
+  welcome: 0,
+  featured: 0,
+  projects: 0,
+  connect: 0,
 };
 
-const readableFadeSections = new Set<keyof ProgressMap>(["about", "archive", "info"]);
+const readableFadeSections = new Set<keyof ProgressMap>(["projects", "connect"]);
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -153,8 +153,11 @@ export default function SiteHeader() {
       />
       <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
-          className={`transition-colors duration-300 ${navColor}`}
-          style={{ marginLeft: "var(--site-nav-offset)" }}
+          className={`ml-[var(--site-nav-offset)] transition-colors duration-300 xl:absolute xl:ml-0 ${navColor}`}
+          style={{
+            left: "calc(var(--layout-left-nav-x) - max(0px, (100vw - 1600px) / 2) - 29px)",
+            top: "calc(var(--layout-header-baseline-y) - 0.375rem)",
+          }}
         >
           <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
             {navItems.map((item) => (
@@ -198,7 +201,14 @@ export default function SiteHeader() {
           </div>
         </div>
 
-        <div className="max-w-full self-end text-right md:ml-auto md:w-fit md:self-start">
+        <div
+          className="max-w-full self-end text-right md:ml-auto md:w-fit md:self-start xl:absolute"
+          style={{
+            left:
+              "calc(var(--layout-time-x) - max(0px, (100vw - 1600px) / 2) - (var(--site-time-column-width) + 4.5rem) + 35px)",
+            top: "var(--layout-header-baseline-y)",
+          }}
+        >
           <div
             className={`flex items-start justify-end gap-5 transition-colors duration-300 sm:gap-7 lg:gap-10 ${navColor}`}
           >
@@ -210,12 +220,12 @@ export default function SiteHeader() {
                 Graphic Designer
               </div>
             </div>
-            <div className="w-[var(--site-time-column-width)] space-y-1 text-left">
+            <div className="w-[calc(var(--site-time-column-width)+4.5rem)] space-y-1 text-left">
               <div
                 className={`type-regular tabular-nums transition-colors duration-300 ${strongColor}`}
                 suppressHydrationWarning
               >
-                {currentTime}
+                {currentTime} [Scotland]
               </div>
               <div className={`type-regular transition-colors duration-300 ${metaColor}`}>04.05.2026</div>
             </div>

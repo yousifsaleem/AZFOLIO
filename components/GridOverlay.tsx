@@ -20,6 +20,8 @@ const horizontalGuides = [
   ["title-top", "--guide-y-title-top", "413px"],
   ["description-top", "--guide-y-description-top", "443px"],
   ["description-bottom", "--guide-y-description-bottom", "462px"],
+  ["hero-bottom", "--guide-y-hero-bottom", "calc(100vh - 70px)"],
+  ["sub-home-bottom", "--guide-y-sub-home-bottom", "calc(100vh - 34px)"],
   ["tags-top", "--guide-y-tags-top", "843px"],
   ["tags-bottom", "--guide-y-tags-bottom", "855px"],
   ["next-top", "--guide-y-next-top", "1003px"],
