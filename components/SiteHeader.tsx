@@ -169,7 +169,7 @@ export default function SiteHeader() {
                 <span className={`type-small translate-x-3 transition-colors duration-300 ${boxNumberColor}`}>
                   {item.number}
                 </span>
-                <span className="relative inline-flex min-w-[6.2rem] overflow-hidden rounded-[0.5rem] px-2.5 py-1.5 max-[380px]:min-w-[5.4rem]">
+                <span className="relative inline-flex min-w-[6.2rem] items-center justify-center overflow-hidden rounded-[0.5rem] px-2.5 py-1.5 max-[380px]:min-w-[5.4rem]">
                   <span
                     className={`absolute inset-y-[1px] left-0 rounded-[0.4rem] transition-[width] duration-150 ease-out ${boxFillColor}`}
                     style={{ width: `${(sectionProgress[item.sectionId] ?? 0) * 100}%` }}
