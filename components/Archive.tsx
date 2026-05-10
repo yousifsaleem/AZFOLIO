@@ -357,7 +357,7 @@ export default function Archive() {
       <div className="layout-shell">
         <div className="mb-12 border-b border-[var(--color-border)] pb-6 xl:grid xl:grid-cols-[minmax(0,1fr)_var(--site-time-column-width)] xl:gap-8">
           <div className="hidden xl:block" aria-hidden="true" />
-          <h2 className="type-heading text-left text-[var(--color-text-muted)]">Archive</h2>
+          <h2 className="type-midsize text-left text-[var(--color-text-muted)]">Archive</h2>
         </div>
 
         <div
@@ -416,16 +416,16 @@ export default function Archive() {
             >
               <div className="grid gap-3 py-6 transition-transform duration-300 ease-out group-hover:translate-x-1 md:py-7 xl:grid-cols-[minmax(0,1fr)_var(--site-time-column-width)] xl:items-end xl:gap-8">
                 <div className="min-w-0">
-                  <p className="type-meta mb-2 text-[rgba(117,104,95,0.78)]">
+                  <p className="type-small mb-2 text-[rgba(153,153,153,0.88)]">
                     {String(index + 1).padStart(2, "0")}
                   </p>
-                  <h3 className="text-[clamp(1.65rem,2.5vw,2.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-[rgba(31,27,25,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)]">
+                  <h3 className="type-midsize text-[rgba(0,0,0,0.88)] transition-colors duration-300 ease-out group-hover:text-[var(--color-text)]">
                     {project.title}
                   </h3>
                 </div>
 
-                <div className="type-meta flex flex-col items-start gap-1 text-left xl:pb-1">
-                  <p className="text-[rgba(117,104,95,0.78)]">{project.year}</p>
+                <div className="type-regular flex flex-col items-start gap-1 text-left xl:pb-1">
+                  <p className="text-[rgba(153,153,153,0.88)]">{project.year}</p>
                 </div>
               </div>
             </div>

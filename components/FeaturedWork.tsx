@@ -203,11 +203,11 @@ function FeaturedTextContent({ project }: { project: Project }) {
     <>
       <div className="flex items-start xl:absolute xl:left-0 xl:top-[calc(50%-6rem)] xl:w-full">
         <div data-featured-text className="max-w-[27rem] xl:pl-0">
-          <p className="type-meta text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="mt-3 overflow-hidden text-[clamp(1.55rem,1.95vw,2.2rem)] font-medium leading-[1.04] text-[var(--color-card)] max-sm:text-[clamp(2rem,8.5vw,3.1rem)]">
+          <p className="type-small text-[rgba(255,248,242,0.72)]">No {project.number}</p>
+          <h2 className="type-large mt-3 overflow-hidden text-[var(--color-card)]">
             <RollingTitle title={project.title} />
           </h2>
-          <p className="type-body mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
+          <p className="type-subheading mt-5 max-w-md text-[rgba(255,248,242,0.78)]">
             {project.shortDescription}
           </p>
         </div>
@@ -217,7 +217,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
         <div className="flex w-full items-end justify-between gap-6 xl:pl-0">
           <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
             {displayTags.map((tag) => (
-              <p key={tag} className="type-meta text-[0.58rem] text-[rgba(255,248,242,0.78)] sm:text-[0.62rem]">
+              <p key={tag} className="type-regular text-[rgba(255,248,242,0.78)]">
                 {tag}
               </p>
             ))}
@@ -226,7 +226,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
           <TransitionLink
             data-featured-link
             href={`/work/${project.slug}`}
-            className="group/roll type-link inline-flex shrink-0 items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:w-[calc(var(--site-time-column-width)+var(--site-featured-link-overhang))] xl:translate-y-[-0.08rem]"
+            className="group/roll type-small inline-flex shrink-0 items-center gap-1 self-end whitespace-nowrap text-[var(--color-card)] transition-colors duration-300 ease-out hover:text-[rgba(255,248,242,0.72)] xl:w-[calc(var(--site-time-column-width)+var(--site-featured-link-overhang))] xl:translate-y-[-0.08rem]"
           >
             <RollingLinkText />
             <span

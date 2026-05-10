@@ -87,7 +87,7 @@ export default function Hero() {
                 </button>
                 <div className="h-px flex-1 bg-[var(--color-border)]" />
               </div>
-              <div className="type-meta text-[var(--color-text-muted)]">graphic mark</div>
+              <div className="type-small text-[var(--color-text-muted)]">graphic mark</div>
             </div>
           </div>
         </div>
@@ -98,13 +98,13 @@ export default function Hero() {
             className="max-w-xs text-[var(--color-text)] max-xl:mx-auto max-xl:text-center xl:text-left"
             style={{ marginLeft: "calc(var(--site-nav-offset) + 3rem)" }}
           >
-            <div className="type-meta text-[var(--color-text-muted)]">What I do</div>
+            <div className="type-midsize text-[var(--color-text)]">What I do</div>
             <div className="mt-4 space-y-1 max-xl:flex max-xl:flex-col max-xl:items-center">
               <div className="h-px w-16 bg-[var(--color-border)]" />
               <div className="h-px w-12 bg-[var(--color-border)]" />
               <div className="h-px w-8 bg-[var(--color-border)]" />
             </div>
-            <div className="type-meta mt-4 text-[var(--color-text-muted)]">scroll to see</div>
+            <div className="type-small mt-4 text-[var(--color-text-muted)]">scroll to see</div>
           </div>
 
           <div
@@ -141,7 +141,7 @@ export default function Hero() {
                     className="absolute inset-0 bg-[linear-gradient(180deg,rgba(31,27,25,0.14)_0%,rgba(31,27,25,0.03)_45%,rgba(31,27,25,0.18)_100%)]"
                     aria-hidden="true"
                   />
-                  <span className="relative z-10 type-meta text-[var(--color-card)] [text-shadow:0_1px_8px_rgba(31,27,25,0.28)]">
+                  <span className="type-small relative z-10 text-[var(--color-card)] [text-shadow:0_1px_8px_rgba(31,27,25,0.28)]">
                     {project.number}
                   </span>
                 </TransitionLink>

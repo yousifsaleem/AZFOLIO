@@ -153,7 +153,7 @@ export default function SiteHeader() {
       />
       <div className="layout-shell relative z-10 flex flex-col gap-3 py-4 sm:gap-4 sm:py-5 md:flex-row md:items-start md:justify-between md:gap-6 lg:min-h-[120px] lg:py-8">
         <nav
-          className={`type-meta text-[0.74rem] transition-colors duration-300 sm:text-[0.8rem] lg:text-[0.86rem] ${navColor}`}
+          className={`transition-colors duration-300 ${navColor}`}
           style={{ marginLeft: "var(--site-nav-offset)" }}
         >
           <div className="flex flex-col items-start gap-y-2 md:max-w-[60vw] lg:max-w-none">
@@ -163,7 +163,7 @@ export default function SiteHeader() {
                 href={item.href}
                 className={`group relative flex cursor-pointer items-center gap-2 transition-all duration-300 ease-out hover:translate-x-1 sm:gap-3 ${linkColor}`}
               >
-                <span className={`font-semibold transition-colors duration-300 ${boxNumberColor}`}>
+                <span className={`type-small transition-colors duration-300 ${boxNumberColor}`}>
                   {item.number}
                 </span>
                 <span
@@ -174,7 +174,7 @@ export default function SiteHeader() {
                     style={{ width: `${(sectionProgress[item.sectionId] ?? 0) * 100}%` }}
                     aria-hidden="true"
                   />
-                  <span className="relative z-10 text-[0.78rem] font-semibold tracking-[0.02em] lg:text-[0.84rem]">
+                  <span className="type-regular relative z-10">
                     {item.label}
                   </span>
                 </span>
@@ -184,37 +184,40 @@ export default function SiteHeader() {
         </nav>
 
         <div
-          className={`type-meta absolute top-8 hidden text-left transition-colors duration-300 xl:block ${navColor}`}
-          style={{ left: "var(--site-identity-inset)" }}
+          className={`absolute hidden text-left transition-colors duration-300 xl:block ${navColor}`}
+          style={{
+            left: "calc(var(--layout-text-x) - max(0px, (100vw - 1600px) / 2) + 0.5rem)",
+            top: "var(--layout-header-baseline-y)",
+          }}
         >
-          <div className={`text-[1.02rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 ${strongColor}`}>
+          <div className={`type-regular transition-colors duration-300 ${strongColor}`}>
             Afia Zaman
           </div>
-          <div className={`normal-case tracking-[0.03em] transition-colors duration-300 ${metaColor}`}>
+          <div className={`type-regular transition-colors duration-300 ${metaColor}`}>
             Graphic Designer
           </div>
         </div>
 
         <div className="max-w-full self-end text-right md:ml-auto md:w-fit md:self-start">
           <div
-            className={`type-meta flex items-start justify-end gap-5 text-[0.74rem] transition-colors duration-300 sm:gap-7 sm:text-[0.8rem] lg:gap-10 lg:text-[0.86rem] ${navColor}`}
+            className={`flex items-start justify-end gap-5 transition-colors duration-300 sm:gap-7 lg:gap-10 ${navColor}`}
           >
             <div className="space-y-1 text-left xl:hidden">
-              <div className={`text-[0.9rem] font-semibold tracking-[0.03em] normal-case transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}>
+              <div className={`type-regular transition-colors duration-300 ${strongColor}`}>
                 Afia Zaman
               </div>
-              <div className={`normal-case tracking-[0.03em] transition-colors duration-300 ${metaColor}`}>
+              <div className={`type-regular transition-colors duration-300 ${metaColor}`}>
                 Graphic Designer
               </div>
             </div>
             <div className="w-[var(--site-time-column-width)] space-y-1 text-left">
               <div
-                className={`text-[0.9rem] font-semibold tracking-[0.03em] tabular-nums transition-colors duration-300 sm:text-[0.96rem] lg:text-[1.02rem] ${strongColor}`}
+                className={`type-regular tabular-nums transition-colors duration-300 ${strongColor}`}
                 suppressHydrationWarning
               >
                 {currentTime}
               </div>
-              <div className={`transition-colors duration-300 ${metaColor}`}>04.05.2026</div>
+              <div className={`type-regular transition-colors duration-300 ${metaColor}`}>04.05.2026</div>
             </div>
           </div>
         </div>
