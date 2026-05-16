@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 
@@ -70,6 +71,9 @@ export default function Hero() {
       id="hero"
       data-header-theme="light"
       className="relative min-h-screen overflow-hidden bg-[var(--color-surface)] pt-[clamp(13rem,45vw,16rem)] text-[var(--color-text)] sm:pt-48 lg:pt-40 xl:pt-0"
+      style={{
+        "--hero-project-row-x": "calc(var(--layout-text-x) + clamp(-148px, calc(548.705882px - 36.27451vw), 0px))",
+      } as CSSProperties}
     >
       <div className="layout-shell flex min-h-screen flex-col justify-between py-8 xl:absolute xl:inset-x-0 xl:top-0 xl:bottom-0">
         <div className="flex-1" />
@@ -96,7 +100,7 @@ export default function Hero() {
       <div className="relative mt-[clamp(2.5rem,9vw,5rem)] grid gap-8 xl:absolute xl:inset-x-0 xl:bottom-8 xl:mt-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:items-end">
         <div
           ref={infoRef}
-          className="max-w-[34rem] break-words text-left text-[var(--color-text)] xl:absolute xl:inset-0 xl:max-w-none"
+          className="max-w-[34rem] break-words max-xl:px-[var(--site-shell-padding)] text-left text-[var(--color-text)] xl:absolute xl:inset-0 xl:max-w-none"
         >
           <div
             className="type-midsize text-[var(--color-text)] xl:absolute xl:max-w-[34rem]"
@@ -121,9 +125,9 @@ export default function Hero() {
 
         <div
   ref={previewsRef}
-  className="max-w-full flex flex-wrap justify-start gap-2.5 xl:absolute xl:gap-2.5 xl:flex-nowrap"
+  className="max-w-full flex flex-wrap justify-start gap-2.5 max-xl:px-[var(--site-shell-padding)] max-xl:[--hero-preview-size:clamp(6.5rem,42vw,10rem)] max-[520px]:grid max-[520px]:grid-cols-2 xl:absolute xl:gap-2.5 xl:flex-nowrap"
   style={{
-    left: "calc(var(--layout-text-x) - 148px)",
+    left: "var(--hero-project-row-x)",
     bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
   }}
 >
@@ -163,9 +167,9 @@ export default function Hero() {
         </div>
 
         <div
-          className="type-small max-w-full flex flex-wrap justify-start gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:gap-2.5 xl:flex-nowrap"
+          className="type-small max-w-full flex flex-wrap justify-start gap-2.5 max-xl:px-[var(--site-shell-padding)] text-[var(--color-text-muted)] max-xl:[--hero-preview-size:clamp(6.5rem,42vw,10rem)] max-[520px]:grid max-[520px]:grid-cols-2 xl:absolute xl:gap-2.5 xl:flex-nowrap"
           style={{
-              left: "calc(var(--layout-text-x) - 40px)",
+            left: "var(--hero-project-row-x)",
             bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",
           }}
           aria-hidden="true"

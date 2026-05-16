@@ -201,21 +201,21 @@ function FeaturedTextContent({ project }: { project: Project }) {
 
   return (
     <>
-      <div className="flex items-start xl:absolute xl:left-0 xl:top-[325px] xl:w-full">
-        <div data-featured-text className="max-w-[27rem] xl:pl-0">
+      <div className="flex max-xl:max-w-full items-start xl:absolute xl:left-0 xl:top-[325px] xl:w-full">
+        <div data-featured-text className="max-w-[27rem] max-xl:max-w-full xl:pl-0">
           <p className="type-small text-[rgba(255,248,242,0.72)]">No {project.number}</p>
-          <h2 className="type-large mt-3 overflow-hidden text-[var(--color-card)] xl:mt-[5px]">
+          <h2 className="type-large mt-3 max-xl:max-w-full overflow-hidden max-xl:break-words text-[var(--color-card)] xl:mt-[5px]">
             <RollingTitle title={project.title} />
           </h2>
-          <p className="type-subheading mt-0 max-w-md text-[rgba(255,248,242,0.78)]">
+          <p className="type-subheading mt-0 max-w-md max-xl:max-w-full text-[rgba(255,248,242,0.78)]">
             {project.shortDescription}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-6">
-        <div className="flex w-full items-end justify-between gap-6 xl:pl-0">
-          <div data-featured-tags className="w-full max-w-[16rem] space-y-1">
+      <div className="flex max-xl:max-w-full flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-6">
+        <div className="flex w-full max-xl:max-w-full items-end justify-between gap-6 xl:pl-0">
+          <div data-featured-tags className="w-full max-w-[16rem] max-xl:max-w-full space-y-1">
             {displayTags.map((tag) => (
               <p key={tag} className="type-regular text-[rgba(255,248,242,0.78)]">
                 [{tag}]
@@ -227,7 +227,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
         <TransitionLink
           data-featured-link
           href={`/work/${project.slug}`}
-          className="group/roll type-regular inline-flex w-fit text-[var(--color-card)]"
+          className="group/roll type-regular inline-flex max-xl:max-w-full w-fit text-[var(--color-card)]"
           aria-label={`View ${project.title}`}
         >
           <RollingLinkText />
@@ -785,7 +785,7 @@ export default function FeaturedWork() {
             data-featured-mobile-panel
             data-cursor-theme="dark"
             data-cursor-color={project.cursorColor ?? project.accentColor}
-            className="relative isolate overflow-hidden border-b border-[rgba(255,248,242,0.16)] min-[768px]:min-h-[auto] xl:min-h-screen"
+            className="relative isolate overflow-hidden border-b border-[rgba(255,248,242,0.16)] max-xl:w-full min-[768px]:min-h-[auto] xl:min-h-screen"
             style={{ backgroundColor: project.backgroundColor }}
           >
             {(() => {
@@ -825,14 +825,14 @@ export default function FeaturedWork() {
               aria-hidden="true"
             />
 
-            <div className="layout-shell relative z-10 flex min-h-[100svh] flex-col gap-[var(--site-section-gap)] py-[var(--featured-mobile-panel-padding-y)] min-[768px]:min-h-[auto]">
-              <div className="flex items-center justify-center min-[900px]:justify-start">
-                <div className="aspect-square w-full max-w-[var(--featured-mobile-media-size)]">
+            <div className="layout-shell relative z-10 flex min-h-[100svh] max-w-full flex-col gap-[var(--site-section-gap)] py-[var(--featured-mobile-panel-padding-y)] max-md:gap-8 max-md:py-12 min-[768px]:min-h-[auto]">
+              <div className="flex max-w-full items-center justify-center min-[900px]:justify-start">
+                <div className="aspect-square w-full max-w-[var(--featured-mobile-media-size)] min-w-0 max-[420px]:max-w-full">
                   <FeaturedMediaCard project={project} />
                 </div>
               </div>
 
-              <div className="flex max-w-[42rem] flex-col gap-8 pb-2">
+              <div className="flex max-w-full flex-col gap-8 pb-2 min-[900px]:max-w-[42rem]">
                 <FeaturedTextContent project={project} />
               </div>
             </div>
