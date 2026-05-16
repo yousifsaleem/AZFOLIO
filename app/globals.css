@@ -144,7 +144,7 @@
     --layout-featured-media-size: clamp(420px, min(31vw, 67.9vh), 597px);
     --fw-media-x: calc(clamp(250px, 14.88vw, 286px) - var(--site-shell-offset));
     --fw-media-y: clamp(188px, 20.24vh, 219px);
-    --fw-media-w: clamp(560px, min(35.77vw, calc(63vh * 601 / 549)), 687px);
+    --fw-media-w: clamp(530px, calc(63vh * 601 / 549), 687px);
     --fw-media-h: min(638px, 63vh);
     --fw-text-x: var(--layout-text-x);
     --fw-number-y: clamp(206px, calc(35vh - 42px), 336px);
