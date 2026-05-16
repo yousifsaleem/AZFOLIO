@@ -120,13 +120,13 @@ export default function Hero() {
         </div>
 
         <div
-          ref={previewsRef}
-          className="max-w-full flex flex-wrap justify-start gap-2.5 xl:absolute xl:bottom-0 xl:gap-2.5 xl:flex-nowrap"
-          style={{
-            left: "var(--layout-text-x)",
-            bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
-          }}
-        >
+  ref={previewsRef}
+  className="max-w-full flex flex-wrap justify-start gap-2.5 xl:absolute xl:gap-2.5 xl:flex-nowrap"
+  style={{
+    left: "calc(var(--layout-text-x) - 148px)",
+    bottom: "calc(100vh - var(--layout-hero-bottom-y) - 2rem)",
+  }}
+>
           {heroProjects.map((project) => {
             const previewImage = getProjectThumbnailImage(project);
 
@@ -165,7 +165,7 @@ export default function Hero() {
         <div
           className="type-small max-w-full flex flex-wrap justify-start gap-2.5 text-[var(--color-text-muted)] xl:absolute xl:gap-2.5 xl:flex-nowrap"
           style={{
-            left: "var(--layout-text-x)",
+              left: "calc(var(--layout-text-x) - 40px)",
             bottom: "calc(100vh - var(--layout-sub-home-bottom-y) - 2rem)",
           }}
           aria-hidden="true"
