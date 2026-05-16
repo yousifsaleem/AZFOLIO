@@ -196,7 +196,7 @@ function FeaturedMediaCard({ project }: { project: Project }) {
   );
 }
 
-function FeaturedTextContent({ project }: { project: Project }) {
+function FeaturedTextContent({ project, nextProject }: { project: Project; nextProject: Project }) {
   const displayTags = getDisplayTags(project);
 
   return (
@@ -222,16 +222,19 @@ function FeaturedTextContent({ project }: { project: Project }) {
               </p>
             ))}
           </div>
+          <TransitionLink
+            data-featured-link
+            href={`/work/${project.slug}`}
+            className="type-small inline-flex shrink-0 text-[rgba(255,248,242,0.72)] transition-colors duration-200 hover:text-[var(--color-card)]"
+            aria-label={`See more about ${project.title}`}
+          >
+            See more
+          </TransitionLink>
         </div>
+      </div>
 
-        <TransitionLink
-          data-featured-link
-          href={`/work/${project.slug}`}
-          className="group/roll type-regular inline-flex max-xl:max-w-full w-fit text-[var(--color-card)]"
-          aria-label={`View ${project.title}`}
-        >
-          <RollingLinkText />
-        </TransitionLink>
+      <div className="type-small mt-6 text-[rgba(255,248,242,0.72)] xl:absolute xl:left-0 xl:bottom-[calc(100vh-var(--layout-sub-home-bottom-y)-2rem)] xl:mt-0">
+        [Next: {nextProject.title}]
       </div>
     </>
   );
@@ -751,12 +754,12 @@ export default function FeaturedWork() {
             ))}
           </div>
 
-          <div className="layout-shell pointer-events-none absolute inset-x-0 top-0 z-30 flex min-h-screen justify-end py-8 sm:py-10 lg:py-14">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex min-h-screen justify-end py-8 sm:py-10 lg:py-14">
             <div
               data-featured-desktop-text
               className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem] xl:absolute xl:h-screen xl:min-h-screen xl:mr-0"
               style={{
-                left: "var(--fw-text-x)",
+                left: "calc(var(--layout-text-x) + clamp(-148px, calc(548.705882px - 36.27451vw), 0px))",
                 width: "var(--site-text-column-width)",
               }}
             >
@@ -772,7 +775,10 @@ export default function FeaturedWork() {
                     zIndex: index + 1,
                   }}
                 >
-                  <FeaturedTextContent project={project} />
+                  <FeaturedTextContent
+                    project={project}
+                    nextProject={featuredProjects[(index + 1) % featuredProjects.length]}
+                  />
                 </div>
               ))}
             </div>
@@ -781,7 +787,7 @@ export default function FeaturedWork() {
       </div>
 
       <div className="xl:hidden">
-        {featuredProjects.map((project) => (
+        {featuredProjects.map((project, index) => (
           <article
             key={project.slug}
             data-featured-mobile-panel
@@ -835,7 +841,10 @@ export default function FeaturedWork() {
               </div>
 
               <div className="flex max-w-full flex-col gap-8 pb-2 min-[900px]:max-w-[42rem]">
-                <FeaturedTextContent project={project} />
+                <FeaturedTextContent
+                  project={project}
+                  nextProject={featuredProjects[(index + 1) % featuredProjects.length]}
+                />
               </div>
             </div>
                 </>

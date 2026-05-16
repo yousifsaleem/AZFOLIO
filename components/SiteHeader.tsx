@@ -185,9 +185,9 @@ export default function SiteHeader() {
         </nav>
 
         <div
-          className={`absolute hidden text-left transition-colors duration-300 xl:block ${navColor}`}
+          className={`fixed hidden text-left transition-colors duration-300 xl:block ${navColor}`}
           style={{
-            left: "var(--fw-text-x, var(--layout-text-x))",
+            left: "calc(var(--layout-text-x) + clamp(-148px, calc(548.705882px - 36.27451vw), 0px))",
             top: "var(--layout-header-baseline-y)",
           }}
         >

@@ -51,6 +51,7 @@
   --site-nav-offset: -5rem;
   --site-featured-text-width: min(35rem, 37vw);
   --site-time-column-width: 6rem;
+  --header-identity-x: calc(var(--fw-text-x, var(--layout-text-x)) + var(--site-shell-padding));
   --site-featured-link-overhang: 2.5rem;
   --site-identity-inset: calc(100% - var(--site-featured-text-width));
 
@@ -147,18 +148,18 @@
     --fw-scale-x: calc(100vw / 1920px);
     --fw-scale-y: calc(100vh / 1080px);
     --fw-scale: clamp(0.7, min(var(--fw-scale-x), var(--fw-scale-y)), 1);
-    --fw-nav-right-x: calc(190px * var(--fw-scale));
-    --fw-text-visual-x: calc(1287px * var(--fw-scale));
-    --fw-media-w: calc(687px * var(--fw-scale));
-    --fw-media-h: calc(638px * var(--fw-scale));
+    --fw-nav-right-x: calc(120px * var(--fw-scale));
+    --fw-text-visual-x: calc(1308px * var(--fw-scale));
+    --fw-media-w: calc(720px * var(--fw-scale));
+    --fw-media-h: calc(657px * var(--fw-scale));
     --fw-media-visual-x: calc((var(--fw-nav-right-x) + var(--fw-text-visual-x) - var(--fw-media-w)) / 2);
     --fw-media-x: calc(var(--fw-media-visual-x) - var(--site-shell-offset) - var(--site-shell-padding));
     --fw-media-y: calc((100vh - var(--fw-media-h)) / 2);
-    --fw-text-x: calc(var(--fw-text-visual-x) - var(--site-shell-offset));
+    --fw-text-x: calc(var(--layout-text-x) + clamp(-148px, calc(548.705882px - 36.27451vw), 0px) - var(--site-shell-offset));
     --fw-number-y: calc(var(--fw-media-y) + (var(--fw-media-h) * 0.25));
     --fw-title-y: calc(var(--fw-number-y) + (25px * var(--fw-scale)));
     --fw-description-y: calc(var(--fw-number-y) + (78px * var(--fw-scale)));
-    --fw-tags-y: calc(var(--fw-media-y) + (var(--fw-media-h) * 0.72));
+    --fw-tags-y: calc(var(--fw-media-y) + (var(--fw-media-h) * 0.67));
     --hero-preview-size: clamp(6.2rem, 6.875vw, 8.25rem);
     --hero-mark-size: 7rem;
   }

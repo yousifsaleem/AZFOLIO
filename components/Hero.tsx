@@ -84,12 +84,12 @@ export default function Hero() {
           <div className="mx-auto flex w-full flex-col items-center justify-center gap-6 py-10 sm:gap-8 sm:py-12 lg:py-14">
             <div className="flex w-full items-center justify-center gap-3 sm:gap-4">
               <div className="h-px flex-1 bg-[var(--color-border)]" />
-              <button
-                type="button"
-                className="pointer-events-auto inline-flex cursor-pointer items-center justify-center rounded-full border border-transparent px-3 text-[length:var(--hero-mark-size)] font-black uppercase leading-none tracking-[0.12em] text-[var(--color-text)] transition-transform duration-300 ease-out hover:scale-[1.02] hover:border-[var(--color-border)] hover:bg-[rgba(255,255,255,0.42)] sm:px-4"
+              <div
+                className="pointer-events-none inline-flex items-center justify-center rounded-full border border-transparent px-3 text-[length:var(--hero-mark-size)] font-black uppercase leading-none tracking-[0.12em] text-[var(--color-text)] sm:px-4"
+                aria-hidden="true"
               >
                 AZ
-              </button>
+              </div>
               <div className="h-px flex-1 bg-[var(--color-border)]" />
             </div>
             <div className="type-small text-[var(--color-text-muted)]">graphic mark</div>
