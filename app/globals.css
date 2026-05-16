@@ -141,7 +141,7 @@
     --site-shell-padding: 3rem;
     --layout-nav-x: var(--layout-page-edge-x);
     --layout-featured-media-x: calc(var(--site-shell-padding) + clamp(4.5rem, 8vw, 9.5rem) - 69px);
-    --layout-featured-media-size: clamp(38rem, 35.8vw, 42.9375rem);
+    --layout-featured-media-size: clamp(420px, min(31vw, 67.9vh), 597px);
     --hero-preview-size: clamp(6.2rem, 6.875vw, 8.25rem);
     --hero-mark-size: 7rem;
   }

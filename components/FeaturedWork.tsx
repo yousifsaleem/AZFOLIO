@@ -201,7 +201,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
 
   return (
     <>
-      <div className="flex max-xl:max-w-full items-start xl:absolute xl:left-0 xl:top-[325px] xl:w-full">
+      <div className="flex max-xl:max-w-full items-start xl:absolute xl:left-0 xl:top-[clamp(220px,30vh,325px)] xl:w-full">
         <div data-featured-text className="max-w-[27rem] max-xl:max-w-full xl:pl-0">
           <p className="type-small text-[rgba(255,248,242,0.72)]">No {project.number}</p>
           <h2 className="type-large mt-3 max-xl:max-w-full overflow-hidden max-xl:break-words text-[var(--color-card)] xl:mt-[5px]">
@@ -213,7 +213,7 @@ function FeaturedTextContent({ project }: { project: Project }) {
         </div>
       </div>
 
-      <div className="flex max-xl:max-w-full flex-col gap-6 xl:absolute xl:inset-x-0 xl:bottom-[calc(100vh-791px)] xl:gap-6">
+      <div className="flex max-xl:max-w-full flex-col gap-6 xl:absolute xl:inset-x-0 xl:top-[clamp(500px,64vh,662px)] xl:gap-6">
         <div className="flex w-full max-xl:max-w-full items-end justify-between gap-6 xl:pl-0">
           <div data-featured-tags className="w-full max-w-[16rem] max-xl:max-w-full space-y-1">
             {displayTags.map((tag) => (
@@ -731,11 +731,10 @@ export default function FeaturedWork() {
                   />
 
                   <div className="layout-shell relative z-10 flex min-h-screen items-center py-8 sm:py-10 lg:py-14 xl:items-start xl:py-0">
-                    <div className="flex w-full items-center xl:pt-[var(--layout-header-bottom-y)]">
+                    <div className="flex w-full items-center xl:w-[var(--layout-text-x)] xl:justify-center xl:pt-[var(--layout-header-bottom-y)]">
                       <div
                         data-featured-scene-media
-                        className="aspect-square w-full max-w-[420px] xl:aspect-auto xl:h-[var(--layout-featured-media-size)] xl:w-[var(--layout-featured-media-size)] xl:max-w-none"
-                        style={{ marginLeft: "var(--layout-featured-media-x)" }}
+                        className="aspect-square w-full max-w-[420px] xl:aspect-[597/545] xl:h-auto xl:w-[var(--layout-featured-media-size)] xl:max-w-none"
                       >
                         <FeaturedMediaCard project={project} />
                       </div>
