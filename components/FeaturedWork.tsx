@@ -756,7 +756,7 @@ export default function FeaturedWork() {
               data-featured-desktop-text
               className="pointer-events-auto relative mr-[calc(-1*var(--site-featured-link-overhang))] min-h-[28rem] w-[calc(100%+var(--site-featured-link-overhang))] max-w-[calc(min(32rem,31vw)+var(--site-featured-link-overhang))] pb-2 opacity-100 lg:min-h-[34rem] xl:absolute xl:h-screen xl:min-h-screen xl:mr-0"
               style={{
-                left: "var(--layout-text-x)",
+                left: "var(--fw-text-x)",
                 width: "var(--site-text-column-width)",
               }}
             >
